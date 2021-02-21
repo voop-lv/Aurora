@@ -1,0 +1,26 @@
+{
+  "name": "WATER_DROP_LINE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "COLD_OCEAN",
+      "DEEP_COLD_OCEAN"
+    ],
+    "spawnDistance": 20.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "WATER_DROP",
+    "particleType": "LINE",
+    "maxCount": 5,
+    "enableLighting": true
+  },
+  "properties": {
+    "rate": 0.5,
+    "update": 1,
+    "duration": 20
+  }
+}

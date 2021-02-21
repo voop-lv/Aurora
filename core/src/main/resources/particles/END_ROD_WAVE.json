@@ -1,0 +1,30 @@
+{
+  "name": "END_ROD_WAVE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "TALL_BIRCH_FOREST",
+      "TALL_BIRCH_HILLS"
+    ],
+    "spawnDistance": 40.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "END_ROD",
+    "particleType": "WAVE",
+    "maxCount": 5,
+    "enableLighting": false
+  },
+  "properties": {
+    "rate": 0.2,
+    "update": 1,
+    "duration": 4,
+    "waveCycles": 7,
+    "waveAmplitude": 3,
+    "rotationAngle": 75,
+    "rotationAxis": "x"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "FLAME_LINE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "DESERT"
+    ],
+    "spawnDistance": 20.0,
+    "randMultiplier": 0.5,
+    "minY": 90,
+    "maxY": 100,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FLAME",
+    "particleType": "LINE",
+    "maxCount": 5,
+    "enableLighting": false
+  },
+  "properties": {
+    "rate": 0.5,
+    "update": 1,
+    "duration": 1
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "CRIMSON_SPORE_CIRCLE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "SWAMP",
+      "SWAMP_HILLS"
+    ],
+    "spawnDistance": 15.0,
+    "randMultiplier": 0.5,
+    "minY": 60,
+    "maxY": 80,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "CRIMSON_SPORE",
+    "particleType": "CIRCLE",
+    "maxCount": 8,
+    "enableLighting": true
+  },
+  "properties": {
+    "radius": 1.0,
+    "rate": 0.3,
+    "update": 5,
+    "duration": 100,
+    "rotationAngle": 35,
+    "rotationAxis": "x"
+  }
+}

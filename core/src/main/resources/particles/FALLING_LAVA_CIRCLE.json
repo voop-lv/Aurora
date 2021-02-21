@@ -1,0 +1,28 @@
+{
+  "name": "FALLING_LAVA_CIRCLE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "DESERT_HILLS"
+    ],
+    "spawnDistance": 20.0,
+    "randMultiplier": 0.5,
+    "minY": 90,
+    "maxY": 100,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FALLING_LAVA",
+    "particleType": "CIRCLE",
+    "maxCount": 6,
+    "enableLighting": true
+  },
+  "properties": {
+    "radius": 2.0,
+    "rate": 0.3,
+    "update": 10,
+    "duration": 200,
+    "rotationAngle": 0,
+    "rotationAxis": "x"
+  }
+}

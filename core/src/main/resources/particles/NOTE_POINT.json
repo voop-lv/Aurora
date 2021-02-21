@@ -1,0 +1,24 @@
+{
+  "name": "NOTE_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "STONE_BEACH"
+    ],
+    "spawnDistance": 10.0,
+    "randMultiplier": 0.5,
+    "minY": 60,
+    "maxY": 80,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "NOTE",
+    "particleType": "POINT",
+    "maxCount": 30,
+    "enableLighting": true
+  },
+  "properties": {
+    "update": 2,
+    "duration": 20
+  }
+}

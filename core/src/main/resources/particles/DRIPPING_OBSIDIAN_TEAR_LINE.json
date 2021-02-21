@@ -1,0 +1,26 @@
+{
+  "name": "DRIPPING_OBSIDIAN_TEAR_LINE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "MODIFIED_BADLANDS_PLATEAU",
+      "MODIFIED_WOODED_BADLANDS_PLATEAU"
+    ],
+    "spawnDistance": 25.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": false
+  },
+  "particle": {
+    "particleName": "DRIPPING_OBSIDIAN_TEAR",
+    "particleType": "LINE",
+    "maxCount": 4,
+    "enableLighting": false
+  },
+  "properties": {
+    "rate": 0.5,
+    "update": 1,
+    "duration": 2
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "FALLING_NECTAR_WAVE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "PLAINS"
+    ],
+    "spawnDistance": 40.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FALLING_NECTAR",
+    "particleType": "WAVE",
+    "maxCount": 2,
+    "enableLighting": true
+  },
+  "properties": {
+    "rate": 0.2,
+    "update": 1,
+    "duration": 1,
+    "waveCycles": 2,
+    "waveAmplitude": 3,
+    "rotationAngle": 25,
+    "rotationAxis": "x"
+  }
+}

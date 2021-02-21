@@ -1,0 +1,26 @@
+{
+  "name": "END_ROD_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "JUNGLE",
+      "JUNGLE_HILLS",
+      "MODIFIED_JUNGLE"
+    ],
+    "spawnDistance": 8.0,
+    "randMultiplier": 0.5,
+    "minY": 70,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "END_ROD",
+    "particleType": "POINT",
+    "maxCount": 25,
+    "enableLighting": false
+  },
+  "properties": {
+    "update": 5,
+    "duration": 200
+  }
+}

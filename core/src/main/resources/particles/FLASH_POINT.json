@@ -1,0 +1,24 @@
+{
+  "name": "FLASH_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "WOODED_MOUNTAINS"
+    ],
+    "spawnDistance": 5.0,
+    "randMultiplier": 0.5,
+    "minY": 120,
+    "maxY": 130,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FLASH",
+    "particleType": "POINT",
+    "maxCount": 20,
+    "enableLighting": false
+  },
+  "properties": {
+    "update": 5,
+    "duration": 5
+  }
+}

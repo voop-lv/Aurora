@@ -1,0 +1,25 @@
+{
+  "name": "SPELL_WITCH_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "GIANT_TREE_TAIGA",
+      "GIANT_TREE_TAIGA_HILLS"
+    ],
+    "spawnDistance": 5.0,
+    "randMultiplier": 0.5,
+    "minY": 60,
+    "maxY": 80,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "SPELL_WITCH",
+    "particleType": "POINT",
+    "maxCount": 45,
+    "enableLighting": true
+  },
+  "properties": {
+    "update": 3,
+    "duration": 90
+  }
+}

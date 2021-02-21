@@ -1,0 +1,30 @@
+{
+  "name": "DRIPPING_HONEY_WAVE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "BIRCH_FOREST",
+      "BIRCH_FOREST_HILLS"
+    ],
+    "spawnDistance": 40.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "DRIPPING_HONEY",
+    "particleType": "WAVE",
+    "maxCount": 3,
+    "enableLighting": true
+  },
+  "properties": {
+    "rate": 0.3,
+    "update": 1,
+    "duration": 3,
+    "waveCycles": 4,
+    "waveAmplitude": 3,
+    "rotationAngle": 60,
+    "rotationAxis": "x"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "FALLING_NECTAR_CUBE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "FLOWER_FOREST",
+      "MUSHROOM_FIELD_SHORE",
+      "MUSHROOM_FIELDS"
+    ],
+    "spawnDistance": 20.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 100,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FALLING_NECTAR",
+    "particleType": "CUBE",
+    "maxCount": 5,
+    "enableLighting": true
+  },
+  "properties": {
+    "length": 2.5,
+    "rate": 0.5,
+    "update": 3,
+    "duration": 100,
+    "rotationAngle": 45,
+    "rotationAxis": "x"
+  }
+}

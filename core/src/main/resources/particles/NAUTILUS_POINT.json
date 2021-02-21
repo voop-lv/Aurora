@@ -1,0 +1,24 @@
+{
+  "name": "NAUTILUS_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "SNOWY_MOUNTAINS"
+    ],
+    "spawnDistance": 5.0,
+    "randMultiplier": 0.5,
+    "minY": 70,
+    "maxY": 80,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "NAUTILUS",
+    "particleType": "POINT",
+    "maxCount": 45,
+    "enableLighting": true
+  },
+  "properties": {
+    "update": 1,
+    "duration": 30
+  }
+}

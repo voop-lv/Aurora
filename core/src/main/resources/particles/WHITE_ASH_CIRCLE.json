@@ -1,0 +1,29 @@
+{
+  "name": "WHITE_ASH_CIRCLE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "SNOWY_TAIGA",
+      "SNOWY_TUNDRA"
+    ],
+    "spawnDistance": 15.0,
+    "randMultiplier": 0.5,
+    "minY": 60,
+    "maxY": 80,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "WHITE_ASH",
+    "particleType": "CIRCLE",
+    "maxCount": 8,
+    "enableLighting": true
+  },
+  "properties": {
+    "radius": 1.0,
+    "rate": 0.3,
+    "update": 5,
+    "duration": 50,
+    "rotationAngle": 25,
+    "rotationAxis": "x"
+  }
+}

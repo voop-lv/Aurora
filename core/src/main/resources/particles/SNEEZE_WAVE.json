@@ -1,0 +1,30 @@
+{
+  "name": "SNEEZE_WAVE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "OCEAN",
+      "DEEP_OCEAN"
+    ],
+    "spawnDistance": 40.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "SNEEZE",
+    "particleType": "WAVE",
+    "maxCount": 4,
+    "enableLighting": true
+  },
+  "properties": {
+    "rate": 0.1,
+    "update": 1,
+    "duration": 20,
+    "waveCycles": 2,
+    "waveAmplitude": 3,
+    "rotationAngle": 30,
+    "rotationAxis": "x"
+  }
+}

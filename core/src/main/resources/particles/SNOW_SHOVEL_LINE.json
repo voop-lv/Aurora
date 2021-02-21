@@ -1,0 +1,25 @@
+{
+  "name": "SNOW_SHOVEL_LINE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "SNOWY_BEACH"
+    ],
+    "spawnDistance": 25.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 100,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "SNOW_SHOVEL",
+    "particleType": "LINE",
+    "maxCount": 5,
+    "enableLighting": false
+  },
+  "properties": {
+    "rate": 1,
+    "update": 1,
+    "duration": 1
+  }
+}

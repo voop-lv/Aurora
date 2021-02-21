@@ -1,0 +1,30 @@
+{
+  "name": "FIREWORKS_SPARK_CUBE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "SNOWY_TAIGA_HILLS",
+      "SNOWY_TAIGA_MOUNTAINS",
+      "SNOWY_TUNDRA"
+    ],
+    "spawnDistance": 15.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 100,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FIREWORKS_SPARK",
+    "particleType": "CUBE",
+    "maxCount": 5,
+    "enableLighting": false
+  },
+  "properties": {
+    "length": 3,
+    "rate": 0.5,
+    "update": 5,
+    "duration": 200,
+    "rotationAngle": 35,
+    "rotationAxis": "x"
+  }
+}

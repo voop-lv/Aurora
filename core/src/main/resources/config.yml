@@ -1,0 +1,17 @@
+# Config wiki and help can be found at https://gitlab.com/Zenya4/aurora/-/wikis/General-Configuration
+# For internal reference only, do not change the config version
+config-version: 1
+
+# Only spawn particles in the given chunk radius around players
+# It is highly recommended to keep this value as 3 for the best viewing experience
+# This is what a radius of 3 would look like, where P is the player chunk and x are nearby chunks
+#
+# x x x x x x x
+# x x x x x x x
+# x x x x x x x
+# x x x P x x x
+# x x x x x x x
+# x x x x x x x
+# x x x x x x x
+#
+particle-spawn-radius: 3

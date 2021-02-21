@@ -1,0 +1,41 @@
+name: Aurora
+main: com.zenya.aurora.Aurora
+version: 1.0.0
+author: Zenya4
+api-version: 1.13
+
+commands:
+  aurora:
+    description: Main command for Aurora
+    aliases: []
+    permission: aurora.command.help
+    usage: /<command>
+
+permissions:
+  aurora.*:
+    children:
+      aurora.command.help: true
+      aurora.command.toggle: true
+      aurora.command.reload: true
+      aurora.command.status: true
+      aurora.command.fixlighting: true
+      aurora.view: true
+  aurora.command.*:
+    children:
+      aurora.command.help: true
+      aurora.command.toggle: true
+      aurora.command.reload: true
+      aurora.command.status: true
+      aurora.command.fixlighting: true
+  aurora.command.help:
+    default: true
+  aurora.command.toggle:
+    default: true
+  aurora.command.reload:
+    default: op
+  aurora.command.status:
+    default: op
+  aurora.command.fixlighting:
+    default: op
+  aurora.view:
+    default: true

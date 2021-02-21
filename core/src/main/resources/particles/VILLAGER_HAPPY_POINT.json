@@ -1,0 +1,25 @@
+{
+  "name": "VILLAGER_HAPPY_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "BAMBOO_JUNGLE",
+      "BAMBOO_JUNGLE_HILLS"
+    ],
+    "spawnDistance": 5.0,
+    "randMultiplier": 0.5,
+    "minY": 70,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "VILLAGER_HAPPY",
+    "particleType": "POINT",
+    "maxCount": 45,
+    "enableLighting": true
+  },
+  "properties": {
+    "update": 5,
+    "duration": 80
+  }
+}

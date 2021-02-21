@@ -1,0 +1,29 @@
+{
+  "name": "SPELL_WITCH_CIRCLE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "RIVER",
+      "BEACH"
+    ],
+    "spawnDistance": 25.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "SPELL_WITCH",
+    "particleType": "CIRCLE",
+    "maxCount": 5,
+    "enableLighting": true
+  },
+  "properties": {
+    "radius": 2.5,
+    "rate": 0.3,
+    "update": 5,
+    "duration": 200,
+    "rotationAngle": 0,
+    "rotationAxis": "x"
+  }
+}

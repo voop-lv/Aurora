@@ -1,0 +1,26 @@
+{
+  "name": "DRIPPING_HONEY_SPHERE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "SUNFLOWER_PLAINS"
+    ],
+    "spawnDistance": 20.0,
+    "randMultiplier": 0.5,
+    "minY": 120,
+    "maxY": 130,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "DRIPPING_HONEY",
+    "particleType": "SPHERE",
+    "maxCount": 3,
+    "enableLighting": true
+  },
+  "properties": {
+    "radius": 3,
+    "rate": 0.15,
+    "update": 5,
+    "duration": 100
+  }
+}

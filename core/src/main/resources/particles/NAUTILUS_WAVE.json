@@ -1,0 +1,32 @@
+{
+  "name": "NAUTILUS_WAVE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "DEEP_LUKEWARM_OCEAN",
+      "DEEP_WARM_OCEAN",
+      "LUKEWARM_OCEAN",
+      "WARM_OCEAN"
+    ],
+    "spawnDistance": 40.0,
+    "randMultiplier": 0.5,
+    "minY": 80,
+    "maxY": 90,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "NAUTILUS",
+    "particleType": "WAVE",
+    "maxCount": 5,
+    "enableLighting": true
+  },
+  "properties": {
+    "rate": 0.1,
+    "update": 1,
+    "duration": 10,
+    "waveCycles": 5,
+    "waveAmplitude": 3,
+    "rotationAngle": 40,
+    "rotationAxis": "x"
+  }
+}
