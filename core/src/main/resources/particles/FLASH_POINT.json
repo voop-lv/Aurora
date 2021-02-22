@@ -3,7 +3,8 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "WOODED_MOUNTAINS"
+      "WOODED_MOUNTAINS",
+      "SNOWY_MOUNTAINS"
     ],
     "spawnDistance": 5.0,
     "randMultiplier": 0.5,

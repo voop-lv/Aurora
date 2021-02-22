@@ -19,7 +19,7 @@
     "enableLighting": true
   },
   "properties": {
-    "update": 5,
+    "update": 10,
     "duration": 80
   }
 }

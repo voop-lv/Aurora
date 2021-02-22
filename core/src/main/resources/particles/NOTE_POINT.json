@@ -3,7 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "STONE_BEACH"
+      "STONE_SHORE"
     ],
     "spawnDistance": 10.0,
     "randMultiplier": 0.5,
@@ -18,7 +18,7 @@
     "enableLighting": true
   },
   "properties": {
-    "update": 2,
+    "update": 3,
     "duration": 20
   }
 }

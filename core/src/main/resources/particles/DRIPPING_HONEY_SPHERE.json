@@ -3,12 +3,14 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "SUNFLOWER_PLAINS"
+      "SUNFLOWER_PLAINS",
+      "JUNGLE_EDGE",
+      "MODIFIED_JUNGLE_EDGE"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,
-    "minY": 120,
-    "maxY": 130,
+    "minY": 100,
+    "maxY": 120,
     "shuffleLocations": true
   },
   "particle": {
@@ -19,7 +21,7 @@
   },
   "properties": {
     "radius": 3,
-    "rate": 0.15,
+    "rate": 0.4,
     "update": 5,
     "duration": 100
   }

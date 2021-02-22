@@ -17,15 +17,14 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ParticleFileManager {
-    private File PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder().getPath() + File.separator + "particles" + File.separator);
-    private static ParticleFileManager particleFileManager;
+    public static ParticleFileManager INSTANCE = new ParticleFileManager();
+    private final File PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder().getPath(), "particles");
     private HashMap<String, ParticleFile> particleFileMap = new HashMap<>();
 
     public ParticleFileManager() {
         //Create default particle files if not exists
         if (!PARTICLE_FOLDER.isDirectory()) {
             PARTICLE_FOLDER.mkdirs();
-            PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder().getPath() + File.separator + "particles" + File.separator);
 
             try {
                 final JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())); //Read .jar file
@@ -43,7 +42,6 @@ public class ParticleFileManager {
         }
 
         //Register all files inside a hashmap as ParticleFile classes
-        PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder().getPath() + File.separator + "particles" + File.separator);
         for (String filename : PARTICLE_FOLDER.list()) {
             if (filename.toLowerCase().endsWith(".json")) registerClass(filename);
         }
@@ -76,14 +74,6 @@ public class ParticleFileManager {
     }
 
     public static void reload() {
-        particleFileManager = null;
-        getInstance();
-    }
-
-    public static ParticleFileManager getInstance() {
-        if(particleFileManager == null) {
-            particleFileManager = new ParticleFileManager();
-        }
-        return particleFileManager;
+        INSTANCE = new ParticleFileManager();
     }
 }

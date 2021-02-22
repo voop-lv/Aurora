@@ -1,28 +1,29 @@
 {
-  "name": "VILLAGER_ANGRY_CIRCLE",
+  "name": "FLAME_RING",
   "enabled": true,
   "spawning": {
     "biomes": [
-      "DESERT_LAKES"
+      "DARK_FOREST",
+      "DARK_FOREST_HILLS"
     ],
-    "spawnDistance": 20.0,
+    "spawnDistance": 10.0,
     "randMultiplier": 0.5,
-    "minY": 80,
+    "minY": 90,
     "maxY": 100,
     "shuffleLocations": true
   },
   "particle": {
-    "particleName": "VILLAGER_ANGRY",
-    "particleType": "CIRCLE",
+    "particleName": "FLAME",
+    "particleType": "RING",
     "maxCount": 6,
-    "enableLighting": true
+    "enableLighting": false
   },
   "properties": {
     "radius": 1.5,
     "rate": 0.3,
-    "update": 5,
-    "duration": 150,
-    "rotationAngle": 0,
+    "update": 8,
+    "duration": 70,
+    "rotationAngle": 75,
     "rotationAxis": "x"
   }
 }

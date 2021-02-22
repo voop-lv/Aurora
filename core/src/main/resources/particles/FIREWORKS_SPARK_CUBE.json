@@ -5,12 +5,13 @@
     "biomes": [
       "SNOWY_TAIGA_HILLS",
       "SNOWY_TAIGA_MOUNTAINS",
-      "SNOWY_TUNDRA"
+      "SNOWY_TUNDRA",
+      "SWAMP_HILLS"
     ],
     "spawnDistance": 15.0,
     "randMultiplier": 0.5,
-    "minY": 80,
-    "maxY": 100,
+    "minY": 85,
+    "maxY": 105,
     "shuffleLocations": true
   },
   "particle": {
@@ -22,7 +23,7 @@
   "properties": {
     "length": 3,
     "rate": 0.5,
-    "update": 5,
+    "update": 7,
     "duration": 200,
     "rotationAngle": 35,
     "rotationAxis": "x"

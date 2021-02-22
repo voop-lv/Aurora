@@ -16,7 +16,7 @@ public class ChatUtils {
 
     public static String parseMessage(String message) {
         message = translateColor(message);
-        message = message.replaceAll("%tps%", Float.toString(TrackTPSTask.getInstance().getAverageTps()));
+        message = message.replaceAll("%tps%", Float.toString(TrackTPSTask.INSTANCE.getAverageTps()));
         return message;
     }
 

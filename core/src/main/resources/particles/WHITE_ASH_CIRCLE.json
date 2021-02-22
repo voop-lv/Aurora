@@ -15,13 +15,13 @@
   "particle": {
     "particleName": "WHITE_ASH",
     "particleType": "CIRCLE",
-    "maxCount": 8,
+    "maxCount": 7,
     "enableLighting": true
   },
   "properties": {
     "radius": 1.0,
-    "rate": 0.3,
-    "update": 5,
+    "rate": 0.4,
+    "update": 7,
     "duration": 50,
     "rotationAngle": 25,
     "rotationAxis": "x"

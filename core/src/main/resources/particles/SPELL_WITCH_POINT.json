@@ -4,7 +4,9 @@
   "spawning": {
     "biomes": [
       "GIANT_TREE_TAIGA",
-      "GIANT_TREE_TAIGA_HILLS"
+      "GIANT_TREE_TAIGA_HILLS",
+      "MUSHROOM_FIELDS",
+      "MUSHROOM_FIELD_SHORE"
     ],
     "spawnDistance": 5.0,
     "randMultiplier": 0.5,
@@ -19,7 +21,7 @@
     "enableLighting": true
   },
   "properties": {
-    "update": 3,
+    "update": 7,
     "duration": 90
   }
 }

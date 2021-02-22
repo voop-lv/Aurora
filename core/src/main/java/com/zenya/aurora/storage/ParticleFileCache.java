@@ -3,21 +3,19 @@ package com.zenya.aurora.storage;
 import com.cryptomorin.xseries.XBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.LogUtils;
-import org.apache.commons.lang.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class ParticleFileCache {
-    private static ParticleFileCache particleFileCache;
-    private static ParticleFileManager particleFileManager;
-    private HashMap<XBiome, ParticleFile[]> particleCacheMap = new HashMap<>();
+    public static ParticleFileCache INSTANCE = new ParticleFileCache();
+    private HashMap<XBiome, List<ParticleFile>> particleCacheMap = new HashMap<>();
 
     public ParticleFileCache() {
-        particleFileManager = ParticleFileManager.getInstance();
-
-        for(String filename : particleFileManager.getFiles()) {
-            ParticleFile particleFile = particleFileManager.getClass(filename);
+        for(String filename : ParticleFileManager.INSTANCE.getFiles()) {
+            ParticleFile particleFile = ParticleFileManager.INSTANCE.getClass(filename);
             if(particleFile.getSpawning() == null || particleFile.getSpawning().getBiomes() == null || particleFile.getSpawning().getBiomes().length == 0) continue;
 
             for(String biome : particleFile.getSpawning().getBiomes()) {
@@ -31,7 +29,7 @@ public class ParticleFileCache {
         }
     }
 
-    public ParticleFile[] getClass(XBiome biome) {
+    public List<ParticleFile> getClass(XBiome biome) {
         return particleCacheMap.get(biome);
     }
 
@@ -40,14 +38,7 @@ public class ParticleFileCache {
     }
 
     public void registerClass(XBiome biome, ParticleFile particleFile) {
-        ParticleFile classes[];
-
-        if(getClass(biome) != null) {
-            classes = (ParticleFile[]) ArrayUtils.addAll(getClass(biome), new ParticleFile[]{particleFile});
-        } else {
-            classes = new ParticleFile[]{particleFile};
-        }
-        particleCacheMap.put(biome, classes);
+        particleCacheMap.computeIfAbsent(biome, k -> new ArrayList<>()).add(particleFile);
     }
 
     public void unregisterFile(String name) {
@@ -55,15 +46,7 @@ public class ParticleFileCache {
     }
 
     public static void reload() {
-        ParticleFileManager.reload();
-        particleFileCache = null;
-        getInstance();
-    }
-
-    public static ParticleFileCache getInstance() {
-        if(particleFileCache == null) {
-            particleFileCache = new ParticleFileCache();
-        }
-        return particleFileCache;
+        ParticleFileManager.INSTANCE.reload();
+        INSTANCE = new ParticleFileCache();
     }
 }

@@ -5,7 +5,9 @@
     "biomes": [
       "BADLANDS",
       "BADLANDS_PLATEAU",
-      "ERODED_BADLANDS"
+      "ERODED_BADLANDS",
+      "SAVANNA_PLATEAU",
+      "SHATTERED_SAVANNA_PLATEAU"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,
@@ -21,8 +23,8 @@
   },
   "properties": {
     "length": 3.0,
-    "rate": 0.3,
-    "update": 5,
+    "rate": 0.5,
+    "update": 7,
     "duration": 50,
     "rotationAngle": 0,
     "rotationAxis": "x"

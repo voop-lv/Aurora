@@ -1,2 +1,6 @@
 PRERELEASE 0.0.1:
 - Official pre-release
+
+PRERELEASE 0.0.2:
+- Major code cleanup & improvements
+- Performance improvements & additions to default configs

@@ -5,7 +5,9 @@
     "biomes": [
       "FLOWER_FOREST",
       "MUSHROOM_FIELD_SHORE",
-      "MUSHROOM_FIELDS"
+      "MUSHROOM_FIELDS",
+      "GIANT_TREE_TAIGA",
+      "GIANT_TREE_TAIGA_HILLS"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,

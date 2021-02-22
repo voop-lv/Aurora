@@ -7,8 +7,8 @@
     ],
     "spawnDistance": 5.0,
     "randMultiplier": 0.5,
-    "minY": 70,
-    "maxY": 80,
+    "minY": 100,
+    "maxY": 110,
     "shuffleLocations": true
   },
   "particle": {
@@ -18,7 +18,7 @@
     "enableLighting": true
   },
   "properties": {
-    "update": 1,
+    "update": 7,
     "duration": 30
   }
 }

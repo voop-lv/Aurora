@@ -23,7 +23,6 @@ import ru.beykerykt.lightapi.server.nms.craftbukkit.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * LightAPI Fork by Qveshn
@@ -35,17 +34,15 @@ import java.util.logging.Level;
  */
 
 public class LightAPI {
-    private static LightAPI lightAPI;
+    public static final LightAPI INSTANCE = new LightAPI();
+    private final int UPDATE_DELAY_TICKS = 2;
+    private final int MAX_ITERATIONS_PER_TICK = 5000;
     private static RequestSteamMachine machine;
-    private int update_delay_ticks = 2;
-    private int max_iterations_per_tick = 5000;
 
     // To synchronize nms create/delete light methods to avoid conflicts in multi-threaded calls. Got a better idea?
     private static final Object lock = new Object();
 
     public LightAPI() {
-        this.machine = new RequestSteamMachine();
-
         ServerModInfo craftbukkit = new ServerModInfo("CraftBukkit");
         craftbukkit.getVersions().put("v1_8_R3", CraftBukkit_v1_8_R3.class);
         craftbukkit.getVersions().put("v1_9_R1", CraftBukkit_v1_9_R1.class);
@@ -75,7 +72,8 @@ public class LightAPI {
                 ServerModManager.initImplementaion(clazz);
                 LogUtils.logInfo("Loading LightAPI implementation for §f%s %s",
                         serverName, ServerModManager.getServerVersion());
-                machine.start(update_delay_ticks,max_iterations_per_tick);
+                machine = new RequestSteamMachine();
+                machine.start(UPDATE_DELAY_TICKS, MAX_ITERATIONS_PER_TICK);
             } catch (Exception e) {
                 LogUtils.logError("Could not initialise LightAPI implementation for §f%s %s",
                         serverName, ServerModManager.getServerVersion());
@@ -89,17 +87,8 @@ public class LightAPI {
         machine.shutdown();
     }
 
-    public static Aurora getInstance() {
-        return Aurora.getInstance();
-    }
-
-    public static LightAPI getLightAPI() {
-        if(lightAPI == null) lightAPI = new LightAPI();
-        return lightAPI;
-    }
-
     public static boolean isEnabled() {
-        return (lightAPI != null ? true : false);
+        return (INSTANCE != null ? true : false);
     }
 
     @SuppressWarnings("unused")
@@ -178,7 +167,7 @@ public class LightAPI {
     @SuppressWarnings("WeakerAccess")
     public static boolean createLight(
             World world, int x, final int y, final int z, LightType lightType, final int lightlevel, boolean async) {
-        if (getInstance().isEnabled()) {
+        if (Aurora.getInstance().isEnabled()) {
             final SetLightEvent event = new SetLightEvent(world, x, y, z, lightType, lightlevel, async);
             Bukkit.getPluginManager().callEvent(event);
 
@@ -234,7 +223,7 @@ public class LightAPI {
     public static boolean deleteLight(
             final World world, final int x, final int y, final int z, LightType lightType, boolean async
     ) {
-        if (getInstance().isEnabled()) {
+        if (Aurora.getInstance().isEnabled()) {
             final DeleteLightEvent event = new DeleteLightEvent(world, x, y, z, lightType, async);
             Bukkit.getPluginManager().callEvent(event);
 
@@ -295,7 +284,7 @@ public class LightAPI {
 
     @SuppressWarnings("WeakerAccess")
     public static List<ChunkInfo> collectChunks(World world, int x, int y, int z, LightType lightType, int lightLevel) {
-        if (getInstance().isEnabled()) {
+        if (Aurora.getInstance().isEnabled()) {
             return ServerModManager.getNMSHandler().collectChunks(world, x, y, z, lightType, lightLevel);
         }
         return new ArrayList<ChunkInfo>();
@@ -323,7 +312,7 @@ public class LightAPI {
 
     @SuppressWarnings("WeakerAccess")
     public static boolean updateChunk(ChunkInfo info, LightType lightType, Collection<? extends Player> players) {
-        if (getInstance().isEnabled()) {
+        if (Aurora.getInstance().isEnabled()) {
             UpdateChunkEvent event = new UpdateChunkEvent(info, lightType);
             Bukkit.getPluginManager().callEvent(event);
             if (!event.isCancelled()) {
@@ -346,7 +335,7 @@ public class LightAPI {
 
     @Deprecated
     public static boolean updateChunks(World world, int x, int y, int z, Collection<? extends Player> players) {
-        if (getInstance().isEnabled()) {
+        if (Aurora.getInstance().isEnabled()) {
             for (ChunkInfo info : collectChunks(world, x, y, z, 15)) {
                 info.setReceivers(players);
                 updateChunk(info);
@@ -368,7 +357,7 @@ public class LightAPI {
 
     @Deprecated
     public static boolean updateChunk(World world, int x, int y, int z, Collection<? extends Player> players) {
-        if (getInstance().isEnabled()) {
+        if (Aurora.getInstance().isEnabled()) {
             updateChunk(new ChunkInfo(world, x, y - 16, z, players));
             updateChunk(new ChunkInfo(world, x, y, z, players));
             updateChunk(new ChunkInfo(world, x, y + 16, z, players));
@@ -396,26 +385,5 @@ public class LightAPI {
             }
         }
         return block;
-    }
-
-
-    @SuppressWarnings("unused")
-    public int getUpdateDelayTicks() {
-        return update_delay_ticks;
-    }
-
-    @SuppressWarnings("unused")
-    public void setUpdateDelayTicks(int update_delay_ticks) {
-        this.update_delay_ticks = update_delay_ticks;
-    }
-
-    @SuppressWarnings("unused")
-    public int getMaxIterationsPerTick() {
-        return max_iterations_per_tick;
-    }
-
-    @SuppressWarnings("unused")
-    public void setMaxIterationsPerTick(int max_iterations_per_tick) {
-        this.max_iterations_per_tick = max_iterations_per_tick;
     }
 }

@@ -1,49 +1,45 @@
 package com.zenya.aurora.storage;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
 import com.zenya.aurora.scheduler.particle.ParticleTask;
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.entity.Player;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 public class ParticleManager {
-    private static ParticleManager particleManager;
-    private ConcurrentHashMap<Player, ParticleTask[]> particleMap = new ConcurrentHashMap<>();
+    public final static ParticleManager INSTANCE = new ParticleManager();
+    private ListMultimap<Player, ParticleTask> particleMap = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
 
-    public ParticleTask[] getTasks(Player player) {
-        return particleMap.get(player);
+    public List<ParticleTask> getTasks(Player player) {
+        synchronized (particleMap) {
+            return particleMap.get(player);
+        }
     }
 
     public Set<Player> getPlayers() {
-        return particleMap.keySet();
+        synchronized (particleMap) {
+            return particleMap.keySet();
+        }
     }
 
     public void registerTask(Player player, ParticleTask task) {
-        ParticleTask[] oldTasks = particleMap.get(player);
-        ParticleTask tasks[];
-
-        if(oldTasks != null) {
-            tasks = (ParticleTask[]) ArrayUtils.addAll(oldTasks, new ParticleTask[]{task});
-        } else {
-            tasks = new ParticleTask[]{task};
+        synchronized (particleMap) {
+            particleMap.put(player, task);
         }
-        particleMap.put(player, tasks);
     }
 
     public void unregisterTasks(Player player) {
-        ParticleTask[] oldTasks = particleMap.remove(player);
-        if (oldTasks != null && oldTasks.length != 0) {
+        List<ParticleTask> oldTasks;
+        synchronized (particleMap) {
+           oldTasks = particleMap.removeAll(player);
+        }
+
+        if (oldTasks != null && oldTasks.size() != 0) {
             for(ParticleTask oldTask : oldTasks) {
                 oldTask.killTasks();
             }
         }
-    }
-
-    public static ParticleManager getInstance() {
-        if(particleManager == null) {
-            particleManager = new ParticleManager();
-        }
-        return particleManager;
     }
 }

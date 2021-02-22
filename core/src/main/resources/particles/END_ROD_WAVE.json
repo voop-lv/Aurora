@@ -4,7 +4,9 @@
   "spawning": {
     "biomes": [
       "TALL_BIRCH_FOREST",
-      "TALL_BIRCH_HILLS"
+      "TALL_BIRCH_HILLS",
+      "SAVANNA",
+      "SHATTERED_SAVANNA"
     ],
     "spawnDistance": 40.0,
     "randMultiplier": 0.5,
@@ -19,8 +21,8 @@
     "enableLighting": false
   },
   "properties": {
-    "rate": 0.2,
-    "update": 1,
+    "rate": 0.4,
+    "update": 2,
     "duration": 4,
     "waveCycles": 7,
     "waveAmplitude": 3,

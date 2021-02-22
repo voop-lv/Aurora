@@ -1,7 +1,6 @@
 package com.zenya.aurora.file;
 
 import com.zenya.aurora.Aurora;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class YAMLFile {
-    private static Plugin AURORA = Aurora.getInstance();
     private String directory;
     private String fileName;
     private File configFile;
@@ -22,7 +20,7 @@ public class YAMLFile {
     private FileConfiguration config;
 
     public YAMLFile(String fileName) {
-        this(AURORA.getDataFolder().getPath(), fileName);
+        this(Aurora.getInstance().getDataFolder().getPath(), fileName);
     }
 
     public YAMLFile(String directory, String fileName) {
@@ -41,7 +39,7 @@ public class YAMLFile {
         this.directory = directory;
         this.fileName = fileName;
         this.configFile = new File(directory, fileName);
-        this.origConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(AURORA.getResource(fileName)));
+        this.origConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Aurora.getInstance().getResource(fileName)));
         this.config = YamlConfiguration.loadConfiguration(configFile);
 
         if(fileVersion != null) {

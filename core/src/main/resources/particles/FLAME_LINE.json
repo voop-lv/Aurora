@@ -3,7 +3,9 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "DESERT"
+      "DESERT",
+      "GIANT_SPRUCE_TAIGA",
+      "GIANT_SPRUCE_TAIGA_HILLS"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,
@@ -19,7 +21,7 @@
   },
   "properties": {
     "rate": 0.5,
-    "update": 1,
+    "update": 2,
     "duration": 1
   }
 }

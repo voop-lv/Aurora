@@ -12,19 +12,19 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
-public class TrackPlayerTask implements AuroraTask {
-    private static TrackPlayerTask nmlTask;
+public class TrackLocationTask implements AuroraTask {
+    public static final TrackLocationTask INSTANCE = new TrackLocationTask();
     private BukkitTask runnables[];
     private CompletableFuture<HashMap<Player, Location>> playerCoords;
 
-    public TrackPlayerTask() {
+    public TrackLocationTask() {
         playerCoords = CompletableFuture.supplyAsync(() -> new HashMap<>());
         runTasks();
     }
 
     @Override
     public TaskKey getKey() {
-        return TaskKey.TRACK_PLAYER_TASK;
+        return TaskKey.TRACK_LOCATION_TASK;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class TrackPlayerTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*5);
 
         //Task to update location map
         BukkitTask task2 = new BukkitRunnable() {
@@ -83,7 +83,7 @@ public class TrackPlayerTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*3);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*10);
 
         //Task to remove old player entries
         BukkitTask task3 = new BukkitRunnable() {
@@ -92,18 +92,14 @@ public class TrackPlayerTask implements AuroraTask {
                 playerCoords.thenAcceptAsync(coordMap -> {
                     if (Bukkit.getOnlinePlayers() != null && Bukkit.getOnlinePlayers().size() != 0) {
                         if(coordMap.keySet() != null && coordMap.keySet().size() != 0) {
-                            for(Player player : coordMap.keySet()) {
-                                if(!Bukkit.getOnlinePlayers().contains(player)) {
-                                    coordMap.remove(player);
-                                }
-                            }
+                            coordMap.entrySet().removeIf(entry -> (!Bukkit.getOnlinePlayers().contains(entry.getKey())));
                         }
                     } else {
                         coordMap.clear();
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*5);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*60);
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1, task2, task3};
@@ -112,13 +108,6 @@ public class TrackPlayerTask implements AuroraTask {
     @Override
     public BukkitTask[] getTasks() {
         return runnables;
-    }
-
-    public static TrackPlayerTask getInstance() {
-        if(nmlTask == null) {
-            nmlTask = new TrackPlayerTask();
-        }
-        return nmlTask;
     }
 }
 

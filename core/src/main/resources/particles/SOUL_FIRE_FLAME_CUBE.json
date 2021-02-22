@@ -4,7 +4,8 @@
   "spawning": {
     "biomes": [
       "FROZEN_RIVER",
-      "ICE_SPIKES"
+      "ICE_SPIKES",
+      "DEEP_OCEAN"
     ],
     "spawnDistance": 15.0,
     "randMultiplier": 0.5,
@@ -15,7 +16,7 @@
   "particle": {
     "particleName": "SOUL_FIRE_FLAME",
     "particleType": "CUBE",
-    "maxCount": 8,
+    "maxCount": 7,
     "enableLighting": false
   },
   "properties": {

@@ -17,13 +17,13 @@
   "particle": {
     "particleName": "SNEEZE",
     "particleType": "CUBE",
-    "maxCount": 7,
+    "maxCount": 6,
     "enableLighting": true
   },
   "properties": {
     "length": 3.0,
-    "rate": 0.3,
-    "update": 5,
+    "rate": 0.5,
+    "update": 7,
     "duration": 150,
     "rotationAngle": 50,
     "rotationAxis": "x"

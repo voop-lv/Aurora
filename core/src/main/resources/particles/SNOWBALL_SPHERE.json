@@ -21,8 +21,8 @@
   },
   "properties": {
     "radius": 1,
-    "rate": 0.125,
-    "update": 5,
+    "rate": 0.3,
+    "update": 10,
     "duration": 75
   }
 }

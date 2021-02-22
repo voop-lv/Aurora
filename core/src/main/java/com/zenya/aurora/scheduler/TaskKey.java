@@ -2,8 +2,7 @@ package com.zenya.aurora.scheduler;
 
 public enum TaskKey {
     TRACK_TPS_TASK,
-    TRACK_PLAYER_TASK,
-    REFRESH_CHUNK_TASK,
+    TRACK_LOCATION_TASK,
 
     POINT_PARTICLE,
     LINE_PARTICLE,

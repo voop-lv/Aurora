@@ -4,7 +4,9 @@
   "spawning": {
     "biomes": [
       "DARK_FOREST",
-      "DARK_FOREST_HILLS"
+      "DARK_FOREST_HILLS",
+      "BEACH",
+      "STONE_SHORE"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,
@@ -15,7 +17,7 @@
   "particle": {
     "particleName": "PORTAL",
     "particleType": "SPHERE",
-    "maxCount": 7,
+    "maxCount": 6,
     "enableLighting": true
   },
   "properties": {

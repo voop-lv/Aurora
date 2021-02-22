@@ -5,7 +5,8 @@
     "biomes": [
       "JUNGLE",
       "JUNGLE_HILLS",
-      "MODIFIED_JUNGLE"
+      "MODIFIED_JUNGLE",
+      "PLAINS"
     ],
     "spawnDistance": 8.0,
     "randMultiplier": 0.5,
@@ -20,7 +21,7 @@
     "enableLighting": false
   },
   "properties": {
-    "update": 5,
+    "update": 10,
     "duration": 200
   }
 }

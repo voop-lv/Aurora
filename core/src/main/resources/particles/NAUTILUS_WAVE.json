@@ -3,10 +3,9 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "DEEP_LUKEWARM_OCEAN",
-      "DEEP_WARM_OCEAN",
-      "LUKEWARM_OCEAN",
-      "WARM_OCEAN"
+      "FOREST",
+      "TALL_BIRCH_FOREST",
+      "TALL_BIRCH_HILLS"
     ],
     "spawnDistance": 40.0,
     "randMultiplier": 0.5,
@@ -17,13 +16,13 @@
   "particle": {
     "particleName": "NAUTILUS",
     "particleType": "WAVE",
-    "maxCount": 5,
+    "maxCount": 4,
     "enableLighting": true
   },
   "properties": {
-    "rate": 0.1,
-    "update": 1,
-    "duration": 10,
+    "rate": 0.6,
+    "update": 2,
+    "duration": 5,
     "waveCycles": 5,
     "waveAmplitude": 3,
     "rotationAngle": 40,

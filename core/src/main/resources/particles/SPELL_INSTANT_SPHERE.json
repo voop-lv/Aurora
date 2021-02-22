@@ -3,7 +3,9 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "WOODED_BADLANDS_PLATEAU"
+      "WOODED_BADLANDS_PLATEAU",
+      "TAIGA_MOUNTAINS",
+      "SNOWY_TAIGA_MOUNTAINS"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,
@@ -20,7 +22,7 @@
   "properties": {
     "radius": 1,
     "rate": 0.2,
-    "update": 5,
+    "update": 7,
     "duration": 150
   }
 }

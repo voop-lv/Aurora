@@ -56,37 +56,37 @@ public class AuroraCommand implements CommandExecutor {
                     return true;
                 }
                 Player player = (Player) sender;
-                if(ToggleManager.getInstance().isToggled(player.getName())) {
-                    ToggleManager.getInstance().registerToggle(player.getName(), false);
+                if(ToggleManager.INSTANCE.isToggled(player.getName())) {
+                    ToggleManager.INSTANCE.registerToggle(player.getName(), false);
                     ChatUtils.sendMessage(player, "&cAurora ambient particles have been disabled");
                 } else {
-                    ToggleManager.getInstance().registerToggle(player.getName(), true);
+                    ToggleManager.INSTANCE.registerToggle(player.getName(), true);
                     ChatUtils.sendMessage(player, "&aAurora ambient particles have been enabled");
                 }
                 return true;
             }
 
             if(args[0].toLowerCase().equals("reload")) {
-                YAMLFileManager.getInstance().reloadFiles();
+                YAMLFileManager.INSTANCE.reloadFiles();
                 ParticleFileCache.reload();
-                ChatUtils.sendMessage(sender, String.format("&5Successfully reloaded config and &d%s &5particle files", ParticleFileManager.getInstance().getFiles().size()));
+                ChatUtils.sendMessage(sender, String.format("&5Successfully reloaded config and &d%s &5particle files", ParticleFileManager.INSTANCE.getFiles().size()));
                 return true;
             }
 
             if(args[0].toLowerCase().equals("status")) {
-                String globalFiles = String.format("Particle Files (%s): ", ParticleFileManager.getInstance().getFiles().size());
-                if(ParticleFileManager.getInstance().getFiles() == null || ParticleFileManager.getInstance().getFiles().size() == 0) {
+                String globalFiles = String.format("Particle Files (%s): ", ParticleFileManager.INSTANCE.getFiles().size());
+                if(ParticleFileManager.INSTANCE.getFiles() == null || ParticleFileManager.INSTANCE.getFiles().size() == 0) {
                     //No particle files
                     globalFiles += "None";
                 } else {
-                    for(String fileName : ParticleFileManager.getInstance().getFiles()) {
-                        ParticleFile particleFile = ParticleFileManager.getInstance().getClass(fileName);
+                    for(String fileName : ParticleFileManager.INSTANCE.getFiles()) {
+                        ParticleFile particleFile = ParticleFileManager.INSTANCE.getClass(fileName);
                         //Check if enabled or disabled
-                        String particleName = ParticleFileManager.getInstance().getClass(fileName).isEnabled() ? ChatUtils.translateColor("&a") : ChatUtils.translateColor("&c");
+                        String particleName = ParticleFileManager.INSTANCE.getClass(fileName).isEnabled() ? ChatUtils.translateColor("&a") : ChatUtils.translateColor("&c");
                         //If enabled, check if active in biome
                         if(particleFile.isEnabled() && sender instanceof Player) {
                             Player player = (Player) sender;
-                            for(ParticleFile biomeParticleFile : ParticleFileCache.getInstance().getClass(XBiome.matchXBiome(player.getLocation().getBlock().getBiome()))) {
+                            for(ParticleFile biomeParticleFile : ParticleFileCache.INSTANCE.getClass(XBiome.matchXBiome(player.getLocation().getBlock().getBiome()))) {
                                 if(particleFile.getName().equals(biomeParticleFile.getName())) particleName = ChatUtils.translateColor("&b");
                             }
                         }
@@ -114,13 +114,13 @@ public class AuroraCommand implements CommandExecutor {
                 Player player = (Player) sender;
 
                 if (args[1].toLowerCase().equals("on")) {
-                    ToggleManager.getInstance().registerToggle(player.getName(), true);
+                    ToggleManager.INSTANCE.registerToggle(player.getName(), true);
                     ChatUtils.sendMessage(player, "&aAurora ambient particles have been enabled");
                     return true;
                 }
 
                 if (args[1].toLowerCase().equals("off")) {
-                    ToggleManager.getInstance().registerToggle(player.getName(), false);
+                    ToggleManager.INSTANCE.registerToggle(player.getName(), false);
                     ChatUtils.sendMessage(player, "&cAurora ambient particles have been disabled");
                     return true;
                 }

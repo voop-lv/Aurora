@@ -8,12 +8,11 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class YAMLFileManager {
-    private static Aurora AURORA = Aurora.getInstance();
-    private static YAMLFileManager yamlFileManager;
+    public static final YAMLFileManager INSTANCE = new YAMLFileManager();
     private HashMap<String, YAMLFile> fileMap = new HashMap<>();
 
     public YAMLFileManager() {
-        registerFile("config.yml", new YAMLFile(AURORA.getDataFolder().getPath(), "config.yml", 1, new ArrayList<>(), new ArrayList<>()));
+        registerFile("config.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "config.yml", 1, new ArrayList<>(), new ArrayList<>()));
     }
 
     public void reloadFiles() {
@@ -35,12 +34,5 @@ public class YAMLFileManager {
 
     public void unregisterFile(String fileName) {
         fileMap.remove(fileName);
-    }
-
-    public static YAMLFileManager getInstance() {
-        if(yamlFileManager == null) {
-            yamlFileManager = new YAMLFileManager();
-        }
-        return yamlFileManager;
     }
 }

@@ -16,24 +16,23 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerChunkChangeEvent(PlayerChunkChangeEvent e) {
         //Init variables
-        ParticleManager particleManager = ParticleManager.getInstance();
         Player player = e.getPlayer();
         XBiome biome = XBiome.matchXBiome(player.getLocation().getBlock().getBiome());
 
         //Remove old tasks
-        particleManager.unregisterTasks(player);
+        ParticleManager.INSTANCE.unregisterTasks(player);
 
         //Ignore for disabled players
         if(!player.hasPermission("aurora.view")) return;
-        if(!ToggleManager.getInstance().isToggled(player.getName())) return;
+        if(!ToggleManager.INSTANCE.isToggled(player.getName())) return;
 
         //Register new tasks
-        if(ParticleFileCache.getInstance().getClass(biome) == null || ParticleFileCache.getInstance().getClass(biome).length == 0) return;
-        for(ParticleFile particleFile : ParticleFileCache.getInstance().getClass(biome)) {
+        if(ParticleFileCache.INSTANCE.getClass(biome) == null || ParticleFileCache.INSTANCE.getClass(biome).size() == 0) return;
+        for(ParticleFile particleFile : ParticleFileCache.INSTANCE.getClass(biome)) {
             if(!particleFile.isEnabled()) continue;
 
             LocationUtils.getParticleLocations(
-                    e.getNearbyChunks(YAMLFileManager.getInstance().getFile("config.yml").getInt("particle-spawn-radius")),
+                    e.getNearbyChunks(YAMLFileManager.INSTANCE.getFile("config.yml").getInt("particle-spawn-radius")),
                     particleFile.getSpawning().getMinY(),
                     particleFile.getSpawning().getMaxY(),
                     particleFile.getSpawning().getSpawnDistance(),
@@ -42,26 +41,26 @@ public class Listeners implements Listener {
 
                 switch(particleFile.getParticle().getParticleType().toUpperCase()) {
                     case "LINE":
-                        particleManager.registerTask(player, new LineParticle(player, locs, particleFile));
+                        ParticleManager.INSTANCE.registerTask(player, new LineParticle(player, locs, particleFile));
                         break;
                     case "CUBE":
-                        particleManager.registerTask(player, new CubeParticle(player, locs, particleFile));
+                        ParticleManager.INSTANCE.registerTask(player, new CubeParticle(player, locs, particleFile));
                         break;
                     case "RING":
-                        particleManager.registerTask(player, new RingParticle(player, locs, particleFile));
+                        ParticleManager.INSTANCE.registerTask(player, new RingParticle(player, locs, particleFile));
                         break;
                     case "CIRCLE":
-                        particleManager.registerTask(player, new CircleParticle(player, locs, particleFile));
+                        ParticleManager.INSTANCE.registerTask(player, new CircleParticle(player, locs, particleFile));
                         break;
                     case "SPHERE":
-                        particleManager.registerTask(player, new SphereParticle(player, locs, particleFile));
+                        ParticleManager.INSTANCE.registerTask(player, new SphereParticle(player, locs, particleFile));
                         break;
                     case "WAVE":
-                        particleManager.registerTask(player, new WaveParticle(player, locs, particleFile));
+                        ParticleManager.INSTANCE.registerTask(player, new WaveParticle(player, locs, particleFile));
                         break;
                     default:
                         //Default to point particle
-                        particleManager.registerTask(player, new PointParticle(player, locs, particleFile));
+                        ParticleManager.INSTANCE.registerTask(player, new PointParticle(player, locs, particleFile));
                 }
             });
         }

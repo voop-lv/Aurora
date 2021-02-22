@@ -3,7 +3,7 @@ package com.zenya.aurora.storage;
 import java.util.HashMap;
 
 public class ToggleManager {
-    private static ToggleManager toggleManager;
+    public static final ToggleManager INSTANCE = new ToggleManager();
     private HashMap<String, Boolean> toggleMap = new HashMap<>();
 
     public Boolean isToggled(String playerName) {
@@ -16,13 +16,6 @@ public class ToggleManager {
 
     public void unregisterToggle(String playerName) {
         toggleMap.remove(playerName);
-    }
-
-    public static ToggleManager getInstance() {
-        if(toggleManager == null) {
-            toggleManager = new ToggleManager();
-        }
-        return toggleManager;
     }
 }
 

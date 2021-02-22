@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.ArrayList;
 
 public class TrackTPSTask implements AuroraTask {
-    private static TrackTPSTask nmlTask;
+    public static final TrackTPSTask INSTANCE = new TrackTPSTask();
     private BukkitTask runnables[];
     private float instTps = 0;
     private float avgTps = 0;
@@ -81,13 +81,6 @@ public class TrackTPSTask implements AuroraTask {
             avgTps = 20.0f;
         }
         return avgTps;
-    }
-
-    public static TrackTPSTask getInstance() {
-        if(nmlTask == null) {
-            nmlTask = new TrackTPSTask();
-        }
-        return nmlTask;
     }
 }
 

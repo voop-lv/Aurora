@@ -12,6 +12,7 @@ import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -196,9 +197,7 @@ public final class ZParticle {
                 ticks += update;
                 if(ticks > duration) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
-                clone.location = loc;
-                clone.spawn(loc, display.getPlayers());
+                display.spawn(loc, display.getPlayers());
             }
         }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
     }
@@ -237,11 +236,11 @@ public final class ZParticle {
                 ticks += update;
                 if(ticks > duration) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
-                clone.location = start;
                 for (double i = 0; i < length; i += rate) {
                     if (i > length) i = length;
-                    clone.spawn(finalX * i, finalY * i, finalZ * i, display.getPlayers());
+
+                    display.location = start;
+                    display.spawn(finalX * i, finalY * i, finalZ * i, display.getPlayers());
                 }
             }
         }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
@@ -286,11 +285,8 @@ public final class ZParticle {
         x /= length;
         y /= length;
         z /= length;
-        double finalX = x;
-        double finalY = y;
-        double finalZ = z;
 
-        ArrayList<double[]> locs = new ArrayList<>();
+        List<double[]> locs = new ArrayList<>();
         for (double i = 0; i < length; i += rate) {
             // Since the rate can be any number it's possible to get a higher number than
             // the length in the last loop.
@@ -303,19 +299,17 @@ public final class ZParticle {
             public void run() {
                 if (progress >= locs.size()-1) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
-                clone.location = start;
-
                 //Leave particle point for <duration> ticks
                 new BukkitRunnable() {
-                    final ZParticleDisplay finalClone = clone;
                     final int finalProgress = progress;
                     int ticks = 0;
                     @Override
                     public void run() {
                         ticks += update;
                         if (ticks > duration) this.cancel();
-                        finalClone.spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2], display.getPlayers());
+
+                        display.location = start;
+                        display.spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2], display.getPlayers());
                     }
                 }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
 
@@ -370,7 +364,7 @@ public final class ZParticle {
         };
 
         //Rotate positions
-        ArrayList<Location> locs = new ArrayList<>();
+        List<Location> locs = new ArrayList<>();
         angle = Math.toRadians(angle);
         for (double[] locPos : cubePos) {
             Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
@@ -379,32 +373,35 @@ public final class ZParticle {
 
         return new BukkitRunnable() {
             int ticks = 0;
+            boolean isDone = false;
 
             @Override
             public void run() {
                 ticks += update;
                 if (ticks > duration) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
-                for (int i = 0; i < locs.size(); i++) {
-                    Location pos1 = locs.get(i);
-                    Location pos2;
-                    Location pos3;
-                    if (i != 0 && (i + 1) % 4 == 0) {
-                        //4->1, 8->5
-                        pos2 = locs.get(i-3);
-                    } else {
-                        //1->2->3->4, 5->6->7->8
-                        pos2 = locs.get(i+1);
+                if(!isDone) {
+                    for (int i = 0; i < locs.size(); i++) {
+                        Location pos1 = locs.get(i);
+                        Location pos2;
+                        Location pos3;
+                        if (i != 0 && (i + 1) % 4 == 0) {
+                            //4->1, 8->5
+                            pos2 = locs.get(i-3);
+                        } else {
+                            //1->2->3->4, 5->6->7->8
+                            pos2 = locs.get(i+1);
+                        }
+                        if (i < 4) {
+                            //1->5, 2->6, 3->7, 4->8
+                            pos3 = locs.get(i+4);
+                        } else {
+                            pos3 = null;
+                        }
+                        instantLine(pos1, pos2, rate, update, duration, display);
+                        if (pos3 != null) instantLine(pos1, pos3, rate, update, duration, display);
                     }
-                    if (i < 4) {
-                        //1->5, 2->6, 3->7, 4->8
-                        pos3 = locs.get(i+4);
-                    } else {
-                        pos3 = null;
-                    }
-                    instantLine(pos1, pos2, rate, 1, 1, clone);
-                    if (pos3 != null) instantLine(pos1, pos3, rate, 1, 1, clone);
+                    isDone = true;
                 }
             }
         }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
@@ -430,7 +427,7 @@ public final class ZParticle {
         final double z = center.getZ();
 
         //Initialise positions
-        ArrayList<double[]> outline = new ArrayList<>();
+        List<double[]> outline = new ArrayList<>();
         for(float i = 0f; i <= 360f; i += (rate*45)) { //To standardise rate, a rate of 1 means 8 points
             double relX = radius * Math.sin(i);
             double relZ = radius * Math.cos(i);
@@ -453,9 +450,8 @@ public final class ZParticle {
                 ticks += update;
                 if (ticks > duration) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
                 for(Location loc : locs) {
-                    clone.spawn(loc, display.getPlayers());
+                    display.spawn(loc, display.getPlayers());
                 }
             }
         }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
@@ -481,7 +477,7 @@ public final class ZParticle {
         final double z = center.getZ();
 
         //Initialise positions
-        ArrayList<double[]> circle = new ArrayList<>();
+        List<double[]> circle = new ArrayList<>();
         for(double relX = -radius; relX < radius; relX += rate) {
             for(double relZ = -radius; relZ < radius; relZ += rate) {
                 //Add only if point lies within circle
@@ -507,9 +503,8 @@ public final class ZParticle {
                 ticks += update;
                 if (ticks > duration) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
                 for(Location loc : locs) {
-                    clone.spawn(loc, display.getPlayers());
+                    display.spawn(loc, display.getPlayers());
                 }
             }
         }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
@@ -533,7 +528,7 @@ public final class ZParticle {
         final double z = center.getZ();
 
         //Initialise positions
-        ArrayList<double[]> sphere = new ArrayList<>();
+        List<double[]> sphere = new ArrayList<>();
         for(double relX = -radius; relX < radius; relX += rate) {
             for(double relY = -radius; relY < radius; relY += rate) {
                 for(double relZ = -radius; relZ < radius; relZ += rate) {
@@ -562,9 +557,8 @@ public final class ZParticle {
                 ticks += update;
                 if (ticks > duration) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
                 for(Location loc : locs) {
-                    clone.spawn(loc, display.getPlayers());
+                    display.spawn(loc, display.getPlayers());
                 }
             }
         }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
@@ -581,13 +575,14 @@ public final class ZParticle {
         z /= length;
 
         //Initialise positions
-        ArrayList<double[]> line = new ArrayList<>(); //Rotate about this line
-        ArrayList<double[]> wave = new ArrayList<>();
+        List<double[]> line = new ArrayList<>(); //Rotate about this line
+        List<double[]> wave = new ArrayList<>();
         double theta = 0;
         for (double i = 0; i < length; i += rate) {
+            line.add(new double[]{x*i, y*i, z*i});
+
             if(theta > 360) theta = 0;
             double tilt = multiplier * Math.sin(Math.toRadians(theta));
-            line.add(new double[]{x*i, y*i, z*i});
             wave.add(new double[]{
                     x*i + tilt*Math.sin(NumberConversions.square(y)*Math.PI/2),
                     y*i + tilt*Math.cos(NumberConversions.square(y)*Math.PI/2),
@@ -597,8 +592,9 @@ public final class ZParticle {
         }
 
         //Rotate positions
-        ArrayList<Location> locs = new ArrayList<>();
+        List<Location> locs = new ArrayList<>();
         angle = Math.toRadians(angle);
+
         for (int i=0; i<wave.size(); i++) {
             Vector rotated = rotateAbout(new Vector(wave.get(i)[0], wave.get(i)[1], wave.get(i)[2]), new Vector(line.get(i)[0], line.get(i)[1], line.get(i)[2]), angle, axis);
             locs.add(rotated.toLocation(display.getLocation().getWorld()));
@@ -609,44 +605,23 @@ public final class ZParticle {
             public void run() {
                 if (progress >= wave.size()-1) this.cancel();
 
-                ZParticleDisplay clone = display.clone();
-                clone.location = start;
-
                 //Leave particle point for <duration> ticks
                 new BukkitRunnable() {
-                    final ZParticleDisplay finalClone = clone;
                     final int finalProgress = progress;
                     int ticks = 0;
                     @Override
                     public void run() {
                         ticks += update;
                         if (ticks > duration) this.cancel();
-                        finalClone.spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2], display.getPlayers());
+
+                        display.location = start;
+                        display.spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2], display.getPlayers());
                     }
                 }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
 
                 progress += 1;
             }
         }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-
-        /*
-        return new BukkitRunnable() {
-            final double addition = Math.PI * 0.1;
-            final double rateDiv = Math.PI / rate;
-            double times = Math.PI / 4;
-
-            public void run() {
-                times += addition;
-                for (double theta = 0; theta <= PII; theta += rateDiv) {
-                    double x = times * Math.cos(theta);
-                    double y = 2 * Math.exp(-0.1 * times) * Math.sin(times) + 1.5;
-                    double z = times * Math.sin(theta);
-                    display.spawn(x, y, z, display.getPlayers());
-                }
-
-                if (times > 20) cancel();
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0L, 1L); */
     }
 
     /**

@@ -4,7 +4,8 @@
   "spawning": {
     "biomes": [
       "SHATTERED_SAVANNA",
-      "SHATTERED_SAVANNA_PLATEAU"
+      "SHATTERED_SAVANNA_PLATEAU",
+      "DESERT_LAKES"
     ],
     "spawnDistance": 5.0,
     "randMultiplier": 0.5,
@@ -19,7 +20,7 @@
     "enableLighting": false
   },
   "properties": {
-    "update": 5,
+    "update": 10,
     "duration": 150
   }
 }
