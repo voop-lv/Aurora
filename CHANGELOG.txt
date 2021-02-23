@@ -4,3 +4,7 @@ PRERELEASE 0.0.1:
 PRERELEASE 0.0.2:
 - Major code cleanup & improvements
 - Performance improvements & additions to default configs
+
+PRERELEASE 0.0.3:
+- General package and maven cleanup
+- Minor code improvements

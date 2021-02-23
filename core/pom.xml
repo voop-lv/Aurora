@@ -89,15 +89,11 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                     <relocations>
                         <relocation>
                             <pattern>com.cryptomorin.xseries</pattern>
-                            <shadedPattern>com.zenya.aurora.api</shadedPattern>
+                            <shadedPattern>com.zenya.aurora.ext</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>ru.beykerykt.lightapi</pattern>
-                            <shadedPattern>com.zenya.aurora.api</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>javax.annotation</pattern>
-                            <shadedPattern>com.zenya.aurora.api</shadedPattern>
+                            <shadedPattern>com.zenya.aurora.ext</shadedPattern>
                         </relocation>
                     </relocations>
                     <!-- Here you can remove the classes you don't use. -->

@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class LocationUtils {
+public final class LocationUtils {
     /**
      *
      * @param loc Location to check

@@ -87,7 +87,7 @@
                         }</option>
                         <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile { *; }</option>
                         <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile$* { *; }</option>
-                        <option>-keepclassmembers class com.zenya.aurora.api.XBiome { *; }</option>
+                        <option>-keepclassmembers class com.zenya.aurora.ext.XBiome { *; }</option>
                         <option>-keepattributes !LocalVariableTable,!LocalVariableTypeTable,Exceptions,InnerClasses,Signature,Deprecated,LineNumberTable,*Annotation*,EnclosingMethod</option>
                         <option>-dontwarn</option>
                     </options>
