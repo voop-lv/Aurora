@@ -8,3 +8,6 @@ PRERELEASE 0.0.2:
 PRERELEASE 0.0.3:
 - General package and maven cleanup
 - Minor code improvements
+
+1.0.0:
+- Official release
