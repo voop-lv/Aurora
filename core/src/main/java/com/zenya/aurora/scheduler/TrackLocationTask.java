@@ -1,8 +1,7 @@
 package com.zenya.aurora.scheduler;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.event.PlayerBiomeChangeEvent;
-import com.zenya.aurora.event.PlayerChunkChangeEvent;
+import com.zenya.aurora.event.ParticleUpdateEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -36,24 +35,12 @@ public class TrackLocationTask implements AuroraTask {
                 playerCoords.thenAcceptAsync(coordMap -> {
                     if (Bukkit.getOnlinePlayers() != null && Bukkit.getOnlinePlayers().size() != 0) {
                         for (Player player : Bukkit.getOnlinePlayers()) {
-                            //Chunk change event
+                            //Chunk change
                             if(player.getLocation().getChunk().getX() != coordMap.getOrDefault(player, new Location(player.getWorld(), 0, 0, 0)).getChunk().getX() || player.getLocation().getChunk().getZ() != coordMap.getOrDefault(player, new Location(player.getWorld(), 0, 0, 0)).getChunk().getZ()) {
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                        Bukkit.getPluginManager().callEvent(new PlayerChunkChangeEvent(player));
-                                    }
-                                }.runTask(Aurora.getInstance());
-                                //Force update
-                                coordMap.put(player, player.getLocation());
-                            }
-
-                            //Biome change event
-                            if(!player.getLocation().getBlock().getBiome().equals(coordMap.getOrDefault(player, new Location(player.getWorld(), 0, 0, 0)).getBlock().getBiome())) {
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        Bukkit.getPluginManager().callEvent(new PlayerBiomeChangeEvent(player));
+                                        Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
                                     }
                                 }.runTask(Aurora.getInstance());
                                 //Force update
@@ -63,7 +50,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*5);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*3);
 
         //Task to update location map
         BukkitTask task2 = new BukkitRunnable() {
@@ -83,7 +70,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*10);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*5);
 
         //Task to remove old player entries
         BukkitTask task3 = new BukkitRunnable() {
@@ -99,7 +86,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*60);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20*10);
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1, task2, task3};

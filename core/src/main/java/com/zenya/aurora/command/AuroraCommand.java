@@ -2,6 +2,7 @@ package com.zenya.aurora.command;
 
 import com.cryptomorin.xseries.XBiome;
 import com.zenya.aurora.Aurora;
+import com.zenya.aurora.event.ParticleUpdateEvent;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;
@@ -9,6 +10,7 @@ import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.ChatUtils;
 import com.zenya.aurora.util.LocationUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -63,6 +65,7 @@ public class AuroraCommand implements CommandExecutor {
                     ToggleManager.INSTANCE.registerToggle(player.getName(), true);
                     ChatUtils.sendMessage(player, "&aAurora ambient particles have been enabled");
                 }
+                Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
                 return true;
             }
 
@@ -70,6 +73,9 @@ public class AuroraCommand implements CommandExecutor {
                 StorageFileManager.INSTANCE.reloadFiles();
                 ParticleFileCache.reload();
                 ChatUtils.sendMessage(sender, String.format("&5Successfully reloaded config and &d%s &5particle files", ParticleFileManager.INSTANCE.getFiles().size()));
+                for(Player p : Bukkit.getOnlinePlayers()) {
+                    Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(p));
+                }
                 return true;
             }
 
@@ -116,17 +122,19 @@ public class AuroraCommand implements CommandExecutor {
                 if (args[1].toLowerCase().equals("on")) {
                     ToggleManager.INSTANCE.registerToggle(player.getName(), true);
                     ChatUtils.sendMessage(player, "&aAurora ambient particles have been enabled");
-                    return true;
                 }
 
-                if (args[1].toLowerCase().equals("off")) {
+                else if (args[1].toLowerCase().equals("off")) {
                     ToggleManager.INSTANCE.registerToggle(player.getName(), false);
                     ChatUtils.sendMessage(player, "&cAurora ambient particles have been disabled");
-                    return true;
                 }
 
-                //Wrong arg2 for toggle
-                sendUsage(sender);
+                else {
+                    //Wrong arg2 for toggle
+                    sendUsage(sender);
+                    return true;
+                }
+                Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
                 return true;
             }
 

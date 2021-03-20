@@ -30,7 +30,7 @@ public class ParticleFileCache {
     }
 
     public List<ParticleFile> getClass(XBiome biome) {
-        return particleCacheMap.get(biome);
+        return particleCacheMap.getOrDefault(biome, new ArrayList<>());
     }
 
     public Set<XBiome> getBiomes() {

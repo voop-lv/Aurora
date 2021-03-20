@@ -22,8 +22,8 @@ public class DBFile extends StorageFile {
         }
     }
 
-    private Connection connect() {
-        String url = "jdbc:sqlite:" + directory + File.separator + fileName;
+    private static Connection connect() {
+        String url = "jdbc:sqlite:" + Aurora.getInstance().getDataFolder() + File.separator + "database.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -34,17 +34,19 @@ public class DBFile extends StorageFile {
         return conn;
     }
 
-    private void sendStatement(String sql) {
+    private static void sendStatement(String sql) {
         sendPreparedStatement(sql, null);
     }
 
-    private void sendPreparedStatement(String sql, Object... parameters) {
+    private static void sendPreparedStatement(String sql, Object... parameters) {
         sendQueryStatement(sql, null, parameters);
     }
 
-    private Object sendQueryStatement(String sql, String query, Object... parameters) {
+    private static Object sendQueryStatement(String sql, String query, Object... parameters) {
+        Object result = null;
+
         try {
-            Connection conn = this.connect();
+            Connection conn = connect();
             if((parameters == null || parameters.length == 0) && query == null) {
                 //Simple statement
                 Statement statement = conn.createStatement();
@@ -61,14 +63,14 @@ public class DBFile extends StorageFile {
                 } else {
                     //Query statement
                     ResultSet rs = ps.executeQuery();
-                    if(rs.next()) return rs.getObject(query);
+                    if(rs.next()) result = rs.getObject(query);
                 }
             }
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
     public void createTables() {

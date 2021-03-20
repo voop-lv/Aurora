@@ -12,6 +12,8 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Set;
+
 public class Aurora extends JavaPlugin {
     @Getter private static Aurora instance;
     private LightAPI lightAPI;
@@ -45,7 +47,8 @@ public class Aurora extends JavaPlugin {
     @Override
     public void onDisable() {
         ParticleManager pm = ParticleManager.INSTANCE;
-        for(Player player : pm.getPlayers()) {
+        Set<Player> players = pm.getPlayers();
+        for(Player player : players) {
             pm.unregisterTasks(player);
         }
         lightAPI.disable();

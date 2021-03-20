@@ -1,6 +1,8 @@
 package com.zenya.aurora.event;
 
 import com.cryptomorin.xseries.XBiome;
+import com.zenya.aurora.Aurora;
+import com.zenya.aurora.file.DBFile;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleManager;
@@ -8,13 +10,37 @@ import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.scheduler.particle.*;
 import com.zenya.aurora.util.LocationUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Listeners implements Listener {
     @EventHandler
-    public void onPlayerChunkChangeEvent(PlayerChunkChangeEvent e) {
+    public void onPlayerJoinEvent(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    boolean status = StorageFileManager.INSTANCE.getDBFile("database.db").getToggleStatus(player.getName());
+                    ToggleManager.INSTANCE.cacheToggle(player.getName(), status);
+                    Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
+                }
+            }.runTask(Aurora.getInstance());
+        }
+
+    @EventHandler
+    public void onPlayerQuitEvent(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        ToggleManager.INSTANCE.uncacheToggle(player.getName());
+    }
+
+    @EventHandler
+    public void onParticleUpdateEvent(ParticleUpdateEvent e) {
         //Init variables
         Player player = e.getPlayer();
         XBiome biome = XBiome.matchXBiome(player.getLocation().getBlock().getBiome());
