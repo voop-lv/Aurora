@@ -11,3 +11,7 @@ PRERELEASE 0.0.3:
 
 1.0.0:
 - Official release
+
+1.1.0:
+- Toggle command is now persistent after the server restarts
+- General code cleanup

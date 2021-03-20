@@ -5,7 +5,7 @@ import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleManager;
 import com.zenya.aurora.storage.ToggleManager;
-import com.zenya.aurora.storage.YAMLFileManager;
+import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.scheduler.particle.*;
 import com.zenya.aurora.util.LocationUtils;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class Listeners implements Listener {
             if(!particleFile.isEnabled()) continue;
 
             LocationUtils.getParticleLocations(
-                    e.getNearbyChunks(YAMLFileManager.INSTANCE.getFile("config.yml").getInt("particle-spawn-radius")),
+                    e.getNearbyChunks(StorageFileManager.INSTANCE.getYAMLFile("config.yml").getInt("particle-spawn-radius")),
                     particleFile.getSpawning().getMinY(),
                     particleFile.getSpawning().getMaxY(),
                     particleFile.getSpawning().getSpawnDistance(),

@@ -5,7 +5,7 @@ import com.zenya.aurora.command.AuroraCommand;
 import com.zenya.aurora.event.Listeners;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;
-import com.zenya.aurora.storage.YAMLFileManager;
+import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.storage.TaskManager;
 import com.zenya.aurora.storage.ParticleManager;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class Aurora extends JavaPlugin {
     @Getter private static Aurora instance;
     private LightAPI lightAPI;
     private TaskManager taskManager;
-    private YAMLFileManager yamlFileManager;
+    private StorageFileManager storageFileManager;
     private ParticleFileManager particleFileManager;
     private ParticleFileCache particleFileCache;
 
@@ -31,7 +31,7 @@ public class Aurora extends JavaPlugin {
         taskManager = TaskManager.INSTANCE;
 
         //Init all configs and particle files
-        yamlFileManager = YAMLFileManager.INSTANCE;
+        storageFileManager = StorageFileManager.INSTANCE;
         particleFileManager = ParticleFileManager.INSTANCE;
         particleFileCache = ParticleFileCache.INSTANCE;
 

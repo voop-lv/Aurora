@@ -6,7 +6,7 @@ import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.ToggleManager;
-import com.zenya.aurora.storage.YAMLFileManager;
+import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.ChatUtils;
 import com.zenya.aurora.util.LocationUtils;
 import org.bukkit.Chunk;
@@ -67,7 +67,7 @@ public class AuroraCommand implements CommandExecutor {
             }
 
             if(args[0].toLowerCase().equals("reload")) {
-                YAMLFileManager.INSTANCE.reloadFiles();
+                StorageFileManager.INSTANCE.reloadFiles();
                 ParticleFileCache.reload();
                 ChatUtils.sendMessage(sender, String.format("&5Successfully reloaded config and &d%s &5particle files", ParticleFileManager.INSTANCE.getFiles().size()));
                 return true;

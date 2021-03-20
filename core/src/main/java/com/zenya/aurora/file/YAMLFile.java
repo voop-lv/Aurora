@@ -3,7 +3,6 @@ package com.zenya.aurora.file;
 import com.zenya.aurora.Aurora;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.FileUtil;
 
 import java.io.File;
@@ -12,10 +11,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YAMLFile {
-    private String directory;
-    private String fileName;
-    private File configFile;
+public class YAMLFile extends StorageFile {
     private FileConfiguration origConfig;
     private FileConfiguration config;
 
@@ -24,49 +20,42 @@ public class YAMLFile {
     }
 
     public YAMLFile(String directory, String fileName) {
-        this(directory, fileName, null, null, null);
+        this(directory, fileName, null, false, null, null);
     }
 
     /**
      *
      * @param directory Directory the file exists in.
      * @param fileName Full name of the file, excluding its directory.
-     * @param fileVersion Version of the file as specified in "config-version".
+     * @param fileVersion Version of the file as specified in "config-version.
+     * @param resetFile Whether or not the file should be deleted and overwritten by the original resource.
      * @param ignoredNodes Nodes that will use the latest resource config's values.
      * @param replaceNodes Nodes that will use old config values instead of being appended (applicable to nested keys)
      */
-    public YAMLFile(String directory, String fileName, Integer fileVersion, List<String> ignoredNodes, List<String> replaceNodes) {
-        this.directory = directory;
-        this.fileName = fileName;
-        this.configFile = new File(directory, fileName);
+    public YAMLFile(String directory, String fileName, Integer fileVersion, boolean resetFile, List<String> ignoredNodes, List<String> replaceNodes) {
+        super(directory, fileName, fileVersion, resetFile);
+
         this.origConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Aurora.getInstance().getResource(fileName)));
-        this.config = YamlConfiguration.loadConfiguration(configFile);
+        this.config = YamlConfiguration.loadConfiguration(file);
 
         if(fileVersion != null) {
             try {
-                updateFile(fileVersion, ignoredNodes, replaceNodes);
+                updateFile(ignoredNodes, replaceNodes);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private boolean getFileExists() {
-        return configFile.exists();
-    }
-
     private int getFileVersion() {
         return getInt("config-version");
     }
 
-    private void updateFile(Integer fileVersion, List<String> ignoredNodes, List<String> replaceNodes) throws IOException {
-        boolean resetFile = false;
-        ignoredNodes.add("config-version");
-
-        if(!getFileExists()) {
+    private void updateFile(List<String> ignoredNodes, List<String> replaceNodes) throws IOException {
+        if(!file.exists()) {
             //Init file
-            origConfig.save(configFile);
-            config = YamlConfiguration.loadConfiguration(configFile);
+            origConfig.save(file);
+            config = YamlConfiguration.loadConfiguration(file);
         } else {
             //Reset file for backward-compatibility
             if(getFileVersion() > fileVersion) resetFile = true;
@@ -74,12 +63,12 @@ public class YAMLFile {
             //Update file
             if(getFileVersion() != fileVersion) {
                 File oldConfigFile = new File(directory, fileName + ".v" + String.valueOf(getFileVersion()));
-                FileUtil.copy(configFile, oldConfigFile);
-                configFile.delete();
-                origConfig.save(configFile);
+                FileUtil.copy(file, oldConfigFile);
+                file.delete();
+                origConfig.save(file);
 
                 FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
-                config = YamlConfiguration.loadConfiguration(configFile);
+                config = YamlConfiguration.loadConfiguration(file);
 
                 //Add old values
                 if(!resetFile) {
@@ -94,7 +83,7 @@ public class YAMLFile {
                     }
                 }
                 //Save regardless
-                config.save(configFile);
+                config.save(file);
             }
         }
     }
