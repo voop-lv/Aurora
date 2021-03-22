@@ -4,8 +4,10 @@ import com.zenya.aurora.scheduler.AuroraTask;
 import com.zenya.aurora.scheduler.TaskKey;
 import com.zenya.aurora.scheduler.TrackLocationTask;
 import com.zenya.aurora.scheduler.TrackTPSTask;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class TaskManager {
     public static final TaskManager INSTANCE = new TaskManager();
@@ -24,8 +26,14 @@ public class TaskManager {
         taskMap.put(key, task);
     }
 
-    public void unregisterTask(TaskKey key) {
-        taskMap.remove(key);
+    public void unregisterTasks() {
+        for (Iterator<AuroraTask> iterator = taskMap.values().iterator(); iterator.hasNext(); ) {
+            AuroraTask task = iterator.next();
+            for(BukkitTask t : task.getTasks()) {
+                t.cancel();
+            }
+            iterator.remove();
+        }
     }
 }
 

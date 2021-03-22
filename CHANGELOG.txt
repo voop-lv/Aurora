@@ -20,3 +20,7 @@ PRERELEASE 0.0.3:
 - Decreased global particle update interval on biome change
 - Particles will now toggle instantly when command is issued
 - Fixed a NPE bug when status command is used in some biomes
+
+1.1.2:
+- Fixed console error spam when server is lagging
+- Fixed an error on plugin disable

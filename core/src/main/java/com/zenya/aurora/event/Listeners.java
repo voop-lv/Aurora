@@ -36,7 +36,9 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         Player player = e.getPlayer();
+
         ToggleManager.INSTANCE.uncacheToggle(player.getName());
+        Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
     }
 
     @EventHandler

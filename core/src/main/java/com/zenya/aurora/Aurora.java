@@ -10,6 +10,7 @@ import com.zenya.aurora.storage.TaskManager;
 import com.zenya.aurora.storage.ParticleManager;
 import lombok.Getter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
@@ -46,8 +47,10 @@ public class Aurora extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        HandlerList.unregisterAll(instance);
+        taskManager.unregisterTasks();
         ParticleManager pm = ParticleManager.INSTANCE;
-        Set<Player> players = pm.getPlayers();
+        final Set<Player> players = pm.getPlayers();
         for(Player player : players) {
             pm.unregisterTasks(player);
         }

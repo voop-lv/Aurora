@@ -195,7 +195,10 @@ public final class ZParticle {
             @Override
             public void run() {
                 ticks += update;
-                if(ticks > duration) this.cancel();
+                if(ticks > duration) {
+                    this.cancel();
+                    return;
+                }
 
                 display.spawn(loc, display.getPlayers());
             }
@@ -234,7 +237,10 @@ public final class ZParticle {
             @Override
             public void run() {
                 ticks += update;
-                if(ticks > duration) this.cancel();
+                if(ticks > duration) {
+                    this.cancel();
+                    return;
+                }
 
                 for (double i = 0; i < length; i += rate) {
                     if (i > length) i = length;
@@ -297,7 +303,10 @@ public final class ZParticle {
             int progress = 0;
             @Override
             public void run() {
-                if (progress >= locs.size()-1) this.cancel();
+                if (progress >= locs.size()-1) {
+                    this.cancel();
+                    return;
+                }
 
                 //Leave particle point for <duration> ticks
                 new BukkitRunnable() {
@@ -306,7 +315,10 @@ public final class ZParticle {
                     @Override
                     public void run() {
                         ticks += update;
-                        if (ticks > duration) this.cancel();
+                        if (ticks > duration) {
+                            this.cancel();
+                            return;
+                        }
 
                         display.location = start;
                         display.spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2], display.getPlayers());
@@ -378,7 +390,10 @@ public final class ZParticle {
             @Override
             public void run() {
                 ticks += update;
-                if (ticks > duration) this.cancel();
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
 
                 if(!isDone) {
                     for (int i = 0; i < locs.size(); i++) {
@@ -448,7 +463,10 @@ public final class ZParticle {
             @Override
             public void run() {
                 ticks += update;
-                if (ticks > duration) this.cancel();
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
 
                 for(Location loc : locs) {
                     display.spawn(loc, display.getPlayers());
@@ -501,7 +519,10 @@ public final class ZParticle {
             @Override
             public void run() {
                 ticks += update;
-                if (ticks > duration) this.cancel();
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
 
                 for(Location loc : locs) {
                     display.spawn(loc, display.getPlayers());
@@ -555,7 +576,10 @@ public final class ZParticle {
             @Override
             public void run() {
                 ticks += update;
-                if (ticks > duration) this.cancel();
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
 
                 for(Location loc : locs) {
                     display.spawn(loc, display.getPlayers());
@@ -603,7 +627,10 @@ public final class ZParticle {
             int progress = 0;
             @Override
             public void run() {
-                if (progress >= wave.size()-1) this.cancel();
+                if (progress >= wave.size()-1) {
+                    this.cancel();
+                    return;
+                }
 
                 //Leave particle point for <duration> ticks
                 new BukkitRunnable() {
@@ -612,7 +639,10 @@ public final class ZParticle {
                     @Override
                     public void run() {
                         ticks += update;
-                        if (ticks > duration) this.cancel();
+                        if (ticks > duration) {
+                            this.cancel();
+                            return;
+                        }
 
                         display.location = start;
                         display.spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2], display.getPlayers());
