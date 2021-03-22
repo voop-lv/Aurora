@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XBiome;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.DBFile;
 import com.zenya.aurora.file.ParticleFile;
+import com.zenya.aurora.file.YAMLFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleManager;
 import com.zenya.aurora.storage.ToggleManager;
@@ -50,9 +51,19 @@ public class Listeners implements Listener {
         //Remove old tasks
         ParticleManager.INSTANCE.unregisterTasks(player);
 
+        //Ignore if spawn conditions are not met
+        YAMLFile config = StorageFileManager.INSTANCE.getYAMLFile("config.yml");
+        if(config.getBool("night-only") && player.getWorld().getTime() < 13000) return;
+        if(config.getList("disabled-worlds") != null && config.getList("disabled-worlds").size() != 0) {
+            for(String world : config.getList("disabled-worlds")) {
+                if(world.equals(player.getWorld().getName())) return;
+            }
+        }
+
         //Ignore for disabled players
         if(!player.hasPermission("aurora.view")) return;
         if(!ToggleManager.INSTANCE.isToggled(player.getName())) return;
+
 
         //Register new tasks
         if(ParticleFileCache.INSTANCE.getClass(biome) == null || ParticleFileCache.INSTANCE.getClass(biome).size() == 0) return;

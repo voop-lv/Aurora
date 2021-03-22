@@ -14,7 +14,7 @@ public class StorageFileManager {
     /**
      * config.yml
      * **/
-    private static final int CONFIG_FILE_VERSION = 1;
+    private static final int CONFIG_FILE_VERSION = 2;
     private static final boolean CONFIG_RESET_FILE = false;
     private static final List<String> CONFIG_IGNORED_NODES = new ArrayList<String>() {{
         add("config-version");
