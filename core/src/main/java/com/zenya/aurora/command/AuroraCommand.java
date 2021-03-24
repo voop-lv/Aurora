@@ -93,7 +93,13 @@ public class AuroraCommand implements CommandExecutor {
                         //If enabled, check if active in biome
                         if(particleFile.isEnabled() && sender instanceof Player) {
                             Player player = (Player) sender;
-                            for(ParticleFile biomeParticleFile : ParticleFileCache.INSTANCE.getClass(XBiome.matchXBiome(player.getLocation().getBlock().getBiome()))) {
+                            XBiome biome;
+                            try {
+                                biome = XBiome.matchXBiome(player.getLocation().getBlock().getBiome());
+                            } catch(NullPointerException exc) {
+                                biome = XBiome.THE_VOID;
+                            }
+                            for(ParticleFile biomeParticleFile : ParticleFileCache.INSTANCE.getClass(biome)) {
                                 if(particleFile.getName().equals(biomeParticleFile.getName())) particleName = ChatUtils.translateColor("&b");
                             }
                         }

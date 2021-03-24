@@ -50,7 +50,7 @@ public class Listeners implements Listener {
 
         try {
             biome = XBiome.matchXBiome(player.getLocation().getBlock().getBiome());
-        } catch(Exception exc) {
+        } catch(NullPointerException exc) {
             biome = XBiome.THE_VOID;
         }
 
