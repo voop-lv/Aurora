@@ -34,3 +34,7 @@ PRERELEASE 0.0.3:
 - Added configurable biome presents for faster configuration
 - Fixed a bug where the plugin would break completely when encountering an unknown biome
 - Fixed config auto-updater
+
+1.2.1:
+- Fixed a compatibility issue with PaperSpigot <= 1.12.2
+- Slight performance improvements in particle-change event firing

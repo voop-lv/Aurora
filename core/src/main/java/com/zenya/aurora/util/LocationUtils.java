@@ -31,6 +31,25 @@ public final class LocationUtils {
 
     /**
      *
+     * @param coord Location coordinate (double) to convert
+     * @return An int chunk coordinate
+     */
+    public static int getChunkCoord(Double coord) {
+        return (int) Math.floor(coord) >> 4;
+    }
+
+    /**
+     *
+     * @param coord1 x location coordinate (double) to convert
+     * @param coord1 z location coordinate (double) to convert
+     * @return An array of int chunk coordinates (x, z)
+     */
+    public static int[] getChunkCoords(Double coord1, Double coord2) {
+        return new int[]{getChunkCoord(coord1), getChunkCoord(coord2)};
+    }
+
+    /**
+     *
      * @param chunk The centre reference chunk
      * @param radius Square radius to add around centre chunk
      * @return An array of nearby chunks within the radius
