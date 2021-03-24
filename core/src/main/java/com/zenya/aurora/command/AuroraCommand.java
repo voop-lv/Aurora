@@ -10,6 +10,7 @@ import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.ChatUtils;
 import com.zenya.aurora.util.LocationUtils;
+import com.zenya.aurora.util.RandomNumber;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;

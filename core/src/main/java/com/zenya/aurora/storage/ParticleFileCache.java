@@ -2,7 +2,7 @@ package com.zenya.aurora.storage;
 
 import com.cryptomorin.xseries.XBiome;
 import com.zenya.aurora.file.ParticleFile;
-import com.zenya.aurora.util.LogUtils;
+import com.zenya.aurora.util.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class ParticleFileCache {
                 try {
                     registerClass(XBiome.valueOf(biome.toUpperCase()), particleFile);
                 } catch(Exception exc) {
-                    LogUtils.logError("Error loading biome %s from particle %s", biome.toUpperCase(), particleFile.getName());
+                    Logger.logError("Error loading biome %s from particle %s", biome.toUpperCase(), particleFile.getName());
                 }
 
             }

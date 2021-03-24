@@ -46,7 +46,13 @@ public class Listeners implements Listener {
     public void onParticleUpdateEvent(ParticleUpdateEvent e) {
         //Init variables
         Player player = e.getPlayer();
-        XBiome biome = XBiome.matchXBiome(player.getLocation().getBlock().getBiome());
+        XBiome biome;
+
+        try {
+            biome = XBiome.matchXBiome(player.getLocation().getBlock().getBiome());
+        } catch(Exception exc) {
+            biome = XBiome.THE_VOID;
+        }
 
         //Remove old tasks
         ParticleManager.INSTANCE.unregisterTasks(player);

@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
 
-public final class LogUtils {
+public final class Logger {
     public static void logInfo(String message, Object... args) {
         log(Level.INFO, message, args);
     }

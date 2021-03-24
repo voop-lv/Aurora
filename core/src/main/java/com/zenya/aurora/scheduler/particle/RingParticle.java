@@ -1,9 +1,10 @@
 package com.zenya.aurora.scheduler.particle;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.api.LightAPI;
-import com.zenya.aurora.api.ZParticle;
-import com.zenya.aurora.api.ZParticleDisplay;
+import com.zenya.aurora.util.LightAPI;
+import com.zenya.aurora.util.RandomNumber;
+import com.zenya.aurora.util.ZParticle;
+import com.zenya.aurora.util.ZParticleDisplay;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.scheduler.TaskKey;
 import org.bukkit.Bukkit;
@@ -26,11 +27,11 @@ public class RingParticle implements ParticleTask {
     private ZParticleDisplay display;
     private int maxCount;
     private boolean lighting;
-    private double radius;
-    private double rate;
-    private int update;
-    private long duration;
-    private double rotationAngle;
+    private RandomNumber<Double> radius;
+    private RandomNumber<Double> rate;
+    private RandomNumber<Integer> update;
+    private RandomNumber<Long> duration;
+    private RandomNumber<Double> rotationAngle;
     private char rotationAxis;
 
     public RingParticle(Player player, Location[] locs, ParticleFile particleFile) {
@@ -74,7 +75,7 @@ public class RingParticle implements ParticleTask {
                 //Manage total displayed particle groups
                 if(drawTasks.size() < maxCount) {
                     //Create particles
-                    drawTasks.add(ZParticle.ring(locs[locIndex], radius, rate, update, duration, rotationAngle, rotationAxis, display));
+                    drawTasks.add(ZParticle.ring(locs[locIndex], radius.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display));
 
                     //Set lighting if enabled
                     if(lighting) {
@@ -94,7 +95,7 @@ public class RingParticle implements ParticleTask {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1};

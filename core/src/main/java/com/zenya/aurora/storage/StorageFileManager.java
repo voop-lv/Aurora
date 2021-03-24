@@ -22,6 +22,16 @@ public class StorageFileManager {
     private static final List<String> CONFIG_REPLACE_NODES = new ArrayList<>();
 
     /**
+     * biomes.yml
+     * **/
+    private static final int BIOMES_FILE_VERSION = 0; //Unused for now
+    private static final boolean BIOMES_RESET_FILE = false;
+    private static final List<String> BIOMES_IGNORED_NODES = new ArrayList<String>() {{
+        add("config-version");
+    }};
+    private static final List<String> BIOMES_REPLACE_NODES = new ArrayList<>();
+
+    /**
      * database.db
      * **/
     private static final int DATABASE_FILE_VERSION = 0; //Unused for now
@@ -32,12 +42,14 @@ public class StorageFileManager {
 
     public StorageFileManager() {
         registerFile("config.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "config.yml", CONFIG_FILE_VERSION, CONFIG_RESET_FILE, CONFIG_IGNORED_NODES, CONFIG_REPLACE_NODES));
+        registerFile("biomes.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "biomes.yml", BIOMES_FILE_VERSION, BIOMES_RESET_FILE, BIOMES_IGNORED_NODES, BIOMES_REPLACE_NODES));
         registerFile("database.db", new DBFile(Aurora.getInstance().getDataFolder().getPath(),"database.db", DATABASE_FILE_VERSION, DATABASE_RESET_FILE));
     }
 
     public void reloadFiles() {
         fileMap.clear();
         registerFile("config.yml", new YAMLFile("config.yml"));
+        registerFile("biomes.yml", new YAMLFile("biomes.yml"));
         registerFile("database.db", new DBFile("database.db"));
     }
 

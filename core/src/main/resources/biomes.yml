@@ -1,0 +1,156 @@
+# Config wiki and help can be found at https://gitlab.com/Zenya4/aurora/-/wikis/Biome-Presents
+# For internal reference only, do not change the config version
+config-version: 0
+
+# You are allowed to remove/modify existing biome presents, or add new ones yourself
+# Biome present names must NOT contain any whitespace, use "_" or "-" instead of " " (space)
+# Elements in each present MUST match a Spigot biome name found in https://hub.spigotmc.org/javadocs/spigot/org/bukkit/block/Biome.html
+MESA:
+  - "BADLANDS"
+  - "BADLANDS_PLATEAU"
+  - "MODIFIED_BADLANDS_PLATEAU"
+  - "MODIFIED_WOODED_BADLANDS_PLATEAU"
+  - "WOODED_BADLANDS_PLATEAU"
+
+BAMBOO:
+  - "BAMBOO_JUNGLE"
+  - "BAMBOO_JUNGLE_HILLS"
+
+SHORE:
+  - "BEACH"
+  - "SNOWY_BEACH"
+  - "STONE_SHORE"
+  - "MUSHROOM_FIELD_SHORE"
+
+BIRCH:
+  - "BIRCH_FOREST"
+  - "BIRCH_FOREST_HILLS"
+  - "TALL_BIRCH_FOREST"
+  - "TALL_BIRCH_HILLS"
+
+WOODS:
+  - "DARK_FOREST"
+  - "DARK_FOREST_HILLS"
+  - "FLOWER_FOREST"
+  - "FOREST"
+  - "WOODED_HILLS"
+  - "WOODED_MOUNTAINS"
+
+OCEANS:
+  - "OCEAN"
+  - "COLD_OCEAN"
+  - "DEEP_COLD_OCEAN"
+  - "DEEP_LUKEWARM_OCEAN"
+  - "DEEP_OCEAN"
+  - "DEEP_WARM_OCEAN"
+  - "LUKEWARM_OCEAN"
+  - "WARM_OCEAN"
+  - "FROZEN_OCEAN"
+  - "DEEP_FROZEN_OCEAN"
+
+LAKES:
+  - "RIVER"
+  - "DESERT_LAKES"
+  - "FROZEN_RIVER"
+
+DESERTS:
+  - "DESERT"
+  - "DESERT_HILLS"
+  - "DESERT_LAKES"
+
+ICE:
+  - "FROZEN_OCEAN"
+  - "DEEP_FROZEN_OCEAN"
+  - "FROZEN_RIVER"
+  - "ICE_SPIKES"
+
+SNOW:
+  - "SNOWY_TAIGA"
+  - "SNOWY_TAIGA_HILLS"
+  - "FROZEN_RIVER"
+  - "SNOWY_TAIGA_MOUNTAINS"
+  - "SNOWY_TUNDRA"
+
+TAIGA:
+  - "GIANT_SPRUCE_TAIGA"
+  - "GIANT_SPRUCE_TAIGA_HILLS"
+  - "GIANT_TREE_TAIGA"
+  - "GIANT_TREE_TAIGA_HILLS"
+  - "TAIGA"
+  - "TAIGA_HILLS"
+  - "TAIGA_MOUNTAINS"
+  - "SNOWY_TAIGA_HILLS"
+  - "SNOWY_TAIGA_MOUNTAINS"
+
+HILLS:
+  - "BAMBOO_JUNGLE_HILLS"
+  - "BIRCH_FOREST_HILLS"
+  - "TALL_BIRCH_HILLS"
+  - "DARK_FOREST_HILLS"
+  - "DESERT_HILLS"
+  - "GIANT_SPRUCE_TAIGA_HILLS"
+  - "GIANT_TREE_TAIGA_HILLS"
+  - "JUNGLE_HILLS"
+  - "TAIGA_HILLS"
+  - "WOODED_HILLS"
+  - "SNOWY_TAIGA_HILLS"
+  - "SWAMP_HILLS"
+
+MOUNTAINS:
+  - "GRAVELLY_MOUNTAINS"
+  - "MODIFIED_GRAVELLY_MOUNTAINS"
+  - "MOUNTAIN_EDGE"
+  - "MOUNTAINS"
+  - "TAIGA_MOUNTAINS"
+  - "SNOWY_MOUNTAINS"
+  - "SNOWY_TAIGA_MOUNTAINS"
+  - "WOODED_MOUNTAINS"
+
+JUNGLE:
+  - "JUNGLE"
+  - "JUNGLE_EDGE"
+  - "JUNGLE_HILLS"
+  - "MODIFIED_JUNGLE"
+  - "MODIFIED_JUNGLE_EDGE"
+
+MUSHROOM:
+  - "MUSHROOM_FIELD_SHORE"
+  - "MUSHROOM_FIELDS"
+
+FLAT:
+  - "PLAINS"
+  - "SUNFLOWER_PLAINS"
+
+SAVANNAS:
+  - "SAVANNA"
+  - "SAVANNA_PLATEAU"
+  - "SHATTERED_SAVANNA"
+  - "SHATTERED_SAVANNA_PLATEAU"
+
+SWAMPS:
+  - "SWAMP"
+  - "SWAMP_HILLS"
+
+NETHER:
+  - "BASALT_DELTAS"
+  - "CRIMSON_FOREST"
+  - "NETHER_WASTES"
+  - "SOUL_SAND_VALLEY"
+  - "WARPED_FOREST"
+
+END:
+  - "END_BARRENS"
+  - "END_HIGHLANDS"
+  - "END_MIDLANDS"
+  - "SMALL_END_ISLANDS"
+  - "THE_END"
+
+UNDERGROUND:
+  - "THE_VOID"
+
+RARE_BIOMES:
+  - "BAMBOO_JUNGLE"
+  - "BAMBOO_JUNGLE_HILLS"
+  - "MUSHROOM_FIELD_SHORE"
+  - "MUSHROOM_FIELDS"
+  - "FLOWER_FOREST"

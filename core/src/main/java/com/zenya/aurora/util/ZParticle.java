@@ -1,4 +1,4 @@
-package com.zenya.aurora.api;
+package com.zenya.aurora.util;
 
 import com.google.common.base.Enums;
 import com.zenya.aurora.Aurora;
@@ -68,7 +68,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Particles: https://minecraft.gamepedia.com/Particles<br>
  *
  * @author Crypto Morin, Zenya4 (modded)
- * @version 4.1.2 (ZParticle 1.0.0)
+ * @version 4.1.2 (ZParticle 1.0.1)
  * @see ZParticleDisplay
  * @see Particle
  * @see Location
@@ -176,6 +176,19 @@ public final class ZParticle {
     public static Particle.DustOptions randomDust() {
         float size = randInt(5, 10) / 10f;
         return new Particle.DustOptions(randomColor(), size);
+    }
+
+    /**
+     * Generate a random rotation axis
+     *
+     * @return a random char - x or y or z
+     * @since ZParticle 1.0.1
+     */
+    private static char randomAxis(char c) {
+        if(c == 'x' || c == 'y' || c == 'z') return c;
+
+        char selection[] = new char[]{'x', 'y', 'z'};
+        return selection[randInt(0, 2)];
     }
 
     //Begin actual particles
@@ -378,6 +391,7 @@ public final class ZParticle {
         //Rotate positions
         List<Location> locs = new ArrayList<>();
         angle = Math.toRadians(angle);
+        axis = randomAxis(axis);
         for (double[] locPos : cubePos) {
             Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
             locs.add(rotated.toLocation(display.getLocation().getWorld()));
@@ -452,6 +466,7 @@ public final class ZParticle {
         //Rotate positions
         ArrayList<Location> locs = new ArrayList<>();
         angle = Math.toRadians(angle);
+        axis = randomAxis(axis);
         for (double[] locPos : outline) {
             Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
             locs.add(rotated.toLocation(display.getLocation().getWorld()));
@@ -508,6 +523,7 @@ public final class ZParticle {
         //Rotate positions
         ArrayList<Location> locs = new ArrayList<>();
         angle = Math.toRadians(angle);
+        axis = randomAxis(axis);
         for (double[] locPos : circle) {
             Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
             locs.add(rotated.toLocation(display.getLocation().getWorld()));
@@ -618,11 +634,12 @@ public final class ZParticle {
         //Rotate positions
         List<Location> locs = new ArrayList<>();
         angle = Math.toRadians(angle);
-
+        axis = randomAxis(axis);
         for (int i=0; i<wave.size(); i++) {
             Vector rotated = rotateAbout(new Vector(wave.get(i)[0], wave.get(i)[1], wave.get(i)[2]), new Vector(line.get(i)[0], line.get(i)[1], line.get(i)[2]), angle, axis);
             locs.add(rotated.toLocation(display.getLocation().getWorld()));
         }
+
         return new BukkitRunnable() {
             int progress = 0;
             @Override

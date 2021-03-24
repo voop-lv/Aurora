@@ -1,9 +1,11 @@
 package com.zenya.aurora.storage;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
-import com.zenya.aurora.util.LogUtils;
+import com.zenya.aurora.util.Logger;
+import com.zenya.aurora.util.RandomNumber;
 
 import java.io.File;
 import java.io.FileReader;
@@ -20,8 +22,14 @@ public class ParticleFileManager {
     public static ParticleFileManager INSTANCE = new ParticleFileManager();
     private final File PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder().getPath(), "particles");
     private HashMap<String, ParticleFile> particleFileMap = new HashMap<>();
+    private Gson gson;
 
     public ParticleFileManager() {
+        //Register RandomNumber GSON Object
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(RandomNumber.class, new RandomNumber.RandomNumberDeserializer());
+        gson = builder.create();
+
         //Create default particle files if not exists
         if (!PARTICLE_FOLDER.isDirectory()) {
             PARTICLE_FOLDER.mkdirs();
@@ -31,7 +39,7 @@ public class ParticleFileManager {
                 final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
                 while (entries.hasMoreElements()) {
                     final String name = entries.nextElement().getName();
-                    if (name.startsWith("particles" + File.separator) && name.toLowerCase().endsWith(".json")) { //filter according to the path
+                    if (name.startsWith("particles" + File.separator) && name.toLowerCase().endsWith(".json") || name.startsWith("particles" + File.separator) && name.toLowerCase().endsWith(".txt")) { //filter according to the path
                         Files.copy(this.getClass().getClassLoader().getResourceAsStream(name), new File(PARTICLE_FOLDER.getPath(), name.split(File.separator)[name.split(File.separator).length - 1]).toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
@@ -59,11 +67,10 @@ public class ParticleFileManager {
     }
 
     public void registerClass(String filename) {
-        Gson gson = new Gson();
         try {
             particleFileMap.put(filename, gson.fromJson(new FileReader(new File(PARTICLE_FOLDER, filename)), ParticleFile.class));
         } catch (Exception e) {
-            LogUtils.logError("Error parsing particle file " + filename);
+            Logger.logError("Error parsing particle file " + filename);
             e.printStackTrace();
             particleFileMap.put(filename, null);
         }

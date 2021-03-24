@@ -1,6 +1,11 @@
 package com.zenya.aurora.file;
 
+import com.zenya.aurora.storage.StorageFileManager;
+import com.zenya.aurora.util.RandomNumber;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParticleFile {
     @Getter private String name;
@@ -10,12 +15,33 @@ public class ParticleFile {
     @Getter private Properties properties;
 
     public static class Spawning {
-        @Getter private String[] biomes;
+        private String[] biomes;
         @Getter private double spawnDistance;
         @Getter private float randMultiplier;
         @Getter private int minY;
         @Getter private int maxY;
         @Getter private boolean shuffleLocations;
+
+        public String[] getBiomes() {
+            YAMLFile presentsFile = StorageFileManager.INSTANCE.getYAMLFile("biomes.yml");
+            List<String> finalBiomes = new ArrayList<>();
+
+            if(biomes != null && biomes.length != 0) {
+                for (String biome : biomes) {
+                    if (biome.toUpperCase().startsWith("PRESENT:")) {
+                        String present = biome.substring(8).replaceAll(" ", "");
+                        if (presentsFile.getList(present) != null && presentsFile.getList(present).size() != 0) {
+                            for (String presentBiome : presentsFile.getList(present)) {
+                                finalBiomes.add(presentBiome);
+                            }
+                        }
+                    } else {
+                        finalBiomes.add(biome);
+                    }
+                }
+            }
+            return finalBiomes.toArray(new String[finalBiomes.size()]);
+        }
     }
 
     public static class Particle {
@@ -26,14 +52,14 @@ public class ParticleFile {
     }
 
     public static class Properties {
-        @Getter private double rate;
-        @Getter private int update;
-        @Getter private long duration;
-        @Getter private double length;
-        @Getter private double radius;
-        @Getter private double waveCycles;
-        @Getter private double waveAmplitude;
-        @Getter private double rotationAngle;
+        @Getter private RandomNumber<Double> rate;
+        @Getter private RandomNumber<Integer> update;
+        @Getter private RandomNumber<Long> duration;
+        @Getter private RandomNumber<Double> length;
+        @Getter private RandomNumber<Double> radius;
+        @Getter private RandomNumber<Double> waveCycles;
+        @Getter private RandomNumber<Double> waveAmplitude;
+        @Getter private RandomNumber<Double> rotationAngle;
         @Getter private char rotationAxis;
     }
 }

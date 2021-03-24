@@ -10,6 +10,7 @@ Aurora provides a unique experience for all players by generating dynamic **ambi
 [Permissions](https://gitlab.com/Zenya4/aurora/-/wikis/Permissions)<br>
 [General Configuration](https://gitlab.com/Zenya4/aurora/-/wikis/General-Configuration)<br>
 [Particle Configuration](https://gitlab.com/Zenya4/aurora/-/wikis/Particle-Configuration)<br>
+[Biome Presents](https://gitlab.com/Zenya4/aurora/-/wikis/Biome-Presents)<br>
 [Frequently Asked Questions](https://gitlab.com/Zenya4/aurora/-/wikis/Frequently-Asked-Questions)<br>
 [Terms Of Service](https://gitlab.com/Zenya4/aurora/-/wikis/Terms-Of-Service)
 

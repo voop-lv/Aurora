@@ -1,7 +1,6 @@
-package com.zenya.aurora.api;
+package com.zenya.aurora.util;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.util.LogUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -64,20 +63,20 @@ public class LightAPI {
         Class<? extends INMSHandler> clazz = ServerModManager.findImplementaion("CraftBukkit");
 
         if (clazz == null) {
-            LogUtils.logError("No LightAPI implementations was found for §f%s %s",
+            Logger.logError("No LightAPI implementations was found for §f%s %s",
                     serverName, ServerModManager.getServerVersion());
-            LogUtils.logError("Support for lighting features may be limited");
+            Logger.logError("Support for lighting features may be limited");
         } else {
             try {
                 ServerModManager.initImplementaion(clazz);
-                LogUtils.logInfo("Loading LightAPI implementation for §f%s %s",
+                Logger.logInfo("Loading LightAPI implementation for §f%s %s",
                         serverName, ServerModManager.getServerVersion());
                 machine = new RequestSteamMachine();
                 machine.start(UPDATE_DELAY_TICKS, MAX_ITERATIONS_PER_TICK);
             } catch (Exception e) {
-                LogUtils.logError("Could not initialise LightAPI implementation for §f%s %s",
+                Logger.logError("Could not initialise LightAPI implementation for §f%s %s",
                         serverName, ServerModManager.getServerVersion());
-                LogUtils.logError("Support for lighting features may be limited");
+                Logger.logError("Support for lighting features may be limited");
                 e.printStackTrace();
             }
         }

@@ -1,6 +1,6 @@
 package com.zenya.aurora;
 
-import com.zenya.aurora.api.LightAPI;
+import com.zenya.aurora.util.LightAPI;
 import com.zenya.aurora.command.AuroraCommand;
 import com.zenya.aurora.event.Listeners;
 import com.zenya.aurora.storage.ParticleFileCache;
@@ -8,6 +8,7 @@ import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.storage.TaskManager;
 import com.zenya.aurora.storage.ParticleManager;
+import com.zenya.aurora.util.RandomNumber;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -43,6 +44,8 @@ public class Aurora extends JavaPlugin {
 
         //Register commands
         this.getCommand("aurora").setExecutor(new AuroraCommand());
+
+        new RandomNumber<>(1, 2);
     }
 
     @Override

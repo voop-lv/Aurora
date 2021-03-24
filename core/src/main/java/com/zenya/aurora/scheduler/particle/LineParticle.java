@@ -1,9 +1,10 @@
 package com.zenya.aurora.scheduler.particle;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.api.LightAPI;
-import com.zenya.aurora.api.ZParticle;
-import com.zenya.aurora.api.ZParticleDisplay;
+import com.zenya.aurora.util.LightAPI;
+import com.zenya.aurora.util.RandomNumber;
+import com.zenya.aurora.util.ZParticle;
+import com.zenya.aurora.util.ZParticleDisplay;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.scheduler.TaskKey;
 import org.bukkit.Bukkit;
@@ -24,9 +25,9 @@ public class LineParticle implements ParticleTask {
     private ZParticleDisplay display;
     private int maxCount;
     private boolean lighting;
-    private double rate;
-    private int update;
-    private long duration;
+    private RandomNumber<Double> rate;
+    private RandomNumber<Integer> update;
+    private RandomNumber<Long> duration;
 
     public LineParticle(Player player, Location[] locs, ParticleFile particleFile) {
         this.player = player;
@@ -34,7 +35,7 @@ public class LineParticle implements ParticleTask {
         this.particle = Particle.valueOf(particleFile.getParticle().getParticleName());
         this.display = ZParticleDisplay.simple(player.getLocation(), particle, player);
         this.maxCount = particleFile.getParticle().getMaxCount();
-        this.lighting = (com.zenya.aurora.api.LightAPI.isEnabled() && particleFile.getParticle().isEnableLighting());
+        this.lighting = (LightAPI.isEnabled() && particleFile.getParticle().isEnableLighting());
         this.rate = particleFile.getProperties().getRate();
         this.update = particleFile.getProperties().getUpdate();
         this.duration = particleFile.getProperties().getDuration();
@@ -67,7 +68,7 @@ public class LineParticle implements ParticleTask {
                 //Manage total displayed particle groups
                 if(drawTasks.size() < maxCount) {
                     //Create particles
-                    drawTasks.add(ZParticle.line(locs[locIndex], locs[locIndex+1], rate, update, duration, display));
+                    drawTasks.add(ZParticle.line(locs[locIndex], locs[locIndex+1], rate.generateDouble(), update.generateInt(), duration.generateLong(), display));
 
                     //Set lighting if enabled
                     if(lighting) {
@@ -88,7 +89,7 @@ public class LineParticle implements ParticleTask {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1};

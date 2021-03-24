@@ -12,7 +12,7 @@
   "spawning": {
     "biomes": [
       "PLAINS",
-      "DESERT"
+      "PRESENT: SHORE"
     ],
     "spawnDistance": 10.0,
     "randMultiplier": 0.5,
@@ -27,15 +27,14 @@
     "enableLighting": false
   },
   "properties": {
-    "length": 3.0,
-    "radius": 2.0,
+    "length": [2.0, 5.0],
+    "radius": [1.0, 3.0],
     "rate": 0.5,
     "update": 5,
-    "duration": 200,
-    "waveCycles": 6.0,
+    "duration": [180, 200],
+    "waveCycles": [4.5, 6.0],
     "waveAmplitude": 3.0,
     "rotationAngle": 35.0,
     "rotationAxis": "x"
-
   }
 }

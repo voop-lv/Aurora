@@ -54,7 +54,7 @@ public class YAMLFile extends StorageFile {
     private void updateFile(List<String> ignoredNodes, List<String> replaceNodes) throws IOException {
         if(!file.exists()) {
             //Init file
-            origConfig.save(file);
+            Aurora.getInstance().saveResource(fileName, false);
             config = YamlConfiguration.loadConfiguration(file);
         } else {
             //Reset file for backward-compatibility
@@ -75,11 +75,13 @@ public class YAMLFile extends StorageFile {
                     for(String node : config.getKeys(true)) {
                         if(ignoredNodes != null && ignoredNodes.contains(node)) continue;
                         if(oldConfig.getKeys(true).contains(node + ".")) continue;
-                        if(ignoredNodes != null && replaceNodes.contains(node)) {
+                        if(replaceNodes != null && replaceNodes.contains(node)) {
                             config.set(node, null);
                             config.createSection(node);
                         }
-                        config.set(node, oldConfig.get(node));
+                        if(oldConfig.contains(node, true)) {
+                            config.set(node, oldConfig.get(node));
+                        }
                     }
                 }
                 //Save regardless
