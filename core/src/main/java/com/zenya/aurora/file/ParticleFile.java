@@ -1,7 +1,7 @@
 package com.zenya.aurora.file;
 
 import com.zenya.aurora.storage.StorageFileManager;
-import com.zenya.aurora.util.RandomNumber;
+import com.zenya.aurora.util.object.RandomNumber;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -17,9 +17,10 @@ public class ParticleFile {
     public static class Spawning {
         private String[] biomes;
         @Getter private double spawnDistance;
-        @Getter private float randMultiplier;
-        @Getter private int minY;
-        @Getter private int maxY;
+        @Getter private double randMultiplier;
+        @Getter private boolean relativePlayerPosition;
+        @Getter private double minY;
+        @Getter private double maxY;
         @Getter private boolean shuffleLocations;
 
         public String[] getBiomes() {

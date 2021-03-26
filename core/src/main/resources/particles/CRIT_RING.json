@@ -8,8 +8,9 @@
     ],
     "spawnDistance": 10.0,
     "randMultiplier": 0.5,
-    "minY": 80,
-    "maxY": 90,
+    "relativePlayerPosition": false,
+    "minY": 80.0,
+    "maxY": 90.0,
     "shuffleLocations": true
   },
   "particle": {

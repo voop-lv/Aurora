@@ -83,9 +83,11 @@ public class YAMLFile extends StorageFile {
                             config.set(node, oldConfig.get(node));
                         }
                     }
+                    config.save(file);
+                } else {
+                    //Doing this keeps all the yml file comments
+                    Aurora.getInstance().saveResource(fileName, true);
                 }
-                //Save regardless
-                config.save(file);
             }
         }
     }

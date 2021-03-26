@@ -2,7 +2,6 @@ package com.zenya.aurora.event;
 
 import com.cryptomorin.xseries.XBiome;
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.file.DBFile;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.file.YAMLFile;
 import com.zenya.aurora.storage.ParticleFileCache;
@@ -10,7 +9,7 @@ import com.zenya.aurora.storage.ParticleManager;
 import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.scheduler.particle.*;
-import com.zenya.aurora.util.LocationUtils;
+import com.zenya.aurora.util.LocationTools;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +17,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
 
 public class Listeners implements Listener {
     @EventHandler
@@ -59,12 +60,9 @@ public class Listeners implements Listener {
 
         //Ignore if spawn conditions are not met
         YAMLFile config = StorageFileManager.INSTANCE.getYAMLFile("config.yml");
-        if(config.getBool("night-only") && player.getWorld().getTime() < 13000) return;
-        if(config.getList("disabled-worlds") != null && config.getList("disabled-worlds").size() != 0) {
-            for(String world : config.getList("disabled-worlds")) {
-                if(world.equals(player.getWorld().getName())) return;
-            }
-        }
+        ArrayList<String> disabledWorlds = config.getList("disabled-worlds");
+        if(disabledWorlds != null && disabledWorlds.size() != 0 && disabledWorlds.contains(player.getWorld().getName())) return;
+        if(player.getWorld().getTime() < config.getInt("start-spawning-at") || player.getWorld().getTime() > config.getInt("stop-spawning-at")) return;
 
         //Ignore for disabled players
         if(!player.hasPermission("aurora.view")) return;
@@ -76,10 +74,10 @@ public class Listeners implements Listener {
         for(ParticleFile particleFile : ParticleFileCache.INSTANCE.getClass(biome)) {
             if(!particleFile.isEnabled()) continue;
 
-            LocationUtils.getParticleLocations(
+            LocationTools.getParticleLocations(
                     e.getNearbyChunks(StorageFileManager.INSTANCE.getYAMLFile("config.yml").getInt("particle-spawn-radius")),
-                    particleFile.getSpawning().getMinY(),
-                    particleFile.getSpawning().getMaxY(),
+                    particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMinY() + player.getLocation().getY() : particleFile.getSpawning().getMinY(),
+                    particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMaxY() + player.getLocation().getY() : particleFile.getSpawning().getMaxY(),
                     particleFile.getSpawning().getSpawnDistance(),
                     particleFile.getSpawning().getRandMultiplier(),
                     particleFile.getSpawning().isShuffleLocations()).thenAcceptAsync(locs -> {

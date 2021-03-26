@@ -1,16 +1,16 @@
 package com.zenya.aurora.util;
 
+import com.zenya.aurora.util.object.ChunkContainer;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public final class LocationUtils {
+public final class LocationTools {
     /**
      *
      * @param loc Location to check
@@ -31,21 +31,21 @@ public final class LocationUtils {
 
     /**
      *
-     * @param coord Location coordinate (double) to convert
+     * @param locCoord World coordinate (double) to convert
      * @return An int chunk coordinate
      */
-    public static int getChunkCoord(Double coord) {
-        return (int) Math.floor(coord) >> 4;
+    public static int toChunkCoord(double locCoord) {
+        return (int) Math.floor(locCoord) >> 4;
     }
 
     /**
      *
-     * @param coord1 x location coordinate (double) to convert
-     * @param coord1 z location coordinate (double) to convert
-     * @return An array of int chunk coordinates (x, z)
+     * @param chunkCoord Chunk coordinate (int) to convert
+     * @param worldCoord World coordinate (double) to append
+     * @return An int chunk coordinate
      */
-    public static int[] getChunkCoords(Double coord1, Double coord2) {
-        return new int[]{getChunkCoord(coord1), getChunkCoord(coord2)};
+    public static int toWorldCoord(int chunkCoord, int worldCoord) {
+        return (chunkCoord << 4) + worldCoord;
     }
 
     /**
@@ -54,17 +54,27 @@ public final class LocationUtils {
      * @param radius Square radius to add around centre chunk
      * @return An array of nearby chunks within the radius
      */
-    public static Chunk[] getSurroundingChunks(Chunk chunk, int radius) {
-        ArrayList<Chunk> nearbyChunks = new ArrayList<Chunk>();
+    public static ChunkContainer[] getSurroundingChunks(Chunk chunk, int radius) {
+        return getSurroundingChunks((new ChunkContainer()).fromChunk(chunk), radius);
+    }
+
+    /**
+     *
+     * @param chunk The centre reference chunk container
+     * @param radius Square radius to add around centre chunk
+     * @return An array of nearby chunks within the radius
+     */
+    public static ChunkContainer[] getSurroundingChunks(ChunkContainer chunk, int radius) {
+        ArrayList<ChunkContainer> nearbyChunks = new ArrayList<>();
         int cX = chunk.getX();
         int cZ = chunk.getZ();
 
         for(int x=cX-radius; x<=cX+radius; x++) {
             for(int z=cZ-radius; z<=cZ+radius; z++) {
-                nearbyChunks.add(chunk.getWorld().getChunkAt(x, z));
+                nearbyChunks.add(new ChunkContainer(chunk.getWorld(), x, z));
             }
         }
-        return nearbyChunks.toArray(new Chunk[nearbyChunks.size()]);
+        return nearbyChunks.toArray(new ChunkContainer[nearbyChunks.size()]);
     }
 
     /**
@@ -72,51 +82,18 @@ public final class LocationUtils {
      * @param nearbyChunks An array of chunks to check
      * @return An array containing 2 location bounds
      */
-    private static Location[] getLocationBounds(Chunk[] nearbyChunks) {
+    private static Location[] getLocationBounds(ChunkContainer[] nearbyChunks) {
         //Get chunk bounds
-        Chunk c1 = nearbyChunks[0];
-        Chunk c2 = nearbyChunks[0];
-        for(Chunk c : nearbyChunks) {
+        ChunkContainer c1 = nearbyChunks[0];
+        ChunkContainer c2 = nearbyChunks[0];
+        for(ChunkContainer c : nearbyChunks) {
             if(c.getX() < c1.getX() && c.getZ() < c1.getZ()) c1 = c; //Lower chunk bound
             if(c.getX() > c1.getX() && c.getZ() > c1.getZ()) c2 = c; //Upper chunk bound
         }
 
         //Get location bounds
-        Location lowerbound = c1.getBlock(0, 0, 0).getLocation();
-        Location upperbound = c2.getBlock(15, 255, 15).getLocation();
-
-        //Redundant because lower and upper chunk bounds are already defined
-        /*
-        Chunk lowerX = c1;
-        Chunk higherX = c2;
-        Chunk lowerZ = c1;
-        Chunk higherZ = c2;
-        int c1x = c1.getX();
-        int c2x = c2.getX();
-        int c1z = c1.getZ();
-        int c2z = c2.getZ();
-
-        //Set higher/lower x and z for chunks
-        if(c1x > c2x) {
-            higherX = c1;
-            lowerX = c2;
-        }
-        if(c1z > c2z) {
-            higherZ = c1;
-            lowerZ = c2;
-        }
-
-        if(lowerX.equals(lowerZ)) {
-            //Same chunk has lowest x and z
-            lowerbound = lowerX.getBlock(0, y1, 0).getLocation();
-            upperbound = higherX.getBlock(15, y2, 15).getLocation();
-        } else {
-            //Different chunks have lowest x and z
-            lowerbound = lowerX.getBlock(0, y1, 15).getLocation();
-            upperbound = higherX.getBlock(15,y2, 0).getLocation();
-        }
-        */
-
+        Location lowerbound = c1.toLocation(0, 0, 0);
+        Location upperbound = c2.toLocation(15, 255, 15);
         return new Location[]{lowerbound, upperbound};
     }
 
@@ -125,7 +102,7 @@ public final class LocationUtils {
      * @param chunks An array of chunks to check
      * @return An array of available locations to spawn particles
      */
-    public static CompletableFuture<Location[]> getParticleLocations(Chunk[] chunks) {
+    public static CompletableFuture<Location[]> getParticleLocations(ChunkContainer[] chunks) {
         return getParticleLocations(chunks, 80, 100);
     }
 
@@ -136,7 +113,7 @@ public final class LocationUtils {
      * @param y2 Second y-bound
      * @return An array of available locations to spawn particles
      */
-    public static CompletableFuture<Location[]> getParticleLocations(Chunk[] chunks, int y1, int y2) {
+    public static CompletableFuture<Location[]> getParticleLocations(ChunkContainer[] chunks, int y1, int y2) {
         return getParticleLocations(chunks, y1, y2, 20, 0.5f, true);
     }
 
@@ -150,11 +127,8 @@ public final class LocationUtils {
      * @param shuffle Whether returned locations should be randomised
      * @return An array of available locations to spawn particles
      */
-    public static CompletableFuture<Location[]> getParticleLocations(Chunk[] chunks, int y1, int y2, double distance, float randMultiplier, boolean shuffle) {
+    public static CompletableFuture<Location[]> getParticleLocations(ChunkContainer[] chunks, double y1, double y2, double distance, double randMultiplier, boolean shuffle) {
         CompletableFuture<Location[]> future = CompletableFuture.supplyAsync(() -> {
-            //Init variables
-            Random randObj = ThreadLocalRandom.current();
-
             //Get location bounds
             Location[] locBounds = getLocationBounds(chunks);
             Location l1 = locBounds[0];
@@ -166,35 +140,13 @@ public final class LocationUtils {
             double lowerZ = l1.getZ();
             double higherZ = l2.getZ();
 
-            //Redundant because lower and upper chunk bounds are already defined
-            /*
-            double lowerX = l1.getX();
-            double higherX = l2.getX();
-            double lowerY = l1.getY();
-            double higherY = l2.getY();
-            double lowerZ = l1.getZ();
-            double higherZ = l2.getZ();
-            if(l1.getX() > l2.getX()) {
-                higherX = l1.getX();
-                lowerX = l2.getX();
-            }
-            if(l1.getY() > l2.getY()) {
-                higherY = l1.getY();
-                lowerY = l2.getY();
-            }
-            if(l1.getZ() > l2.getZ()) {
-                higherZ = l1.getZ();
-                lowerZ = l2.getZ();
-            }
-            */
-
             //Add to list of available locations
             ArrayList<Location> locList = new ArrayList<>();
             for(double x=lowerX; x<higherX; x+=distance) {
                 for(double z=lowerZ; z<higherZ; z+=distance) {
-                    double locY = randObj.nextInt((int) (higherY-lowerY)) + (int) lowerY + 1 + randObj.nextFloat();
-                    double locX = x + randObj.nextFloat()*randMultiplier*distance;
-                    double locZ = z + randObj.nextFloat()*randMultiplier*distance;
+                    double locY = ThreadLocalRandom.current().nextDouble(lowerY, higherY);
+                    double locX = x + ThreadLocalRandom.current().nextDouble()*randMultiplier*distance;
+                    double locZ = z + ThreadLocalRandom.current().nextDouble()*randMultiplier*distance;
                     locList.add(new Location(l1.getWorld(), locX, locY, locZ));
                 }
             }
@@ -204,7 +156,7 @@ public final class LocationUtils {
             if(shuffle) {
                 int n = locs.length;
                 for (int i = 0; i < n; i++) {
-                    int randomValue = i + randObj.nextInt(n - i);
+                    int randomValue = i + ThreadLocalRandom.current().nextInt(n - i);
                     Location randomElement = locs[randomValue];
                     locs[randomValue] = locs[i];
                     locs[i] = randomElement;

@@ -9,8 +9,8 @@ import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.ChatUtils;
-import com.zenya.aurora.util.LocationUtils;
-import com.zenya.aurora.util.RandomNumber;
+import com.zenya.aurora.util.LocationTools;
+import com.zenya.aurora.util.object.ChunkContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -18,6 +18,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
 
 public class AuroraCommand implements CommandExecutor {
 
@@ -86,6 +88,7 @@ public class AuroraCommand implements CommandExecutor {
                     //No particle files
                     globalFiles += "None";
                 } else {
+                    ArrayList<String> disabledWorlds = StorageFileManager.INSTANCE.getYAMLFile("config.yml").getList("disabled-worlds");
                     for(String fileName : ParticleFileManager.INSTANCE.getFiles()) {
                         ParticleFile particleFile = ParticleFileManager.INSTANCE.getClass(fileName);
                         //Check if enabled or disabled
@@ -99,9 +102,9 @@ public class AuroraCommand implements CommandExecutor {
                             } catch(NullPointerException exc) {
                                 biome = XBiome.THE_VOID;
                             }
-                            for(ParticleFile biomeParticleFile : ParticleFileCache.INSTANCE.getClass(biome)) {
-                                if(particleFile.getName().equals(biomeParticleFile.getName())) particleName = ChatUtils.translateColor("&b");
-                            }
+                            if(ParticleFileCache.INSTANCE.getClass(biome).contains(particleFile)) particleName = ChatUtils.translateColor("&b");
+                            //Check if disabled in world
+                            if(disabledWorlds != null && disabledWorlds.size() != 0 && disabledWorlds.contains(player.getWorld().getName())) particleName = ChatUtils.translateColor("&c");
                         }
                         particleName += (particleFile.getName() + ChatUtils.translateColor("&f, "));
                         globalFiles += particleName;
@@ -158,8 +161,8 @@ public class AuroraCommand implements CommandExecutor {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            for(Chunk c : LocationUtils.getSurroundingChunks(player.getLocation().getChunk(), chunks)) {
-                                c.getWorld().refreshChunk(c.getX(), c.getZ());
+                            for(ChunkContainer container : LocationTools.getSurroundingChunks(player.getLocation().getChunk(), chunks)) {
+                                container.getWorld().refreshChunk(container.getX(), container.getZ());
                             }
                             ChatUtils.sendMessage(sender, String.format("&5Successfully reloaded lighting in a &d%sx%s &5chunk radius", chunks, chunks));
                         }

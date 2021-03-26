@@ -24,7 +24,6 @@ public class ParticleFileCache {
                 } catch(Exception exc) {
                     Logger.logError("Error loading biome %s from particle %s", biome.toUpperCase(), particleFile.getName());
                 }
-
             }
         }
     }

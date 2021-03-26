@@ -2,7 +2,7 @@ package com.zenya.aurora.scheduler.particle;
 
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.util.LightAPI;
-import com.zenya.aurora.util.RandomNumber;
+import com.zenya.aurora.util.object.RandomNumber;
 import com.zenya.aurora.util.ZParticle;
 import com.zenya.aurora.util.ZParticleDisplay;
 import com.zenya.aurora.file.ParticleFile;

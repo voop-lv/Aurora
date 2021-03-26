@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
-import com.zenya.aurora.util.RandomNumber;
+import com.zenya.aurora.util.object.RandomNumber;
 
 import java.io.File;
 import java.io.FileReader;

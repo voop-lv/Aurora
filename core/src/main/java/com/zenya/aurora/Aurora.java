@@ -8,7 +8,7 @@ import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.storage.TaskManager;
 import com.zenya.aurora.storage.ParticleManager;
-import com.zenya.aurora.util.RandomNumber;
+import com.zenya.aurora.util.object.RandomNumber;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;

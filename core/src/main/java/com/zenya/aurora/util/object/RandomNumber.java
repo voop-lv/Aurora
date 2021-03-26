@@ -1,4 +1,4 @@
-package com.zenya.aurora.util;
+package com.zenya.aurora.util.object;
 
 import com.google.gson.*;
 import lombok.Getter;

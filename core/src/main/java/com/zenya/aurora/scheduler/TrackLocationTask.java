@@ -2,7 +2,8 @@ package com.zenya.aurora.scheduler;
 
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.event.ParticleUpdateEvent;
-import com.zenya.aurora.util.LocationUtils;
+import com.zenya.aurora.util.LocationTools;
+import com.zenya.aurora.util.object.ChunkContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ public class TrackLocationTask implements AuroraTask {
                             //Chunk change
                             Location curr = player.getLocation();
                             Location old = coordMap.getOrDefault(player, new Location(player.getWorld(), 0, 0, 0));
-                            if(!LocationUtils.getChunkCoords(curr.getX(), curr.getZ()).equals(LocationUtils.getChunkCoords(old.getX(), old.getZ()))) {
+                            if(!(new ChunkContainer().fromLocation(curr).getChunkCoords()).equals(new ChunkContainer().fromLocation(old).getChunkCoords())) {
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
