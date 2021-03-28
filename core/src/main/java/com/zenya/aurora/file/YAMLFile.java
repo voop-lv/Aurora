@@ -132,30 +132,40 @@ public class YAMLFile extends StorageFile {
         return val;
     }
 
-    public ArrayList<String> getKeys(String node) {
-        ArrayList<String> val = new ArrayList<String>();
+    public List<String> getKeys(String node) {
+        List<String> val = new ArrayList<>();
         try {
             for(String key : config.getConfigurationSection(node).getKeys(false)) {
                 val.add(key);
             }
         } catch(Exception e) {
-            val = new ArrayList<String>();
+            val = new ArrayList<>();
             e.printStackTrace();
         }
         return val;
     }
 
-    public ArrayList<String> getList(String node) {
-        ArrayList<String> val = new ArrayList<String>();
+    public List<String> getList(String node) {
+        List<String> val = new ArrayList<>();
         try {
             for(String s : config.getStringList(node)) {
                 val.add(s);
             }
         } catch(Exception e) {
-            val = new ArrayList<String>();
+            val = new ArrayList<>();
             e.printStackTrace();
         }
         return val;
+    }
+
+    public boolean isList(String node) {
+        return config.isList(node);
+    }
+
+    public boolean listContains(String node, String item) {
+        List<String> list = getList(node);
+        if(list != null && list.size() != 0 && list.contains(item)) return true;
+        return false;
     }
 }
 

@@ -24,7 +24,7 @@ public class ParticleFile {
         @Getter private boolean shuffleLocations;
 
         public String[] getBiomes() {
-            YAMLFile presentsFile = StorageFileManager.INSTANCE.getYAMLFile("biomes.yml");
+            YAMLFile presentsFile = StorageFileManager.getBiomes();
             List<String> finalBiomes = new ArrayList<>();
 
             if(biomes != null && biomes.length != 0) {

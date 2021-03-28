@@ -10,6 +10,7 @@ import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.scheduler.particle.*;
 import com.zenya.aurora.util.LocationTools;
+import com.zenya.aurora.util.object.TimeCheck;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,8 +18,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ArrayList;
 
 public class Listeners implements Listener {
     @EventHandler
@@ -28,7 +27,7 @@ public class Listeners implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    boolean status = StorageFileManager.INSTANCE.getDBFile("database.db").getToggleStatus(player.getName());
+                    boolean status = StorageFileManager.getDatabase().getToggleStatus(player.getName());
                     ToggleManager.INSTANCE.cacheToggle(player.getName(), status);
                     Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
                 }
@@ -59,10 +58,8 @@ public class Listeners implements Listener {
         ParticleManager.INSTANCE.unregisterTasks(player);
 
         //Ignore if spawn conditions are not met
-        YAMLFile config = StorageFileManager.INSTANCE.getYAMLFile("config.yml");
-        ArrayList<String> disabledWorlds = config.getList("disabled-worlds");
-        if(disabledWorlds != null && disabledWorlds.size() != 0 && disabledWorlds.contains(player.getWorld().getName())) return;
-        if(player.getWorld().getTime() < config.getInt("start-spawning-at") || player.getWorld().getTime() > config.getInt("stop-spawning-at")) return;
+        if(StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) return;
+        if(!(new TimeCheck(player.getPlayerTime()).isDuring())) return;
 
         //Ignore for disabled players
         if(!player.hasPermission("aurora.view")) return;
@@ -75,7 +72,7 @@ public class Listeners implements Listener {
             if(!particleFile.isEnabled()) continue;
 
             LocationTools.getParticleLocations(
-                    e.getNearbyChunks(StorageFileManager.INSTANCE.getYAMLFile("config.yml").getInt("particle-spawn-radius")),
+                    e.getNearbyChunks(StorageFileManager.getConfig().getInt("particle-spawn-radius")),
                     particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMinY() + player.getLocation().getY() : particleFile.getSpawning().getMinY(),
                     particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMaxY() + player.getLocation().getY() : particleFile.getSpawning().getMaxY(),
                     particleFile.getSpawning().getSpawnDistance(),

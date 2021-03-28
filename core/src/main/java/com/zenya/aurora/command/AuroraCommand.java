@@ -8,34 +8,28 @@ import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
-import com.zenya.aurora.util.ChatUtils;
 import com.zenya.aurora.util.LocationTools;
+import com.zenya.aurora.util.object.ChatBuilder;
 import com.zenya.aurora.util.object.ChunkContainer;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-
 public class AuroraCommand implements CommandExecutor {
 
     private void sendUsage(CommandSender sender) {
-        ChatUtils.sendMessage(sender, "&8&m*]----------[*&r &5Aurora &8&m*]----------[*&r");
-        ChatUtils.sendMessage(sender, "&5/aurora help&f -&d Shows this help page");
-        ChatUtils.sendMessage(sender, "&5/aurora toggle <on/off>&f -&d Toggle client-side ambient particle effects");
-        ChatUtils.sendMessage(sender, "&5/aurora reload&f -&d Reload all plugin configs and particle files");
-        ChatUtils.sendMessage(sender, "&5/aurora status&f -&d View information on enabled particles in the server");
-        ChatUtils.sendMessage(sender, "&5/aurora fixlighting [radius]&f -&d Update and refresh lighting on [radius] nearby chunks");
-        ChatUtils.sendMessage(sender, "&8&m*]------------------------------[*&r");
+        ChatBuilder chat = (new ChatBuilder()).withSender(sender);
+        chat.sendMessages("command.help");
     }
 
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
+        ChatBuilder chat = (new ChatBuilder()).withSender(sender);
+
         //No command arguments
         if(args.length < 1) {
             sendUsage(sender);
@@ -44,7 +38,7 @@ public class AuroraCommand implements CommandExecutor {
 
         //No permission
         if(!sender.hasPermission("aurora.command." + args[0])) {
-            ChatUtils.sendMessage(sender, "&4You do not have permission to use this command");
+            chat.sendMessages("no-permission");
             return true;
         }
 
@@ -57,25 +51,27 @@ public class AuroraCommand implements CommandExecutor {
 
             if(args[0].toLowerCase().equals("toggle")) {
                 if(!(sender instanceof Player)) {
-                    ChatUtils.sendMessage(sender, "&cYou must be a player to use this command");
+                    chat.sendMessages("player-required");
                     return true;
                 }
                 Player player = (Player) sender;
+                chat.withPlayer(player);
                 if(ToggleManager.INSTANCE.isToggled(player.getName())) {
                     ToggleManager.INSTANCE.registerToggle(player.getName(), false);
-                    ChatUtils.sendMessage(player, "&cAurora ambient particles have been disabled");
+                    chat.sendMessages("command.toggle.disable");
                 } else {
                     ToggleManager.INSTANCE.registerToggle(player.getName(), true);
-                    ChatUtils.sendMessage(player, "&aAurora ambient particles have been enabled");
+                    chat.sendMessages("command.toggle.enable");
                 }
                 Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
                 return true;
             }
 
             if(args[0].toLowerCase().equals("reload")) {
-                StorageFileManager.INSTANCE.reloadFiles();
+                StorageFileManager.reloadFiles();
                 ParticleFileCache.reload();
-                ChatUtils.sendMessage(sender, String.format("&5Successfully reloaded config and &d%s &5particle files", ParticleFileManager.INSTANCE.getFiles().size()));
+                chat.withArgs(ParticleFileManager.INSTANCE.getFiles().size()).sendMessages("command.reload");
+
                 for(Player p : Bukkit.getOnlinePlayers()) {
                     Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(p));
                 }
@@ -83,16 +79,15 @@ public class AuroraCommand implements CommandExecutor {
             }
 
             if(args[0].toLowerCase().equals("status")) {
-                String globalFiles = String.format("Particle Files (%s): ", ParticleFileManager.INSTANCE.getFiles().size());
+                String globalFiles = "";
                 if(ParticleFileManager.INSTANCE.getFiles() == null || ParticleFileManager.INSTANCE.getFiles().size() == 0) {
                     //No particle files
                     globalFiles += "None";
                 } else {
-                    ArrayList<String> disabledWorlds = StorageFileManager.INSTANCE.getYAMLFile("config.yml").getList("disabled-worlds");
                     for(String fileName : ParticleFileManager.INSTANCE.getFiles()) {
                         ParticleFile particleFile = ParticleFileManager.INSTANCE.getClass(fileName);
                         //Check if enabled or disabled
-                        String particleName = ParticleFileManager.INSTANCE.getClass(fileName).isEnabled() ? ChatUtils.translateColor("&a") : ChatUtils.translateColor("&c");
+                        String particleName = ParticleFileManager.INSTANCE.getClass(fileName).isEnabled() ? ChatBuilder.translateColor("&a") : ChatBuilder.translateColor("&c");
                         //If enabled, check if active in biome
                         if(particleFile.isEnabled() && sender instanceof Player) {
                             Player player = (Player) sender;
@@ -102,16 +97,15 @@ public class AuroraCommand implements CommandExecutor {
                             } catch(NullPointerException exc) {
                                 biome = XBiome.THE_VOID;
                             }
-                            if(ParticleFileCache.INSTANCE.getClass(biome).contains(particleFile)) particleName = ChatUtils.translateColor("&b");
+                            if(ParticleFileCache.INSTANCE.getClass(biome).contains(particleFile)) particleName = ChatBuilder.translateColor("&b");
                             //Check if disabled in world
-                            if(disabledWorlds != null && disabledWorlds.size() != 0 && disabledWorlds.contains(player.getWorld().getName())) particleName = ChatUtils.translateColor("&c");
+                            if(StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) particleName = ChatBuilder.translateColor("&c");
                         }
-                        particleName += (particleFile.getName() + ChatUtils.translateColor("&f, "));
+                        particleName += (particleFile.getName() + ChatBuilder.translateColor("&f, "));
                         globalFiles += particleName;
                     }
                 }
-                ChatUtils.sendMessage(sender, "&bActive | &aEnabled &f| &cDisabled &f");
-                ChatUtils.sendMessage(sender, globalFiles);
+                chat.withArgs(ParticleFileManager.INSTANCE.getFiles().size(), globalFiles).sendMessages("command.status");
                 return true;
             }
 
@@ -124,19 +118,19 @@ public class AuroraCommand implements CommandExecutor {
         if(args.length == 2) {
             if(args[0].toLowerCase().equals("toggle")) {
                 if(!(sender instanceof Player)) {
-                    ChatUtils.sendMessage(sender, "&cYou must be a player to use this command");
+                    chat.sendMessages("player-required");
                     return true;
                 }
                 Player player = (Player) sender;
 
                 if (args[1].toLowerCase().equals("on")) {
                     ToggleManager.INSTANCE.registerToggle(player.getName(), true);
-                    ChatUtils.sendMessage(player, "&aAurora ambient particles have been enabled");
+                    chat.sendMessages("command.toggle.enable");
                 }
 
                 else if (args[1].toLowerCase().equals("off")) {
                     ToggleManager.INSTANCE.registerToggle(player.getName(), false);
-                    ChatUtils.sendMessage(player, "&cAurora ambient particles have been disabled");
+                    chat.sendMessages("command.toggle.disable");
                 }
 
                 else {
@@ -150,21 +144,21 @@ public class AuroraCommand implements CommandExecutor {
 
             if(args[0].toLowerCase().equals("fixlighting")) {
                 if(!(sender instanceof Player)) {
-                    ChatUtils.sendMessage(sender, "&cYou must be a player to use this command");
+                    chat.sendMessages("player-required");
                     return true;
                 }
                 Player player = (Player) sender;
 
                 try {
                     int chunks = (Integer.parseInt(args[1]) > 0 && Integer.parseInt(args[1]) < 10) ? Integer.parseInt(args[1]) : 10;
-                    ChatUtils.sendMessage(sender, "&5Attempting to fix lighting. This action may take a few seconds...");
+                    chat.sendMessages("command.fixlighting.start");
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             for(ChunkContainer container : LocationTools.getSurroundingChunks(player.getLocation().getChunk(), chunks)) {
                                 container.getWorld().refreshChunk(container.getX(), container.getZ());
                             }
-                            ChatUtils.sendMessage(sender, String.format("&5Successfully reloaded lighting in a &d%sx%s &5chunk radius", chunks, chunks));
+                            chat.withArgs(chunks, chunks).sendMessages("command.fixlighting.done");
                         }
                     }.runTask(Aurora.getInstance());
                 } catch(NumberFormatException exc) {

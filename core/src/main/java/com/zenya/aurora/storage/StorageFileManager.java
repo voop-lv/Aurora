@@ -24,6 +24,16 @@ public class StorageFileManager {
     }};
 
     /**
+     * messages.yml
+     * **/
+    private static final int MESSAGES_FILE_VERSION = 1;
+    private static final boolean MESSAGES_RESET_FILE = false;
+    private static final List<String> MESSAGES_IGNORED_NODES = new ArrayList<String>() {{
+        add("config-version");
+    }};
+    private static final List<String> MESSAGES_REPLACE_NODES = new ArrayList<>();
+
+    /**
      * biomes.yml
      * **/
     private static final int BIOMES_FILE_VERSION = 0; //Unused for now
@@ -44,15 +54,17 @@ public class StorageFileManager {
 
     public StorageFileManager() {
         registerFile("config.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "config.yml", CONFIG_FILE_VERSION, CONFIG_RESET_FILE, CONFIG_IGNORED_NODES, CONFIG_REPLACE_NODES));
+        registerFile("messages.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "messages.yml", MESSAGES_FILE_VERSION, MESSAGES_RESET_FILE, MESSAGES_IGNORED_NODES, MESSAGES_REPLACE_NODES));
         registerFile("biomes.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "biomes.yml", BIOMES_FILE_VERSION, BIOMES_RESET_FILE, BIOMES_IGNORED_NODES, BIOMES_REPLACE_NODES));
         registerFile("database.db", new DBFile(Aurora.getInstance().getDataFolder().getPath(),"database.db", DATABASE_FILE_VERSION, DATABASE_RESET_FILE));
     }
 
-    public void reloadFiles() {
-        fileMap.clear();
-        registerFile("config.yml", new YAMLFile("config.yml"));
-        registerFile("biomes.yml", new YAMLFile("biomes.yml"));
-        registerFile("database.db", new DBFile("database.db"));
+    public static void reloadFiles() {
+        INSTANCE.fileMap.clear();
+        INSTANCE.registerFile("config.yml", new YAMLFile("config.yml"));
+        INSTANCE.registerFile("messages.yml", new YAMLFile("messages.yml"));
+        INSTANCE.registerFile("biomes.yml", new YAMLFile("biomes.yml"));
+        INSTANCE.registerFile("database.db", new DBFile("database.db"));
     }
 
     public StorageFile getFile(String fileName) {
@@ -77,5 +89,21 @@ public class StorageFileManager {
 
     public void unregisterFile(String fileName) {
         fileMap.remove(fileName);
+    }
+
+    public static YAMLFile getConfig() {
+        return (YAMLFile) INSTANCE.getFile("config.yml");
+    }
+
+    public static YAMLFile getMessages() {
+        return (YAMLFile) INSTANCE.getFile("messages.yml");
+    }
+
+    public static YAMLFile getBiomes() {
+        return (YAMLFile) INSTANCE.getFile("biomes.yml");
+    }
+
+    public static DBFile getDatabase() {
+        return (DBFile) INSTANCE.getFile("database.db");
     }
 }

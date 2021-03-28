@@ -8,7 +8,6 @@ particle-spawn-radius: 3
 
 # Minecraft time to start and stop spawning particles respectively
 # This can be used to make ambient particles only spawn during certain times of the day
-# "stop-spawning-at" MUST be a larger numerical value than "start-spawning-at" for this to work
 # Refer to https://www.digminecraft.com/game_commands/time_set_day.php for Minecraft time to AM/PM conversion
 start-spawning-at: 0
 stop-spawning-at: 23000

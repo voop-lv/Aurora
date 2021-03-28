@@ -45,7 +45,7 @@ public final class LocationTools {
      * @return An int chunk coordinate
      */
     public static int toWorldCoord(int chunkCoord, int worldCoord) {
-        return (chunkCoord << 4) + worldCoord;
+        return (chunkCoord << 4) + (worldCoord % 16);
     }
 
     /**

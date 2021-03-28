@@ -45,3 +45,8 @@ PRERELEASE 0.0.3:
 - Config change to allow more flexibility in particle enable/disable timings (config.yml will be reset)
 - Performance improvements to internal methods of getting chunk data
 - Fixed a bug with status command not displaying data correctly in disabled worlds
+
+1.3.1:
+- "start-spawning-at" and "stop-spawning-at" values in config.yml now support per-player time as set by other plugins (i.e WorldGuard or /ptime)
+- Fixed an issue with particle spawning if "start-spawning-at" was greater than "stop-spawning-at" values in config.yml
+- All plugin messages are now configurable in messages.yml

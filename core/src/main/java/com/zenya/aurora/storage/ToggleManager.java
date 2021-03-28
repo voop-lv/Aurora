@@ -3,7 +3,6 @@ package com.zenya.aurora.storage;
 import com.zenya.aurora.Aurora;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -16,7 +15,7 @@ public class ToggleManager {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    boolean status = StorageFileManager.INSTANCE.getDBFile("database.db").getToggleStatus(playerName);
+                    boolean status = StorageFileManager.getDatabase().getToggleStatus(playerName);
                     toggleMap.put(playerName, status);
                 }
             }.runTask(Aurora.getInstance());
@@ -29,7 +28,7 @@ public class ToggleManager {
         new BukkitRunnable() {
             @Override
             public void run() {
-                StorageFileManager.INSTANCE.getDBFile("database.db").setToggleStatus(playerName, status);
+                StorageFileManager.getDatabase().setToggleStatus(playerName, status);
             }
         }.runTask(Aurora.getInstance());
     }
