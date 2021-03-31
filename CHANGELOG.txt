@@ -50,3 +50,7 @@ PRERELEASE 0.0.3:
 - "start-spawning-at" and "stop-spawning-at" values in config.yml now support per-player time as set by other plugins (i.e WorldGuard or /ptime)
 - Fixed an issue with particle spawning if "start-spawning-at" was greater than "stop-spawning-at" values in config.yml
 - All plugin messages are now configurable in messages.yml
+
+1.4.0:
+- Added WorldGuard 7.0 compatibility (Post 1.13 only)
+- You can now define Aurora particles in regions using the flag "ambient-particles" (Does not work for the __global__ region)

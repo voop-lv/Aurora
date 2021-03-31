@@ -12,9 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -55,18 +53,41 @@ public class ParticleFileManager {
         }
     }
 
-    public ParticleFile getClass(String filename) {
-        if(!particleFileMap.containsKey(filename) || particleFileMap.get(filename) == null) {
-            registerClass(filename);
-        }
-        return particleFileMap.get(filename);
-    }
-
-    public Set<String> getFiles() {
+    public Set<String> getFileNames() {
         return particleFileMap.keySet();
     }
 
-    public void registerClass(String filename) {
+    public List<ParticleFile> getParticles() {
+        List<ParticleFile> classes = new ArrayList<>();
+        for(String fileName : getFileNames()) {
+            classes.add(particleFileMap.get(fileName));
+        }
+        return classes;
+    }
+
+    public List<String> getParticleNames() {
+        List<String> names = new ArrayList<>();
+        for(ParticleFile clazz : getParticles()) {
+            names.add(clazz.getName().toUpperCase());
+        }
+        return names;
+    }
+
+    public ParticleFile getParticleByName(String particleName) {
+        for(ParticleFile particleFile : getParticles()) {
+            if(particleFile.getName().toUpperCase().equals(particleName.toUpperCase())) return particleFile;
+        }
+        return null;
+    }
+
+    private ParticleFile getParticleByFile(String fileName) {
+        if(!particleFileMap.containsKey(fileName) || particleFileMap.get(fileName) == null) {
+            registerClass(fileName);
+        }
+        return particleFileMap.get(fileName);
+    }
+
+    private void registerClass(String filename) {
         try {
             particleFileMap.put(filename, gson.fromJson(new FileReader(new File(PARTICLE_FOLDER, filename)), ParticleFile.class));
         } catch (Exception e) {
@@ -76,7 +97,7 @@ public class ParticleFileManager {
         }
     }
 
-    public void unregisterClass(String name) {
+    private void unregisterClass(String name) {
         particleFileMap.remove(name);
     }
 

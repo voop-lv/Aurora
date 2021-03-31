@@ -8,7 +8,9 @@ import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.storage.TaskManager;
 import com.zenya.aurora.storage.ParticleManager;
-import com.zenya.aurora.util.object.RandomNumber;
+import com.zenya.aurora.util.Logger;
+import com.zenya.aurora.worldguard.AmbientParticlesFlag;
+import com.zenya.aurora.worldguard.WGManager;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -23,6 +25,22 @@ public class Aurora extends JavaPlugin {
     private StorageFileManager storageFileManager;
     private ParticleFileManager particleFileManager;
     private ParticleFileCache particleFileCache;
+    private AmbientParticlesFlag ambientParticlesFlag;
+
+    @Override
+    public void onLoad() {
+        //WorldGuard dependency
+        if(WGManager.getWorldGuard() != null) {
+            try {
+                ambientParticlesFlag = AmbientParticlesFlag.INSTANCE;
+            } catch(Exception exc) {
+                Logger.logError("PlugMan or /reload is not supported by Aurora");
+                Logger.logError("If you're updating your particle configs, use /aurora reload");
+                Logger.logError("If you're updating the plugin version, restart your server");
+                this.getServer().getPluginManager().disablePlugin(this);
+            }
+        }
+    }
 
     @Override
     public void onEnable() {
@@ -32,6 +50,7 @@ public class Aurora extends JavaPlugin {
         lightAPI = LightAPI.INSTANCE;
 
         //Register all runnables
+        //Spigot buyer ID check in here
         taskManager = TaskManager.INSTANCE;
 
         //Init all configs and particle files
@@ -44,8 +63,6 @@ public class Aurora extends JavaPlugin {
 
         //Register commands
         this.getCommand("aurora").setExecutor(new AuroraCommand());
-
-        new RandomNumber<>(1, 2);
     }
 
     @Override

@@ -14,8 +14,7 @@ public class ParticleFileCache {
     private HashMap<XBiome, List<ParticleFile>> particleCacheMap = new HashMap<>();
 
     public ParticleFileCache() {
-        for(String filename : ParticleFileManager.INSTANCE.getFiles()) {
-            ParticleFile particleFile = ParticleFileManager.INSTANCE.getClass(filename);
+        for(ParticleFile particleFile : ParticleFileManager.INSTANCE.getParticles()) {
             if(particleFile.getSpawning() == null || particleFile.getSpawning().getBiomes() == null || particleFile.getSpawning().getBiomes().length == 0) continue;
 
             for(String biome : particleFile.getSpawning().getBiomes()) {

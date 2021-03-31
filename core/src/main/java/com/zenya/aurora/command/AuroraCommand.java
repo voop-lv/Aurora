@@ -70,7 +70,7 @@ public class AuroraCommand implements CommandExecutor {
             if(args[0].toLowerCase().equals("reload")) {
                 StorageFileManager.reloadFiles();
                 ParticleFileCache.reload();
-                chat.withArgs(ParticleFileManager.INSTANCE.getFiles().size()).sendMessages("command.reload");
+                chat.withArgs(ParticleFileManager.INSTANCE.getParticles().size()).sendMessages("command.reload");
 
                 for(Player p : Bukkit.getOnlinePlayers()) {
                     Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(p));
@@ -80,14 +80,13 @@ public class AuroraCommand implements CommandExecutor {
 
             if(args[0].toLowerCase().equals("status")) {
                 String globalFiles = "";
-                if(ParticleFileManager.INSTANCE.getFiles() == null || ParticleFileManager.INSTANCE.getFiles().size() == 0) {
+                if(ParticleFileManager.INSTANCE.getParticles() == null || ParticleFileManager.INSTANCE.getParticles().size() == 0) {
                     //No particle files
                     globalFiles += "None";
                 } else {
-                    for(String fileName : ParticleFileManager.INSTANCE.getFiles()) {
-                        ParticleFile particleFile = ParticleFileManager.INSTANCE.getClass(fileName);
+                    for(ParticleFile particleFile : ParticleFileManager.INSTANCE.getParticles()) {
                         //Check if enabled or disabled
-                        String particleName = ParticleFileManager.INSTANCE.getClass(fileName).isEnabled() ? ChatBuilder.translateColor("&a") : ChatBuilder.translateColor("&c");
+                        String particleName = particleFile.isEnabled() ? ChatBuilder.translateColor("&a") : ChatBuilder.translateColor("&c");
                         //If enabled, check if active in biome
                         if(particleFile.isEnabled() && sender instanceof Player) {
                             Player player = (Player) sender;
@@ -105,7 +104,7 @@ public class AuroraCommand implements CommandExecutor {
                         globalFiles += particleName;
                     }
                 }
-                chat.withArgs(ParticleFileManager.INSTANCE.getFiles().size(), globalFiles).sendMessages("command.status");
+                chat.withArgs(ParticleFileManager.INSTANCE.getParticles().size(), globalFiles).sendMessages("command.status");
                 return true;
             }
 

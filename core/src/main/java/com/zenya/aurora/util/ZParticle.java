@@ -98,7 +98,6 @@ public final class ZParticle {
      * @see Math#toDegrees(double)
      * @since 1.0.0
      */
-    public static final double PII = 2 * Math.PI;
 
     private ZParticle() {
     }
