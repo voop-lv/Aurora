@@ -9,7 +9,7 @@ import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.scheduler.particle.*;
 import com.zenya.aurora.util.LocationTools;
-import com.zenya.aurora.util.object.TimeCheck;
+import com.zenya.aurora.util.TimeCheck;
 import com.zenya.aurora.worldguard.AmbientParticlesFlag;
 import com.zenya.aurora.worldguard.WGManager;
 import org.bukkit.Bukkit;
@@ -103,7 +103,7 @@ public class Listeners implements Listener {
 
         //Ignore if spawn conditions are not met
         if(StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) return;
-        if(!(new TimeCheck(player.getPlayerTime()).isDuring())) return;
+        if(!TimeCheck.isDuring(player.getPlayerTime())) return;
 
         //Ignore for disabled players
         if(!player.hasPermission("aurora.view")) return;

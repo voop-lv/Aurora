@@ -1,54 +1,55 @@
 package com.zenya.aurora.worldguard;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.zenya.aurora.util.CompatibilityHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class WGManager {
-    public static WGManager INSTANCE = new WGManager();
+public abstract class WGManager {
+    private static final String PACKAGE_DOMAIN = "com.zenya.aurora.";
+    private static final String MODERN = "modern.";
+    private static final String LEGACY = "legacy.";
+    private static final String WORLDGUARD_DEPENDENCY = "worldguard.WGManagerImpl";
+
+    public static WGManager INSTANCE;
+
+    static {
+        try {
+            if (CompatibilityHandler.getProtocol() >= 13) {
+                INSTANCE = (WGManager) Class.forName(PACKAGE_DOMAIN + MODERN + WORLDGUARD_DEPENDENCY).newInstance();
+            } else {
+                INSTANCE = (WGManager) Class.forName(PACKAGE_DOMAIN + LEGACY + WORLDGUARD_DEPENDENCY).newInstance();
+            }
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException exc) {
+            //Won't happen
+            INSTANCE = null;
+            exc.printStackTrace();
+        }
+    }
 
     public static WorldGuardPlugin getWorldGuard() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
         return (plugin == null || !(plugin instanceof WorldGuardPlugin)) ? null : (WorldGuardPlugin) plugin;
     }
 
-    public RegionManager getRegionManager(World world) {
-        try {
-            //Post-1.13 (WG 7)
-            return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world));
-        } catch(Exception exc) {
-            //Pre-1.13 (WG 6)
-            //return getWorldGuard().getRegionManager(world);
-            exc.printStackTrace();
-            return null;
-        }
-    }
+    public abstract RegionManager getRegionManager(World world);
 
     public ApplicableRegionSet getApplicableRegionSet(Player player) {
         return getApplicableRegionSet(player.getLocation());
     }
 
-    public ApplicableRegionSet getApplicableRegionSet(Location loc) {
-        return getApplicableRegionSet(getRegionManager(loc.getWorld()), BukkitAdapter.asBlockVector(loc));
-    }
+    public abstract ApplicableRegionSet getApplicableRegionSet(Location loc);
 
-    private ApplicableRegionSet getApplicableRegionSet(RegionManager manager, BlockVector3 vec) {
-        return manager.getApplicableRegions(vec);
-    }
-
-    public <T extends Flag<?>> T registerFlag(final T flag) throws FlagConflictException {
+    public static <T extends Flag<?>> T registerFlag(final T flag) throws FlagConflictException {
         WorldGuard.getInstance().getFlagRegistry().register(flag);
-        //INSTANCE.getWorldGuard().getFlagRegistry().register(flag);
         return flag;
     }
 }

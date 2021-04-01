@@ -14,6 +14,8 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <!-- mvn install:install-file -Dfile=%path to your spigot jar% -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=%the jar version, followed by -R0.1-SNAPSHOT% -Dpackaging=jar -DgeneratePom=true -->
     <modules>
         <module>core</module>
+        <module>modern</module>
+        <module>legacy</module>
         <module>dist</module>
     </modules>
 

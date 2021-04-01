@@ -11,6 +11,8 @@ import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.LocationTools;
 import com.zenya.aurora.util.object.ChatBuilder;
 import com.zenya.aurora.util.object.ChunkContainer;
+import com.zenya.aurora.worldguard.AmbientParticlesFlag;
+import com.zenya.aurora.worldguard.WGManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -87,7 +89,7 @@ public class AuroraCommand implements CommandExecutor {
                     for(ParticleFile particleFile : ParticleFileManager.INSTANCE.getParticles()) {
                         //Check if enabled or disabled
                         String particleName = particleFile.isEnabled() ? ChatBuilder.translateColor("&a") : ChatBuilder.translateColor("&c");
-                        //If enabled, check if active in biome
+                        //If enabled, check if active in region/biome
                         if(particleFile.isEnabled() && sender instanceof Player) {
                             Player player = (Player) sender;
                             XBiome biome;
@@ -96,7 +98,22 @@ public class AuroraCommand implements CommandExecutor {
                             } catch(NullPointerException exc) {
                                 biome = XBiome.THE_VOID;
                             }
-                            if(ParticleFileCache.INSTANCE.getClass(biome).contains(particleFile)) particleName = ChatBuilder.translateColor("&b");
+
+                            //WG support
+                            if(WGManager.getWorldGuard() != null) {
+                                if(AmbientParticlesFlag.INSTANCE.getParticles(player).contains(particleFile)) {
+                                    //Set if particle is in region
+                                    particleName = ChatBuilder.translateColor("&b");
+                                } else if(AmbientParticlesFlag.INSTANCE.getParticles(player).size() == 0 && ParticleFileCache.INSTANCE.getClass(biome).contains(particleFile)) {
+                                    //If region has no particles, fallback to biome
+                                    particleName = ChatBuilder.translateColor("&b");
+                                }
+                                //No WG
+                            } else if(ParticleFileCache.INSTANCE.getClass(biome).contains(particleFile)) {
+                                //Only set if particle is in biome
+                                particleName = ChatBuilder.translateColor("&b");
+                            }
+
                             //Check if disabled in world
                             if(StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) particleName = ChatBuilder.translateColor("&c");
                         }

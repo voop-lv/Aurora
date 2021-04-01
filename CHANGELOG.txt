@@ -54,3 +54,9 @@ PRERELEASE 0.0.3:
 1.4.0:
 - Added WorldGuard 7.0 compatibility (Post 1.13 only)
 - You can now define Aurora particles in regions using the flag "ambient-particles" (Does not work for the __global__ region)
+
+1.4.1:
+- Added compatibility for WorldGuard 6.0 (1.9 - 1.12.2)
+- Fixed status command not showing correct particles in WorldGuard regions
+- "ambient-particles" flag will now work in the __global__ region
+- Fixed a bug with particle spawn timers not working properly

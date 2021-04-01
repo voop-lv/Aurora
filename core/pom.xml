@@ -38,19 +38,11 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <version>3.4.6-SNAPSHOT</version>
         </dependency>
 
-        <!-- WorldGuard for WG 7 support -->
+        <!-- WorldGuard for WGManager abstract class -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- WorldGuard for WG 6 support -->
-        <dependency>
-            <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-legacy</artifactId>
-            <version>6.2</version>
             <scope>provided</scope>
         </dependency>
 
@@ -90,7 +82,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
     </repositories>
-
     <build>
         <plugins>
             <plugin>
