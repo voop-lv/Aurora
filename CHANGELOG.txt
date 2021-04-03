@@ -60,3 +60,7 @@ PRERELEASE 0.0.3:
 - Fixed status command not showing correct particles in WorldGuard regions
 - "ambient-particles" flag will now work in the __global__ region
 - Fixed a bug with particle spawn timers not working properly
+
+1.4.2:
+- Quick fix with WorldGuard dependency not working
+- Removed console spam
