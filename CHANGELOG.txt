@@ -64,3 +64,7 @@ PRERELEASE 0.0.3:
 1.4.2:
 - Quick fix with WorldGuard dependency not working
 - Removed console spam
+
+1.4.3:
+- Fixed the plugin breaking when there is no "__global__" region in WorldGuard
+- Fixed an issue with default particle configs not generating on some operating systems

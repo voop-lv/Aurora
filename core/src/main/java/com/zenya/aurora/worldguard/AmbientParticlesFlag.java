@@ -5,15 +5,11 @@ import com.sk89q.worldguard.protection.flags.RegistryFlag;
 import com.sk89q.worldguard.protection.flags.SetFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.flags.registry.UnknownFlag;
-import com.sk89q.worldguard.protection.regions.GlobalProtectedRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileManager;
-import com.zenya.aurora.util.CompatibilityHandler;
 import com.zenya.aurora.util.Logger;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -45,7 +41,7 @@ public class AmbientParticlesFlag {
     private List<ParticleFile> getParticles(ApplicableRegionSet regions, ProtectedRegion global) {
         List<ParticleFile> enabledParticles = new ArrayList<>();
         //Add __global__ region
-        regions.getRegions().add(global);
+        if(global != null) regions.getRegions().add(global);
 
         for(ProtectedRegion region : regions.getRegions()) {
             if(region.getFlag(flag) != null && region.getFlag(flag).size() != 0) {

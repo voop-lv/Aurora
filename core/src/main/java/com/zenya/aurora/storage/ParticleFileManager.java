@@ -37,7 +37,7 @@ public class ParticleFileManager {
                 final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
                 while (entries.hasMoreElements()) {
                     final String name = entries.nextElement().getName();
-                    if (name.startsWith("particles" + File.separator) && name.toLowerCase().endsWith(".json") || name.startsWith("particles" + File.separator) && name.toLowerCase().endsWith(".txt")) { //filter according to the path
+                    if (name.toLowerCase().contains("particles" + File.separator) && name.toLowerCase().endsWith(".json") || name.toLowerCase().contains("particles" + File.separator) && name.toLowerCase().endsWith(".txt")) { //filter according to the path
                         Files.copy(this.getClass().getClassLoader().getResourceAsStream(name), new File(PARTICLE_FOLDER.getPath(), name.split(File.separator)[name.split(File.separator).length - 1]).toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
