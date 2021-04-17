@@ -22,7 +22,7 @@ public class AmbientParticlesFlag {
 
     public AmbientParticlesFlag() {
         try {
-            flag = WGManager.registerFlag(new SetFlag<>("ambient-particles", new StringFlag(null)));
+            flag = WGManager.INSTANCE.registerFlag(new SetFlag<>("ambient-particles", new StringFlag(null)));
         } catch (FlagConflictException exc) {
             Logger.logError("Unable to register WorldGuard flag \"ambient-particles\"");
             exc.printStackTrace();

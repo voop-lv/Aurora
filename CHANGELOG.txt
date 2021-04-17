@@ -68,3 +68,6 @@ PRERELEASE 0.0.3:
 1.4.3:
 - Fixed the plugin breaking when there is no "__global__" region in WorldGuard
 - Fixed an issue with default particle configs not generating on some operating systems
+
+1.4.4:
+- Fixed WorldGuard compatibility with pre-1.12.2 servers

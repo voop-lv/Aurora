@@ -3,6 +3,8 @@ package com.zenya.aurora.modern.worldguard;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.zenya.aurora.worldguard.WGManager;
 import org.bukkit.Location;
@@ -17,5 +19,11 @@ public class WGManagerImpl extends WGManager {
     @Override
     public ApplicableRegionSet getApplicableRegionSet(Location loc) {
         return getRegionManager(loc.getWorld()).getApplicableRegions(BukkitAdapter.asBlockVector(loc));
+    }
+
+    @Override
+    public <T extends Flag<?>> T registerFlag(T flag) throws FlagConflictException {
+        WorldGuard.getInstance().getFlagRegistry().register(flag);
+        return flag;
     }
 }

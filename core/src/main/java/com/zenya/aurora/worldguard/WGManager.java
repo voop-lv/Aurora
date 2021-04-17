@@ -48,8 +48,5 @@ public abstract class WGManager {
 
     public abstract ApplicableRegionSet getApplicableRegionSet(Location loc);
 
-    public static <T extends Flag<?>> T registerFlag(final T flag) throws FlagConflictException {
-        WorldGuard.getInstance().getFlagRegistry().register(flag);
-        return flag;
-    }
+    public abstract  <T extends Flag<?>> T registerFlag(final T flag) throws FlagConflictException;
 }
