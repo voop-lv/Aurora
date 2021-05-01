@@ -206,11 +206,11 @@ public final class ZParticle {
             int ticks = 0;
             @Override
             public void run() {
-                ticks += update;
                 if(ticks > duration) {
                     this.cancel();
                     return;
                 }
+                ticks += update;
 
                 display.spawn(loc, display.getPlayers());
             }
@@ -248,11 +248,11 @@ public final class ZParticle {
             int ticks = 0;
             @Override
             public void run() {
-                ticks += update;
                 if(ticks > duration) {
                     this.cancel();
                     return;
                 }
+                ticks += update;
 
                 for (double i = 0; i < length; i += rate) {
                     if (i > length) i = length;
@@ -326,11 +326,11 @@ public final class ZParticle {
                     int ticks = 0;
                     @Override
                     public void run() {
-                        ticks += update;
                         if (ticks > duration) {
                             this.cancel();
                             return;
                         }
+                        ticks += update;
 
                         display.location = start;
                         display.spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2], display.getPlayers());
@@ -402,11 +402,11 @@ public final class ZParticle {
 
             @Override
             public void run() {
-                ticks += update;
                 if (ticks > duration) {
                     this.cancel();
                     return;
                 }
+                ticks += update;
 
                 if(!isDone) {
                     for (int i = 0; i < locs.size(); i++) {
@@ -476,11 +476,11 @@ public final class ZParticle {
 
             @Override
             public void run() {
-                ticks += update;
                 if (ticks > duration) {
                     this.cancel();
                     return;
                 }
+                ticks += update;
 
                 for(Location loc : locs) {
                     display.spawn(loc, display.getPlayers());
@@ -533,11 +533,11 @@ public final class ZParticle {
 
             @Override
             public void run() {
-                ticks += update;
                 if (ticks > duration) {
                     this.cancel();
                     return;
                 }
+                ticks += update;
 
                 for(Location loc : locs) {
                     display.spawn(loc, display.getPlayers());
@@ -590,11 +590,11 @@ public final class ZParticle {
 
             @Override
             public void run() {
-                ticks += update;
                 if (ticks > duration) {
                     this.cancel();
                     return;
                 }
+                ticks += update;
 
                 for(Location loc : locs) {
                     display.spawn(loc, display.getPlayers());
@@ -654,11 +654,11 @@ public final class ZParticle {
                     int ticks = 0;
                     @Override
                     public void run() {
-                        ticks += update;
                         if (ticks > duration) {
                             this.cancel();
                             return;
                         }
+                        ticks += update;
 
                         display.location = start;
                         display.spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2], display.getPlayers());
