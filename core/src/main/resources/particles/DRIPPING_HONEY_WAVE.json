@@ -7,7 +7,7 @@
       "BIRCH_FOREST_HILLS",
       "SWAMP"
     ],
-    "spawnDistance": 40.0,
+    "spawnDistance": 30.0,
     "randMultiplier": 0.5,
     "relativePlayerPosition": false,
     "minY": 80.0,
