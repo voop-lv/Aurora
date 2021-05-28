@@ -77,3 +77,7 @@ PRERELEASE 0.0.3:
 
 1.4.6:
 - Minor changes to some default particle configs
+
+1.4.7:
+- Fixed default particles not generating properly on some environments
+- Added comment in the default "messages.yml" as a link to the wiki

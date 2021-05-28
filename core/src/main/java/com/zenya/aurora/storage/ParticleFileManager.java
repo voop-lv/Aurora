@@ -18,7 +18,7 @@ import java.util.jar.JarFile;
 
 public class ParticleFileManager {
     public static ParticleFileManager INSTANCE = new ParticleFileManager();
-    private final File PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder().getPath(), "particles");
+    private final File PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder(), "particles");
     private HashMap<String, ParticleFile> particleFileMap = new HashMap<>();
     private Gson gson;
 
@@ -36,14 +36,15 @@ public class ParticleFileManager {
                 final JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())); //Read .jar file
                 final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
                 while (entries.hasMoreElements()) {
-                    final String name = entries.nextElement().getName();
-                    if (name.toLowerCase().contains("particles" + File.separator) && name.toLowerCase().endsWith(".json") || name.toLowerCase().contains("particles" + File.separator) && name.toLowerCase().endsWith(".txt")) { //filter according to the path
-                        Files.copy(this.getClass().getClassLoader().getResourceAsStream(name), new File(PARTICLE_FOLDER.getPath(), name.split(File.separator)[name.split(File.separator).length - 1]).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    final String path = entries.nextElement().getName();
+                    final String name = path.split(File.separator)[path.split(File.separator).length - 1];
+                    if(path.contains("particles" + File.separator) && (name.endsWith(".json") || name.endsWith(".txt"))) {
+                        Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles" + File.separator + name), new File(PARTICLE_FOLDER, name).toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
                 jar.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException exc) {
+                exc.printStackTrace();
             }
         }
 
