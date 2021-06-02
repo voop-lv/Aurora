@@ -1,7 +1,7 @@
 package com.zenya.aurora.event;
 
-import com.cryptomorin.xseries.XBiome;
 import com.zenya.aurora.Aurora;
+import com.zenya.aurora.ext.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleManager;
@@ -13,6 +13,7 @@ import com.zenya.aurora.util.TimeCheck;
 import com.zenya.aurora.worldguard.AmbientParticlesFlag;
 import com.zenya.aurora.worldguard.WGManager;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -90,13 +91,8 @@ public class Listeners implements Listener {
     public void onParticleUpdateEvent(ParticleUpdateEvent e) {
         //Init variables
         Player player = e.getPlayer();
-        XBiome biome;
-
-        try {
-            biome = XBiome.matchXBiome(player.getLocation().getBlock().getBiome());
-        } catch(NullPointerException exc) {
-            biome = XBiome.THE_VOID;
-        }
+        Biome biome = player.getLocation().getBlock().getBiome();
+        String biomeName = ZBiome.matchZBiome(biome).equals(ZBiome.CUSTOM) ? biome.name() : ZBiome.matchZBiome(biome).name();
 
         //Remove old tasks
         ParticleManager.INSTANCE.unregisterTasks(player);
@@ -110,7 +106,7 @@ public class Listeners implements Listener {
         if(!ToggleManager.INSTANCE.isToggled(player.getName())) return;
 
         //Register new tasks
-        List<ParticleFile> biomeParticles = ParticleFileCache.INSTANCE.getClass(biome);
+        List<ParticleFile> biomeParticles = ParticleFileCache.INSTANCE.getClass(biomeName);
         if(WGManager.INSTANCE.getWorldGuard() != null) {
             List<ParticleFile> regionParticles = AmbientParticlesFlag.INSTANCE.getParticles(player);
             //WorldGuard support

@@ -1,6 +1,5 @@
-package com.zenya.aurora.util.object;
+package com.zenya.aurora.util;
 
-import com.zenya.aurora.util.LocationTools;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;

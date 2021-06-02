@@ -1,4 +1,4 @@
-package com.zenya.aurora.util;
+package com.zenya.aurora.ext;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;

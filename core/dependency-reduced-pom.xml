@@ -48,6 +48,7 @@
                 <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
                 <exclude>com/cryptomorin/xseries/particles/XParticle*</exclude>
                 <exclude>com/cryptomorin/xseries/particles/ParticleDisplay*</exclude>
+                <exclude>com/cryptomorin/xseries/XBiome*</exclude>
                 <exclude>ru/beykerykt/lightapi/particles/LightAPI*</exclude>
               </excludes>
             </filter>

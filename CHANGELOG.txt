@@ -81,3 +81,7 @@ PRERELEASE 0.0.3:
 1.4.7:
 - Fixed default particles not generating properly on some environments
 - Added comment in the default "messages.yml" as a link to the wiki
+
+1.5.0:
+- Internal code cleanup
+- Added experimental support for custom biomes

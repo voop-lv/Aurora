@@ -1,7 +1,7 @@
 package com.zenya.aurora.event;
 
 import com.zenya.aurora.util.LocationTools;
-import com.zenya.aurora.util.object.ChunkContainer;
+import com.zenya.aurora.util.ChunkContainer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

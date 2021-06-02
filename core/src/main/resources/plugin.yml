@@ -1,6 +1,6 @@
 name: Aurora
 main: com.zenya.aurora.Aurora
-version: 1.4.7
+version: 1.5.0
 author: Zenya4
 api-version: 1.13
 softdepend: [WorldGuard]

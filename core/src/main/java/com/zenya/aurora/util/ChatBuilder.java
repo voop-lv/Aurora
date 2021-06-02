@@ -1,4 +1,4 @@
-package com.zenya.aurora.util.object;
+package com.zenya.aurora.util;
 
 import com.zenya.aurora.scheduler.TrackTPSTask;
 import com.zenya.aurora.storage.StorageFileManager;

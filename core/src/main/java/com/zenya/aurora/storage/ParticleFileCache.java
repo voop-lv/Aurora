@@ -1,6 +1,6 @@
 package com.zenya.aurora.storage;
 
-import com.cryptomorin.xseries.XBiome;
+import com.zenya.aurora.ext.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class ParticleFileCache {
     public static ParticleFileCache INSTANCE = new ParticleFileCache();
-    private HashMap<XBiome, List<ParticleFile>> particleCacheMap = new HashMap<>();
+    private HashMap<String, List<ParticleFile>> particleCacheMap = new HashMap<>();
 
     public ParticleFileCache() {
         for(ParticleFile particleFile : ParticleFileManager.INSTANCE.getParticles()) {
@@ -19,7 +19,11 @@ public class ParticleFileCache {
 
             for(String biome : particleFile.getSpawning().getBiomes()) {
                 try {
-                    registerClass(XBiome.valueOf(biome.toUpperCase()), particleFile);
+                    if(ZBiome.matchZBiome(biome.toUpperCase()).equals(ZBiome.CUSTOM)) {
+                        registerClass(biome.toUpperCase(), particleFile);
+                    } else {
+                        registerClass(ZBiome.matchZBiome(biome).name(), particleFile);
+                    }
                 } catch(Exception exc) {
                     Logger.logError("Error loading biome %s from particle %s", biome.toUpperCase(), particleFile.getName());
                 }
@@ -27,15 +31,15 @@ public class ParticleFileCache {
         }
     }
 
-    public List<ParticleFile> getClass(XBiome biome) {
+    public List<ParticleFile> getClass(String biome) {
         return particleCacheMap.getOrDefault(biome, new ArrayList<>());
     }
 
-    public Set<XBiome> getBiomes() {
+    public Set<String> getBiomes() {
         return particleCacheMap.keySet();
     }
 
-    public void registerClass(XBiome biome, ParticleFile particleFile) {
+    public void registerClass(String biome, ParticleFile particleFile) {
         particleCacheMap.computeIfAbsent(biome, k -> new ArrayList<>()).add(particleFile);
     }
 

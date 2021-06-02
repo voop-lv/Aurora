@@ -101,16 +101,16 @@
                         }</option>
                         <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile { *; }</option>
                         <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile$* { *; }</option>
-                        <option>-keepclassmembers class com.zenya.aurora.ext.XBiome { *; }</option>
+                        <option>-keepclassmembers class com.zenya.aurora.ext.ZBiome { *; }</option>
                         <option>-keep class * extends com.zenya.aurora.worldguard.WGManager</option>
                         <option>-keepattributes !LocalVariableTable,!LocalVariableTypeTable,Exceptions,InnerClasses,Signature,Deprecated,LineNumberTable,*Annotation*,EnclosingMethod</option>
                         <option>-dontwarn</option>
                     </options>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
-                        <lib>/Users/zenya/.m2/repository/com/google/guava/guava/21.0/guava-21.0.jar</lib>
-                        <lib>/Users/zenya/.m2/repository/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar</lib>
-                        <lib>/Users/zenya/.m2/repository/org/spigotmc/spigot-api/1.16.4-R0.1-SNAPSHOT/spigot-api-1.16.4-R0.1-20201203.083325-28.jar</lib>
+                        <lib>${settings.localRepository}/com/google/guava/guava/21.0/guava-21.0.jar</lib>
+                        <lib>${settings.localRepository}/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar</lib>
+                        <lib>${settings.localRepository}/org/spigotmc/spigot-api/1.16.4-R0.1-SNAPSHOT/spigot-api-1.16.4-R0.1-20201203.083325-28.jar</lib>
                     </libs>
                 </configuration>
             </plugin>

@@ -2,8 +2,7 @@ package com.zenya.aurora.scheduler;
 
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.event.ParticleUpdateEvent;
-import com.zenya.aurora.util.LocationTools;
-import com.zenya.aurora.util.object.ChunkContainer;
+import com.zenya.aurora.util.ChunkContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

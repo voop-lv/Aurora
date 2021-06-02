@@ -1,6 +1,6 @@
 package com.zenya.aurora;
 
-import com.zenya.aurora.util.LightAPI;
+import com.zenya.aurora.ext.LightAPI;
 import com.zenya.aurora.command.AuroraCommand;
 import com.zenya.aurora.event.Listeners;
 import com.zenya.aurora.storage.ParticleFileCache;

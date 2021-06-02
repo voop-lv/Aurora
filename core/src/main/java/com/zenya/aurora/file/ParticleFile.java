@@ -1,7 +1,7 @@
 package com.zenya.aurora.file;
 
 import com.zenya.aurora.storage.StorageFileManager;
-import com.zenya.aurora.util.object.RandomNumber;
+import com.zenya.aurora.util.RandomNumber;
 import lombok.Getter;
 
 import java.util.ArrayList;

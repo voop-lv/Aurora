@@ -1,6 +1,5 @@
 package com.zenya.aurora.util;
 
-import com.zenya.aurora.util.object.ChunkContainer;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
