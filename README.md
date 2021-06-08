@@ -19,7 +19,7 @@ Aurora provides a unique experience for all players by generating dynamic **ambi
 #### Support
 - [Frequently Asked Questions](Frequently-Asked-Questions)
 - [WorldGuard Compatibility](WorldGuard-Compatibility)
-- [Developer API](https://zenya4.github.io/aurora)
+- [Developer API](Developer-API)
 - [Terms Of Service](Terms-Of-Service)
 
 ## More Info
