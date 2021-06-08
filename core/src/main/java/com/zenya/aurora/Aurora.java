@@ -1,8 +1,11 @@
 package com.zenya.aurora;
 
-import com.zenya.aurora.ext.LightAPI;
+import com.zenya.aurora.api.AuroraAPI;
+import com.zenya.aurora.api.ParticleFactory;
+import com.zenya.aurora.util.LightAPI;
 import com.zenya.aurora.command.AuroraCommand;
 import com.zenya.aurora.event.Listeners;
+import com.zenya.aurora.util.ZParticle;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.StorageFileManager;
@@ -18,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 
-public class Aurora extends JavaPlugin {
+public class Aurora extends JavaPlugin  {
     @Getter private static Aurora instance;
     private LightAPI lightAPI;
     private TaskManager taskManager;
@@ -45,6 +48,9 @@ public class Aurora extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        //Register API
+        AuroraAPI.setAPI(new AuroraAPIImpl());
 
         //Init LightAPI
         lightAPI = LightAPI.INSTANCE;
@@ -75,5 +81,14 @@ public class Aurora extends JavaPlugin {
             pm.unregisterTasks(player);
         }
         lightAPI.disable();
+    }
+
+    private class AuroraAPIImpl extends AuroraAPI {
+        private ParticleFactory factory = new ZParticle();
+
+        @Override
+        public ParticleFactory getParticleFactory() {
+            return factory;
+        }
     }
 }

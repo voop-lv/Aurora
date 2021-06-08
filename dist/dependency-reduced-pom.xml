@@ -65,8 +65,10 @@
                         }</option>
             <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile { *; }</option>
             <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile$* { *; }</option>
-            <option>-keepclassmembers class com.zenya.aurora.ext.ZBiome { *; }</option>
+            <option>-keepclassmembers class com.zenya.aurora.util.ZBiome { *; }</option>
             <option>-keep class * extends com.zenya.aurora.worldguard.WGManager</option>
+            <option>-keep class com.zenya.aurora.api.* { *; }</option>
+            <option>-keepnames class com.zenya.aurora.util.ZParticleDisplay</option>
             <option>-keepattributes !LocalVariableTable,!LocalVariableTypeTable,Exceptions,InnerClasses,Signature,Deprecated,LineNumberTable,*Annotation*,EnclosingMethod</option>
             <option>-dontwarn</option>
           </options>

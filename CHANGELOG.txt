@@ -85,3 +85,8 @@ PRERELEASE 0.0.3:
 1.5.0:
 - Internal code cleanup
 - Added experimental support for custom biomes
+
+2.0.0:
+- Plugin rewrite for particle management
+- Aurora developer API has been released
+- Improved anti-leak features

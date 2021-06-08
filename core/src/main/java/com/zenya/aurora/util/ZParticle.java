@@ -1,7 +1,8 @@
-package com.zenya.aurora.ext;
+package com.zenya.aurora.util;
 
 import com.google.common.base.Enums;
 import com.zenya.aurora.Aurora;
+import com.zenya.aurora.api.ParticleFactory;
 import org.bukkit.Color;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -74,32 +75,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see Location
  * @see Vector
  */
-public final class ZParticle {
-    /**
-     * A full circle has two PIs.
-     * Don't know what the fuck is a PI? You can
-     * watch this <a href="https://www.youtube.com/watch?v=pMpQK7Y8CiM">YouTube video</a>
-     * <p>
-     * PI is a radian number itself. So you can obtain other radians by simply
-     * dividing PI.
-     * Some simple ones:
-     * <p>
-     * <b>Important Radians:</b>
-     * <pre>
-     *     PI = 180 degrees
-     *     PI / 2 = 90 degrees
-     *     PI / 3 = 60 degrees
-     *     PI / 4 = 45 degrees
-     *     PI / 6 = 30 degrees
-     * </pre>
-     * Any degree can be converted simply be using {@code PI/180 * degree}
-     *
-     * @see Math#toRadians(double)
-     * @see Math#toDegrees(double)
-     * @since 1.0.0
-     */
+public class ZParticle implements ParticleFactory {
 
-    private ZParticle() {
+    public ZParticle() {
+
     }
 
     /**
@@ -190,486 +169,6 @@ public final class ZParticle {
         return selection[randInt(0, 2)];
     }
 
-    //Begin actual particles
-    /**
-     * Spawn a simple particle point.
-     *
-     * @param loc location to spawn the particle at.
-     * @param update how often to refresh the particle.
-     * @param duration how long to display the particle for.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for an particle point
-     * @since ZParticle 1.0.0
-     */
-    public static BukkitTask point(Location loc, int update, long duration, ZParticleDisplay display) {
-        return new BukkitRunnable() {
-            int ticks = 0;
-            @Override
-            public void run() {
-                if(ticks > duration) {
-                    this.cancel();
-                    return;
-                }
-                ticks += update;
-
-                display.spawn(loc, display.getPlayers());
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
-    /**
-     * Spawns an instantaneous line from a location to another.
-     * Tutorial: https://www.spigotmc.org/threads/176695/
-     * This method is a modified version to get the best performance.
-     *
-     * @param start the starting point of the line.
-     * @param end   the ending point of the line.
-     * @param rate the rate of points of the line. Lower values will spawn more particles.
-     * @param update how often to refresh the line.
-     * @param duration how long to display the line for.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for an instantaneous line
-     * @see #drawInstantLine(Player, double, double, int, long, ZParticleDisplay)
-     * @since 1.0.0
-     */
-    public static BukkitTask instantLine(Location start, Location end, double rate, int update, long duration, ZParticleDisplay display) {
-        double x = end.getX() - start.getX();
-        double y = end.getY() - start.getY();
-        double z = end.getZ() - start.getZ();
-        double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
-
-        x /= length;
-        y /= length;
-        z /= length;
-        double finalX = x;
-        double finalY = y;
-        double finalZ = z;
-        return new BukkitRunnable() {
-            int ticks = 0;
-            @Override
-            public void run() {
-                if(ticks > duration) {
-                    this.cancel();
-                    return;
-                }
-                ticks += update;
-
-                for (double i = 0; i < length; i += rate) {
-                    if (i > length) i = length;
-
-                    display.location = start;
-                    display.spawn(finalX * i, finalY * i, finalZ * i, display.getPlayers());
-                }
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
-    /**
-     * Draws an instantaneous line from the player's looking direction.
-     *
-     * @param player the reference location of the line direction.
-     * @param length the length of the line.
-     * @param rate the rate of points of the line. Lower values will spawn more particles.
-     * @param update how often to refresh the line.
-     * @param duration how long to display the line for.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for an instantaneous line
-     * @see #instantLine(Location, Location, double, int, long, ZParticleDisplay)
-     * @since 1.0.0
-     */
-    public static BukkitTask drawInstantLine(Player player, double length, double rate, int update, long duration, ZParticleDisplay display) {
-        Location eye = player.getEyeLocation();
-        return instantLine(eye, eye.clone().add(eye.getDirection().multiply(length)), rate, update, duration, display);
-    }
-
-    /**
-     * Spawns a moving line from a location to another.
-     *
-     * @param start the starting point of the line.
-     * @param end   the ending point of the line.
-     * @param rate the rate of points of the line. Lower values will spawn more particles.
-     * @param update how often to extend the line.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for an instantaneous line
-     * @see #drawLine(Player, double, double, int, long, ZParticleDisplay)
-     * @since ZParticle 1.0.0
-     */
-    public static BukkitTask line(Location start, Location end, double rate, int update, long duration, ZParticleDisplay display) {
-        double x = end.getX() - start.getX();
-        double y = end.getY() - start.getY();
-        double z = end.getZ() - start.getZ();
-        double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
-
-        x /= length;
-        y /= length;
-        z /= length;
-
-        List<double[]> locs = new ArrayList<>();
-        for (double i = 0; i < length; i += rate) {
-            // Since the rate can be any number it's possible to get a higher number than
-            // the length in the last loop.
-            if (i > length) i = length;
-            locs.add(new double[]{x*i, y*i, z*i});
-        }
-        return new BukkitRunnable() {
-            int progress = 0;
-            @Override
-            public void run() {
-                if (progress >= locs.size()-1) {
-                    this.cancel();
-                    return;
-                }
-
-                //Leave particle point for <duration> ticks
-                new BukkitRunnable() {
-                    final int finalProgress = progress;
-                    int ticks = 0;
-                    @Override
-                    public void run() {
-                        if (ticks > duration) {
-                            this.cancel();
-                            return;
-                        }
-                        ticks += update;
-
-                        display.location = start;
-                        display.spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2], display.getPlayers());
-                    }
-                }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-
-                progress += 1;
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
-    /**
-     * Draws a moving line from the player's looking direction.
-     *
-     * @param player the reference location of the line direction.
-     * @param length the length of the line.
-     * @param rate the rate of points of the line. Lower values will spawn more particles.
-     * @param update how often to refresh the line.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for an instantaneous line
-     * @see #line(Location, Location, double, int, long, ZParticleDisplay)
-     * @since ZParticle 1.0.0
-     */
-    public static BukkitTask drawLine(Player player, double length, double rate, int update, long duration, ZParticleDisplay display) {
-        Location eye = player.getEyeLocation();
-        return line(eye, eye.clone().add(eye.getDirection().multiply(length)), rate, update, duration, display);
-    }
-
-    /**
-     * Spawn a cube with the inner space and walls empty, leaving only the edges visible.
-     *
-     * @param center location to spawn the cube at.
-     * @param length length of the cube.
-     * @param rate the rate of points of the lines forming the cube. Lower values will spawn more particles.
-     * @param update how often to refresh the cube.
-     * @param duration how long to display the cube for.
-     * @param angle rotation of the cube in degrees.
-     * @param axis the axis of rotation for the cube.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for an empty cube
-     * @since ZParticle 1.0.0
-     */
-    public static BukkitTask cube(Location center, double length, double rate, int update, long duration, double angle, char axis, ZParticleDisplay display) {
-        final double size = length / 2;
-        final double x = center.getX();
-        final double y = center.getY();
-        final double z = center.getZ();
-
-        //Initialise positions
-        final double[][] cubePos = {
-                {x - size, y - size, z - size}, {x + size, y - size, z - size},
-                {x + size, y + size, z - size}, {x - size, y + size, z - size},
-                {x - size, y - size, z + size}, {x + size, y - size, z + size},
-                {x + size, y + size, z + size}, {x - size, y + size, z + size}
-        };
-
-        //Rotate positions
-        List<Location> locs = new ArrayList<>();
-        angle = Math.toRadians(angle);
-        axis = randomAxis(axis);
-        for (double[] locPos : cubePos) {
-            Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
-            locs.add(rotated.toLocation(display.getLocation().getWorld()));
-        }
-
-        return new BukkitRunnable() {
-            int ticks = 0;
-            boolean isDone = false;
-
-            @Override
-            public void run() {
-                if (ticks > duration) {
-                    this.cancel();
-                    return;
-                }
-                ticks += update;
-
-                if(!isDone) {
-                    for (int i = 0; i < locs.size(); i++) {
-                        Location pos1 = locs.get(i);
-                        Location pos2;
-                        Location pos3;
-                        if (i != 0 && (i + 1) % 4 == 0) {
-                            //4->1, 8->5
-                            pos2 = locs.get(i-3);
-                        } else {
-                            //1->2->3->4, 5->6->7->8
-                            pos2 = locs.get(i+1);
-                        }
-                        if (i < 4) {
-                            //1->5, 2->6, 3->7, 4->8
-                            pos3 = locs.get(i+4);
-                        } else {
-                            pos3 = null;
-                        }
-                        instantLine(pos1, pos2, rate, update, duration, display);
-                        if (pos3 != null) instantLine(pos1, pos3, rate, update, duration, display);
-                    }
-                    isDone = true;
-                }
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
-    /**
-     * Spawn a hollow ring
-     *
-     * @param center location to spawn the ring at.
-     * @param radius radius of the ring.
-     * @param rate the rate of points forming the ring. Lower values will spawn more particles.
-     * @param update how often to refresh the ring.
-     * @param duration how long to display the ring for.
-     * @param angle rotation of the ring in degrees.
-     * @param axis the axis of rotation for the ring.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for a hollow ring
-     * @since ZParticle 1.0.0
-     */
-    public static BukkitTask ring(Location center, double radius, double rate, int update, long duration, double angle, char axis, ZParticleDisplay display) {
-        final double x = center.getX();
-        final double y = center.getY();
-        final double z = center.getZ();
-
-        //Initialise positions
-        List<double[]> outline = new ArrayList<>();
-        for(float i = 0f; i <= 360f; i += (rate*45)) { //To standardise rate, a rate of 1 means 8 points
-            double relX = radius * Math.sin(i);
-            double relZ = radius * Math.cos(i);
-            outline.add(new double[]{x+relX, y, z+relZ});
-        }
-
-        //Rotate positions
-        ArrayList<Location> locs = new ArrayList<>();
-        angle = Math.toRadians(angle);
-        axis = randomAxis(axis);
-        for (double[] locPos : outline) {
-            Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
-            locs.add(rotated.toLocation(display.getLocation().getWorld()));
-        }
-
-        return new BukkitRunnable() {
-            int ticks = 0;
-
-            @Override
-            public void run() {
-                if (ticks > duration) {
-                    this.cancel();
-                    return;
-                }
-                ticks += update;
-
-                for(Location loc : locs) {
-                    display.spawn(loc, display.getPlayers());
-                }
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
-    /**
-     * Spawn a filled circle
-     *
-     * @param center location to spawn the circle at.
-     * @param radius radius of the circle.
-     * @param rate the rate of points forming the circle. Lower values will spawn more particles.
-     * @param update how often to refresh the circle.
-     * @param duration how long to display the circle for.
-     * @param angle rotation of the circle in degrees.
-     * @param axis the axis of rotation for the circle.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for a filled circle
-     * @since ZParticle 1.0.0
-     */
-    public static BukkitTask circle(Location center, double radius, double rate, int update, long duration, double angle, char axis, ZParticleDisplay display) {
-        final double x = center.getX();
-        final double y = center.getY();
-        final double z = center.getZ();
-
-        //Initialise positions
-        List<double[]> circle = new ArrayList<>();
-        for(double relX = -radius; relX < radius; relX += rate) {
-            for(double relZ = -radius; relZ < radius; relZ += rate) {
-                //Add only if point lies within circle
-                if(NumberConversions.square(relX) + NumberConversions.square(relZ) <= NumberConversions.square(radius)) {
-                    circle.add(new double[]{x+relX, y, z+relZ});
-                }
-            }
-        }
-
-        //Rotate positions
-        ArrayList<Location> locs = new ArrayList<>();
-        angle = Math.toRadians(angle);
-        axis = randomAxis(axis);
-        for (double[] locPos : circle) {
-            Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
-            locs.add(rotated.toLocation(display.getLocation().getWorld()));
-        }
-
-        return new BukkitRunnable() {
-            int ticks = 0;
-
-            @Override
-            public void run() {
-                if (ticks > duration) {
-                    this.cancel();
-                    return;
-                }
-                ticks += update;
-
-                for(Location loc : locs) {
-                    display.spawn(loc, display.getPlayers());
-                }
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
-    /**
-     * Spawn a hollow sphere
-     *
-     * @param center location to spawn the sphere at.
-     * @param radius radius of the sphere.
-     * @param rate the rate of points forming the sphere. Lower values will spawn more particles.
-     * @param update how often to refresh the sphere.
-     * @param duration how long to display the sphere for.
-     * @param display ZParticleDisplay to display.
-     * @return BukkitTask for a filled circle
-     * @since ZParticle 1.0.0
-     */
-    public static BukkitTask sphere(Location center, double radius, double rate, int update, long duration, ZParticleDisplay display) {
-        final double x = center.getX();
-        final double y = center.getY();
-        final double z = center.getZ();
-
-        //Initialise positions
-        List<double[]> sphere = new ArrayList<>();
-        for(double relX = -radius; relX < radius; relX += rate) {
-            for(double relY = -radius; relY < radius; relY += rate) {
-                for(double relZ = -radius; relZ < radius; relZ += rate) {
-                    //Add only if point lies within sphere
-                    if(NumberConversions.square(relX) + NumberConversions.square(relY) + NumberConversions.square(relZ) <= NumberConversions.square(radius)) {
-                        sphere.add(new double[]{x+relX, y+relY, z+relZ});
-                    }
-                }
-            }
-        }
-
-        //Only add edges of the sphere
-        ArrayList<Location> locs = new ArrayList<>();
-        for (double[] locPos : sphere) {
-            Location point = new Location(display.getLocation().getWorld(), locPos[0], locPos[1], locPos[2]);
-            if(point.distance(center) > radius-rate && point.distance(center) < radius+rate) {
-                locs.add(point);
-            }
-        }
-
-        return new BukkitRunnable() {
-            int ticks = 0;
-
-            @Override
-            public void run() {
-                if (ticks > duration) {
-                    this.cancel();
-                    return;
-                }
-                ticks += update;
-
-                for(Location loc : locs) {
-                    display.spawn(loc, display.getPlayers());
-                }
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
-    public static BukkitTask wave(Location start, Location end, double rate, int update, long duration, double cycles, double multiplier, double angle, char axis, ZParticleDisplay display) {
-        double x = end.getX() - start.getX();
-        double y = end.getY() - start.getY();
-        double z = end.getZ() - start.getZ();
-        double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
-
-        x /= length;
-        y /= length;
-        z /= length;
-
-        //Initialise positions
-        List<double[]> line = new ArrayList<>(); //Rotate about this line
-        List<double[]> wave = new ArrayList<>();
-        double theta = 0;
-        for (double i = 0; i < length; i += rate) {
-            line.add(new double[]{x*i, y*i, z*i});
-
-            if(theta > 360) theta = 0;
-            double tilt = multiplier * Math.sin(Math.toRadians(theta));
-            wave.add(new double[]{
-                    x*i + tilt*Math.sin(NumberConversions.square(y)*Math.PI/2),
-                    y*i + tilt*Math.cos(NumberConversions.square(y)*Math.PI/2),
-                    z*i + tilt*Math.sin(NumberConversions.square(y)*Math.PI/2)});
-
-            theta += (cycles*360)/(length/rate);
-        }
-
-        //Rotate positions
-        List<Location> locs = new ArrayList<>();
-        angle = Math.toRadians(angle);
-        axis = randomAxis(axis);
-        for (int i=0; i<wave.size(); i++) {
-            Vector rotated = rotateAbout(new Vector(wave.get(i)[0], wave.get(i)[1], wave.get(i)[2]), new Vector(line.get(i)[0], line.get(i)[1], line.get(i)[2]), angle, axis);
-            locs.add(rotated.toLocation(display.getLocation().getWorld()));
-        }
-
-        return new BukkitRunnable() {
-            int progress = 0;
-            @Override
-            public void run() {
-                if (progress >= wave.size()-1) {
-                    this.cancel();
-                    return;
-                }
-
-                //Leave particle point for <duration> ticks
-                new BukkitRunnable() {
-                    final int finalProgress = progress;
-                    int ticks = 0;
-                    @Override
-                    public void run() {
-                        if (ticks > duration) {
-                            this.cancel();
-                            return;
-                        }
-                        ticks += update;
-
-                        display.location = start;
-                        display.spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2], display.getPlayers());
-                    }
-                }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-
-                progress += 1;
-            }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
-    }
-
     /**
      * Rotates the given vector with the given rotation radians
      *
@@ -726,76 +225,374 @@ public final class ZParticle {
         return new Vector(result[0]+ref.getX(), result[1]+ref.getY(), result[2]+ref.getZ());
     }
 
-    /**
-     * Rotates vector around the X axis with the specified angle.
-     * Cross-version compatibility.
-     *
-     * @param angle the rotation angle, in radians.
-     * @return the rotated vector.
-     * @since 1.0.0
-     */
-    public static Vector rotateAroundX(Vector vector, double angle) {
-        if (angle == 0) return vector;
-        double cos = Math.cos(angle);
-        double sin = Math.sin(angle);
-
-        double y = vector.getY() * cos - vector.getZ() * sin;
-        double z = vector.getY() * sin + vector.getZ() * cos;
-        return vector.setY(y).setZ(z);
+    //Begin actual particles
+    //Documentation can be found in com.zenya.aurora.api.ParticleFactory
+    @Override
+    public BukkitTask createPoint(Location loc, int update, long duration, ZParticleDisplay display) {
+        return new BukkitRunnable() {
+            int ticks = 0;
+            @Override
+            public void run() {
+                if(ticks > duration) {
+                    this.cancel();
+                    return;
+                }
+                ticks += update;
+                display.withLocation(loc).spawn();
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
     }
 
-    /**
-     * Rotates vector around the Y axis with the specified angle.
-     * Cross-version compatibility.
-     *
-     * @param angle the rotation angle, in radians.
-     * @return the rotated vector.
-     * @since 1.0.0
-     */
-    public static Vector rotateAroundY(Vector vector, double angle) {
-        if (angle == 0) return vector;
-        double cos = Math.cos(angle);
-        double sin = Math.sin(angle);
+    @Override
+    public BukkitTask createInstantLine(Location start, Location end, double rate, int update, long duration, ZParticleDisplay display) {
+        double x = end.getX() - start.getX();
+        double y = end.getY() - start.getY();
+        double z = end.getZ() - start.getZ();
+        double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
 
-        double x = vector.getX() * cos + vector.getZ() * sin;
-        double z = vector.getX() * -sin + vector.getZ() * cos;
-        return vector.setX(x).setZ(z);
+        x /= length;
+        y /= length;
+        z /= length;
+        double finalX = x;
+        double finalY = y;
+        double finalZ = z;
+        return new BukkitRunnable() {
+            int ticks = 0;
+            @Override
+            public void run() {
+                if(ticks > duration) {
+                    this.cancel();
+                    return;
+                }
+                ticks += update;
+
+                for (double i = 0; i < length; i += rate) {
+                    if (i > length) i = length;
+
+                    display.withLocation(start).spawn(finalX * i, finalY * i, finalZ * i);
+                }
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
     }
 
-    /**
-     * Rotates vector around the Z axis with the specified angle.
-     * Cross-version compatibility.
-     *
-     * @param angle the rotation angle, in radians.
-     * @return the rotated vector.
-     * @since 1.0.0
-     */
-    public static Vector rotateAroundZ(Vector vector, double angle) {
-        if (angle == 0) return vector;
-        double cos = Math.cos(angle);
-        double sin = Math.sin(angle);
-
-        double x = vector.getX() * cos - vector.getY() * sin;
-        double y = vector.getX() * sin + vector.getY() * cos;
-        return vector.setX(x).setY(y);
+    @Override
+    public BukkitTask drawInstantLine(Player player, double length, double rate, int update, long duration, ZParticleDisplay display) {
+        Location eye = player.getEyeLocation();
+        return createInstantLine(eye, eye.clone().add(eye.getDirection().multiply(length)), rate, update, duration, display);
     }
 
-    /**
-     * Rotates a vector around the 3 axis with the given angles.
-     * Internal utility, doesn't work well
-     * @see #rotateAbout(Vector, Vector, double, char) 
-     *
-     * @param vector the vector to rotate.
-     * @param x      the x rotation in radians.
-     * @param y      the y rotation in radians.
-     * @param z      the z rotation in radians.
-     * @return the rotated vector.
-     * @since 4.1.0
-     */
-    public static Vector rotateAround(Vector vector, double x, double y, double z) {
-        rotateAroundX(vector, x);
-        rotateAroundY(vector, y);
-        rotateAroundZ(vector, z);
-        return vector;
+    @Override
+    public BukkitTask createLine(Location start, Location end, double rate, int update, long duration, ZParticleDisplay display) {
+        double x = end.getX() - start.getX();
+        double y = end.getY() - start.getY();
+        double z = end.getZ() - start.getZ();
+        double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
+
+        x /= length;
+        y /= length;
+        z /= length;
+
+        List<double[]> locs = new ArrayList<>();
+        for (double i = 0; i < length; i += rate) {
+            // Since the rate can be any number it's possible to get a higher number than
+            // the length in the last loop.
+            if (i > length) i = length;
+            locs.add(new double[]{x*i, y*i, z*i});
+        }
+        return new BukkitRunnable() {
+            int progress = 0;
+            @Override
+            public void run() {
+                if (progress >= locs.size()-1) {
+                    this.cancel();
+                    return;
+                }
+
+                //Leave particle point for <duration> ticks
+                new BukkitRunnable() {
+                    final int finalProgress = progress;
+                    int ticks = 0;
+                    @Override
+                    public void run() {
+                        if (ticks > duration) {
+                            this.cancel();
+                            return;
+                        }
+                        ticks += update;
+
+                        display.withLocation(start).spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2]);
+                    }
+                }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+
+                progress += 1;
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+    }
+
+    @Override
+    public BukkitTask drawLine(Player player, double length, double rate, int update, long duration, ZParticleDisplay display) {
+        Location eye = player.getEyeLocation();
+        return createLine(eye, eye.clone().add(eye.getDirection().multiply(length)), rate, update, duration, display);
+    }
+
+    @Override
+    public BukkitTask createCube(Location center, double length, double rate, int update, long duration, double angle, char axis, ZParticleDisplay display) {
+        final double size = length / 2;
+        final double x = center.getX();
+        final double y = center.getY();
+        final double z = center.getZ();
+
+        //Initialise positions
+        final double[][] cubePos = {
+                {x - size, y - size, z - size}, {x + size, y - size, z - size},
+                {x + size, y + size, z - size}, {x - size, y + size, z - size},
+                {x - size, y - size, z + size}, {x + size, y - size, z + size},
+                {x + size, y + size, z + size}, {x - size, y + size, z + size}
+        };
+
+        //Rotate positions
+        List<Location> locs = new ArrayList<>();
+        angle = Math.toRadians(angle);
+        axis = randomAxis(axis);
+        for (double[] locPos : cubePos) {
+            Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
+            locs.add(rotated.toLocation(center.getWorld()));
+        }
+
+        return new BukkitRunnable() {
+            int ticks = 0;
+            boolean isDone = false;
+
+            @Override
+            public void run() {
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
+                ticks += update;
+
+                if(!isDone) {
+                    for (int i = 0; i < locs.size(); i++) {
+                        Location pos1 = locs.get(i);
+                        Location pos2;
+                        Location pos3;
+                        if (i != 0 && (i + 1) % 4 == 0) {
+                            //4->1, 8->5
+                            pos2 = locs.get(i-3);
+                        } else {
+                            //1->2->3->4, 5->6->7->8
+                            pos2 = locs.get(i+1);
+                        }
+                        if (i < 4) {
+                            //1->5, 2->6, 3->7, 4->8
+                            pos3 = locs.get(i+4);
+                        } else {
+                            pos3 = null;
+                        }
+                        createInstantLine(pos1, pos2, rate, update, duration, display);
+                        if (pos3 != null) createInstantLine(pos1, pos3, rate, update, duration, display);
+                    }
+                    isDone = true;
+                }
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+    }
+
+    @Override
+    public BukkitTask createRing(Location center, double radius, double rate, int update, long duration, double angle, char axis, ZParticleDisplay display) {
+        final double x = center.getX();
+        final double y = center.getY();
+        final double z = center.getZ();
+
+        //Initialise positions
+        List<double[]> outline = new ArrayList<>();
+        for(float i = 0f; i <= 360f; i += (rate*45)) { //To standardise rate, a rate of 1 means 8 points
+            double relX = radius * Math.sin(i);
+            double relZ = radius * Math.cos(i);
+            outline.add(new double[]{x+relX, y, z+relZ});
+        }
+
+        //Rotate positions
+        ArrayList<Location> locs = new ArrayList<>();
+        angle = Math.toRadians(angle);
+        axis = randomAxis(axis);
+        for (double[] locPos : outline) {
+            Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
+            locs.add(rotated.toLocation(center.getWorld()));
+        }
+
+        return new BukkitRunnable() {
+            int ticks = 0;
+
+            @Override
+            public void run() {
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
+                ticks += update;
+
+                for(Location loc : locs) {
+                    display.withLocation(loc).spawn();
+                }
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+    }
+
+    @Override
+    public BukkitTask createCircle(Location center, double radius, double rate, int update, long duration, double angle, char axis, ZParticleDisplay display) {
+        final double x = center.getX();
+        final double y = center.getY();
+        final double z = center.getZ();
+
+        //Initialise positions
+        List<double[]> circle = new ArrayList<>();
+        for(double relX = -radius; relX < radius; relX += rate) {
+            for(double relZ = -radius; relZ < radius; relZ += rate) {
+                //Add only if point lies within circle
+                if(NumberConversions.square(relX) + NumberConversions.square(relZ) <= NumberConversions.square(radius)) {
+                    circle.add(new double[]{x+relX, y, z+relZ});
+                }
+            }
+        }
+
+        //Rotate positions
+        ArrayList<Location> locs = new ArrayList<>();
+        angle = Math.toRadians(angle);
+        axis = randomAxis(axis);
+        for (double[] locPos : circle) {
+            Vector rotated = rotateAbout(new Vector(locPos[0], locPos[1], locPos[2]), center.toVector(), angle, axis);
+            locs.add(rotated.toLocation(center.getWorld()));
+        }
+
+        return new BukkitRunnable() {
+            int ticks = 0;
+
+            @Override
+            public void run() {
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
+                ticks += update;
+
+                for(Location loc : locs) {
+                    display.withLocation(loc).spawn();
+                }
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+    }
+
+    @Override
+    public BukkitTask createSphere(Location center, double radius, double rate, int update, long duration, ZParticleDisplay display) {
+        final double x = center.getX();
+        final double y = center.getY();
+        final double z = center.getZ();
+
+        //Initialise positions
+        List<double[]> sphere = new ArrayList<>();
+        for(double relX = -radius; relX < radius; relX += rate) {
+            for(double relY = -radius; relY < radius; relY += rate) {
+                for(double relZ = -radius; relZ < radius; relZ += rate) {
+                    //Add only if point lies within sphere
+                    if(NumberConversions.square(relX) + NumberConversions.square(relY) + NumberConversions.square(relZ) <= NumberConversions.square(radius)) {
+                        sphere.add(new double[]{x+relX, y+relY, z+relZ});
+                    }
+                }
+            }
+        }
+
+        //Only add edges of the sphere
+        ArrayList<Location> locs = new ArrayList<>();
+        for (double[] locPos : sphere) {
+            Location point = new Location(center.getWorld(), locPos[0], locPos[1], locPos[2]);
+            if(point.distance(center) > radius-rate && point.distance(center) < radius+rate) {
+                locs.add(point);
+            }
+        }
+
+        return new BukkitRunnable() {
+            int ticks = 0;
+
+            @Override
+            public void run() {
+                if (ticks > duration) {
+                    this.cancel();
+                    return;
+                }
+                ticks += update;
+
+                for(Location loc : locs) {
+                    display.withLocation(loc).spawn();
+                }
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+    }
+
+    @Override
+    public BukkitTask createWave(Location start, Location end, double rate, int update, long duration, double cycles, double multiplier, double angle, char axis, ZParticleDisplay display) {
+        double x = end.getX() - start.getX();
+        double y = end.getY() - start.getY();
+        double z = end.getZ() - start.getZ();
+        double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
+
+        x /= length;
+        y /= length;
+        z /= length;
+
+        //Initialise positions
+        List<double[]> line = new ArrayList<>(); //Rotate about this line
+        List<double[]> wave = new ArrayList<>();
+        double theta = 0;
+        for (double i = 0; i < length; i += rate) {
+            line.add(new double[]{x*i, y*i, z*i});
+
+            if(theta > 360) theta = 0;
+            double tilt = multiplier * Math.sin(Math.toRadians(theta));
+            wave.add(new double[]{
+                    x*i + tilt*Math.sin(NumberConversions.square(y)*Math.PI/2),
+                    y*i + tilt*Math.cos(NumberConversions.square(y)*Math.PI/2),
+                    z*i + tilt*Math.sin(NumberConversions.square(y)*Math.PI/2)});
+
+            theta += (cycles*360)/(length/rate);
+        }
+
+        //Rotate positions
+        List<Location> locs = new ArrayList<>();
+        angle = Math.toRadians(angle);
+        axis = randomAxis(axis);
+        for (int i=0; i<wave.size(); i++) {
+            Vector rotated = rotateAbout(new Vector(wave.get(i)[0], wave.get(i)[1], wave.get(i)[2]), new Vector(line.get(i)[0], line.get(i)[1], line.get(i)[2]), angle, axis);
+            locs.add(rotated.toLocation(start.getWorld()));
+        }
+
+        return new BukkitRunnable() {
+            int progress = 0;
+            @Override
+            public void run() {
+                if (progress >= wave.size()-1) {
+                    this.cancel();
+                    return;
+                }
+
+                //Leave particle point for <duration> ticks
+                new BukkitRunnable() {
+                    final int finalProgress = progress;
+                    int ticks = 0;
+                    @Override
+                    public void run() {
+                        if (ticks > duration) {
+                            this.cancel();
+                            return;
+                        }
+                        ticks += update;
+
+                        display.withLocation(start).spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2]);
+                    }
+                }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+
+                progress += 1;
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
     }
 }

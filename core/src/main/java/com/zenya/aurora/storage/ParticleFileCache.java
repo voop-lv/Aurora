@@ -1,6 +1,6 @@
 package com.zenya.aurora.storage;
 
-import com.zenya.aurora.ext.ZBiome;
+import com.zenya.aurora.util.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
 

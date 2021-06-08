@@ -1,13 +1,13 @@
 package com.zenya.aurora.event;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.ext.ZBiome;
+import com.zenya.aurora.util.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleManager;
 import com.zenya.aurora.storage.ToggleManager;
 import com.zenya.aurora.storage.StorageFileManager;
-import com.zenya.aurora.scheduler.particle.*;
+import com.zenya.aurora.particle.*;
 import com.zenya.aurora.util.LocationTools;
 import com.zenya.aurora.util.TimeCheck;
 import com.zenya.aurora.worldguard.AmbientParticlesFlag;

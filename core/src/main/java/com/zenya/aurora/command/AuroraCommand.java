@@ -2,7 +2,7 @@ package com.zenya.aurora.command;
 
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.event.ParticleUpdateEvent;
-import com.zenya.aurora.ext.ZBiome;
+import com.zenya.aurora.util.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;

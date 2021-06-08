@@ -1,7 +1,6 @@
-package com.zenya.aurora.ext;
+package com.zenya.aurora.util;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
