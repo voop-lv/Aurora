@@ -1,6 +1,7 @@
-package com.zenya.aurora.util;
+package com.zenya.aurora.util.ext;
 
 import com.zenya.aurora.Aurora;
+import com.zenya.aurora.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -56,6 +57,7 @@ public class LightAPI {
         craftbukkit.getVersions().put("v1_16_R1", CraftBukkit_v1_16_R1.class);
         craftbukkit.getVersions().put("v1_16_R2", CraftBukkit_v1_16_R2.class);
         craftbukkit.getVersions().put("v1_16_R3", CraftBukkit_v1_16_R3.class);
+        craftbukkit.getVersions().put("v1_17_R1", CraftBukkit_v1_17_R1.class);
         ServerModManager.registerServerMod(craftbukkit);
 
         // init nms

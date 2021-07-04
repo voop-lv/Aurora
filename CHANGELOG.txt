@@ -90,3 +90,9 @@ PRERELEASE 0.0.3:
 - Plugin rewrite for particle management
 - Aurora developer API has been released
 - Improved anti-leak features
+
+2.1.0:
+- Added 1.17 support with lighting compatibility
+- Dropped support for 1.16.4 (will be re-added in the next update)
+- Added command tabcomplete feature
+- Fixed an issue with inconsistent lighting

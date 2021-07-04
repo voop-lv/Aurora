@@ -44,6 +44,7 @@
       <plugin>
         <groupId>com.github.wvengen</groupId>
         <artifactId>proguard-maven-plugin</artifactId>
+        <version>2.4.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -65,18 +66,18 @@
                         }</option>
             <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile { *; }</option>
             <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile$* { *; }</option>
-            <option>-keepclassmembers class com.zenya.aurora.util.ZBiome { *; }</option>
+            <option>-keepclassmembers class com.zenya.aurora.util.ext.ZBiome { *; }</option>
             <option>-keep class * extends com.zenya.aurora.worldguard.WGManager</option>
             <option>-keep class com.zenya.aurora.api.* { *; }</option>
-            <option>-keepnames class com.zenya.aurora.util.ZParticleDisplay</option>
+            <option>-keepnames class com.zenya.aurora.util.ext.ZParticleDisplay</option>
             <option>-keepattributes !LocalVariableTable,!LocalVariableTypeTable,Exceptions,InnerClasses,Signature,Deprecated,LineNumberTable,*Annotation*,EnclosingMethod</option>
             <option>-dontwarn</option>
           </options>
           <libs>
-            <lib>${java.home}/lib/rt.jar</lib>
-            <lib>${settings.localRepository}/com/google/guava/guava/21.0/guava-21.0.jar</lib>
-            <lib>${settings.localRepository}/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar</lib>
-            <lib>${settings.localRepository}/org/spigotmc/spigot-api/1.16.4-R0.1-SNAPSHOT/spigot-api-1.16.4-R0.1-20201203.083325-28.jar</lib>
+            <lib>${java.home}\lib\rt.jar</lib>
+            <lib>${settings.localRepository}\com\google\guava\guava\21.0\guava-21.0.jar</lib>
+            <lib>${settings.localRepository}\com\google\code\gson\gson\2.8.5\gson-2.8.5.jar</lib>
+            <lib>${settings.localRepository}\org\spigotmc\spigot-api\1.17-R0.1-SNAPSHOT\spigot-api-1.17-R0.1-SNAPSHOT.jar</lib>
           </libs>
         </configuration>
       </plugin>
@@ -86,7 +87,7 @@
     <dependency>
       <groupId>com.github.wvengen</groupId>
       <artifactId>proguard-maven-plugin</artifactId>
-      <version>2.3.1</version>
+      <version>2.4.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

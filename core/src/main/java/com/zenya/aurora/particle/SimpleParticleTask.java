@@ -2,7 +2,7 @@ package com.zenya.aurora.particle;
 
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
-import com.zenya.aurora.util.LightAPI;
+import com.zenya.aurora.util.ext.LightAPI;
 import com.zenya.aurora.util.RandomNumber;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,10 +23,11 @@ public abstract class SimpleParticleTask extends ParticleTask {
         super(player, locs, particleFile);
         this.length = particleFile.getProperties().getLength();
         this.radius = particleFile.getProperties().getRadius();
+        this.runTasks();
     }
 
     @Override
-    public void runTasks(BukkitTask drawShape) {
+    public void runTasks() {
         //List to track existing particle groups
         List<BukkitTask> drawTasks = new ArrayList<>();
 
@@ -42,7 +43,7 @@ public abstract class SimpleParticleTask extends ParticleTask {
                 //Manage total displayed particle groups
                 if(drawTasks.size() < maxCount) {
                     //Create particles
-                    drawTasks.add(drawShape);
+                    drawTasks.add(generate());
 
                     //Set lighting if enabled
                     if(lighting) {

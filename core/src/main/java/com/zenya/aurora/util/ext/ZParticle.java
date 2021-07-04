@@ -1,4 +1,4 @@
-package com.zenya.aurora.util;
+package com.zenya.aurora.util.ext;
 
 import com.google.common.base.Enums;
 import com.zenya.aurora.Aurora;

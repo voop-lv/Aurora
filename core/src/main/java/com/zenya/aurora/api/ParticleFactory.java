@@ -1,6 +1,6 @@
 package com.zenya.aurora.api;
 
-import com.zenya.aurora.util.ZParticleDisplay;
+import com.zenya.aurora.util.ext.ZParticleDisplay;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;

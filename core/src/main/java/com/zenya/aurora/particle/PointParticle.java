@@ -11,12 +11,15 @@ public class PointParticle extends SimpleParticleTask {
 
     public PointParticle(Player player, Location[] locs, ParticleFile particleFile) {
         super(player, locs, particleFile);
-        BukkitTask drawShape = AuroraAPI.getAPI().getParticleFactory().createPoint(locs[locIndex], update.generateInt(), duration.generateLong(), display);
-        super.runTasks(drawShape);
     }
 
     @Override
     public TaskKey getKey() {
         return TaskKey.POINT_PARTICLE;
+    }
+
+    @Override
+    public BukkitTask generate() {
+        return AuroraAPI.getAPI().getParticleFactory().createPoint(locs[locIndex], update.generateInt(), duration.generateLong(), display);
     }
 }

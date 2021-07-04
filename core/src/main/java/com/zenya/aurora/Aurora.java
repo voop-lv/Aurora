@@ -2,10 +2,11 @@ package com.zenya.aurora;
 
 import com.zenya.aurora.api.AuroraAPI;
 import com.zenya.aurora.api.ParticleFactory;
-import com.zenya.aurora.util.LightAPI;
+import com.zenya.aurora.command.AuroraTab;
+import com.zenya.aurora.util.ext.LightAPI;
 import com.zenya.aurora.command.AuroraCommand;
 import com.zenya.aurora.event.Listeners;
-import com.zenya.aurora.util.ZParticle;
+import com.zenya.aurora.util.ext.ZParticle;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.storage.StorageFileManager;
@@ -69,6 +70,11 @@ public class Aurora extends JavaPlugin  {
 
         //Register commands
         this.getCommand("aurora").setExecutor(new AuroraCommand());
+        try {
+            this.getCommand("aurora").setTabCompleter(new AuroraTab());
+        } catch(Exception exc) {
+            //Do nothing, version doesn't support tabcomplete
+        }
     }
 
     @Override

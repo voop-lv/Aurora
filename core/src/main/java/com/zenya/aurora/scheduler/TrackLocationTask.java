@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
@@ -39,7 +40,7 @@ public class TrackLocationTask implements AuroraTask {
                             //Chunk change
                             Location curr = player.getLocation();
                             Location old = coordMap.getOrDefault(player, new Location(player.getWorld(), 0, 0, 0));
-                            if(!(new ChunkContainer().fromLocation(curr).getChunkCoords()).equals(new ChunkContainer().fromLocation(old).getChunkCoords())) {
+                            if(!Arrays.equals(new ChunkContainer().fromLocation(curr).getChunkCoords(), new ChunkContainer().fromLocation(old).getChunkCoords())) {
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {

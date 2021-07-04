@@ -1,4 +1,4 @@
-package com.zenya.aurora.util;
+package com.zenya.aurora.util.ext;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;

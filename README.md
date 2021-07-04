@@ -6,21 +6,21 @@ Aurora provides a unique experience for all players by generating dynamic **ambi
 
 ## Wiki
 #### Aurora
-- [Home](Home)
-- [Features](Features)
-- [Commands](Commands)
-- [Permissions](Permissions)
+- [Home](https://gitlab.com/Zenya4/aurora/-/wikis/Home)
+- [Features](https://gitlab.com/Zenya4/aurora/-/wikis/Features)
+- [Commands](https://gitlab.com/Zenya4/aurora/-/wikis/Commands)
+- [Permissions](https://gitlab.com/Zenya4/aurora/-/wikis/Permissions)
 
 #### Configuration
-- [General Configuration](General-Configuration)
-- [Particle Configuration](Particle-Configuration)
-- [Biome Presents](Biome-Presents)
+- [General Configuration](https://gitlab.com/Zenya4/aurora/-/wikis/General-Configuration)
+- [Particle Configuration](https://gitlab.com/Zenya4/aurora/-/wikis/Particle-Configuration)
+- [Biome Presents](https://gitlab.com/Zenya4/aurora/-/wikis/Biome-Presents)
 
 #### Support
-- [Frequently Asked Questions](Frequently-Asked-Questions)
-- [WorldGuard Compatibility](WorldGuard-Compatibility)
-- [Developer API](Developer-API)
-- [Terms Of Service](Terms-Of-Service)
+- [Frequently Asked Questions](https://gitlab.com/Zenya4/aurora/-/wikis/Frequently-Asked-Questions)
+- [WorldGuard Compatibility](https://gitlab.com/Zenya4/aurora/-/wikis/WorldGuard-Compatibility)
+- [Developer API](https://gitlab.com/Zenya4/aurora/-/wikis/Developer-API)
+- [Terms Of Service](https://gitlab.com/Zenya4/aurora/-/wikis/Terms-Of-Service)
 
 ## More Info
 [Download](https://www.spigotmc.org/resources/%E2%98%84%EF%B8%8Faurora%E2%98%84%EF%B8%8F-ambient-particle-display-customisable-per-biome.89399/) (SpigotMC)<br>

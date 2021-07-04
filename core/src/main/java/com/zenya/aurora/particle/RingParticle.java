@@ -11,12 +11,15 @@ public class RingParticle extends SimpleParticleTask {
 
     public RingParticle(Player player, Location[] locs, ParticleFile particleFile) {
         super(player, locs, particleFile);
-        BukkitTask drawShape = AuroraAPI.getAPI().getParticleFactory().createRing(locs[locIndex], radius.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
-        super.runTasks(drawShape);
     }
 
     @Override
     public TaskKey getKey() {
         return TaskKey.RING_PARTICLE;
+    }
+
+    @Override
+    public BukkitTask generate() {
+        return AuroraAPI.getAPI().getParticleFactory().createRing(locs[locIndex], radius.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
     }
 }

@@ -11,12 +11,15 @@ public class LineParticle extends ComplexParticleTask {
 
     public LineParticle(Player player, Location[] locs, ParticleFile particleFile) {
         super(player, locs, particleFile);
-        BukkitTask drawShape = AuroraAPI.getAPI().getParticleFactory().createLine(locs[locIndex], locs[locIndex+1], rate.generateDouble(), update.generateInt(), duration.generateLong(), display);
-        super.runTasks(drawShape);
     }
 
     @Override
     public TaskKey getKey() {
         return TaskKey.LINE_PARTICLE;
+    }
+
+    @Override
+    public BukkitTask generate() {
+        return AuroraAPI.getAPI().getParticleFactory().createLine(locs[locIndex], locs[locIndex+1], rate.generateDouble(), update.generateInt(), duration.generateLong(), display);
     }
 }

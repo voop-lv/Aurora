@@ -1,11 +1,10 @@
 package com.zenya.aurora.particle;
 
-import com.zenya.aurora.api.AuroraAPI;
 import com.zenya.aurora.api.ParticleFactory;
-import com.zenya.aurora.util.ZParticleDisplay;
+import com.zenya.aurora.util.ext.ZParticleDisplay;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.scheduler.TaskKey;
-import com.zenya.aurora.util.LightAPI;
+import com.zenya.aurora.util.ext.LightAPI;
 import com.zenya.aurora.util.RandomNumber;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -45,6 +44,8 @@ public abstract class ParticleTask {
 
     public abstract TaskKey getKey();
 
+    public abstract BukkitTask generate();
+
     public Player getPlayer() {
         return player;
     }
@@ -53,7 +54,7 @@ public abstract class ParticleTask {
         return runnables;
     }
 
-    public abstract void runTasks(BukkitTask particleTask);
+    public abstract void runTasks();
 
     public void killTasks() {
         for(BukkitTask t : runnables) {
