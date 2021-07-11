@@ -96,3 +96,6 @@ PRERELEASE 0.0.3:
 - Dropped support for 1.16.4 (will be re-added in the next update)
 - Added command tabcomplete feature
 - Fixed an issue with inconsistent lighting
+
+2.1.1:
+- Re-added 1.16.4 support
