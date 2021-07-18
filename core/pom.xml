@@ -35,7 +35,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <dependency>
             <groupId>io.github.qveshn</groupId>
             <artifactId>LightAPI-fork</artifactId>
-            <version>3.5.1-SNAPSHOT</version>
+            <version>3.5.2-SNAPSHOT</version>
         </dependency>
 
         <!-- WorldGuard for WGManager abstract class -->

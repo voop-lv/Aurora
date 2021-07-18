@@ -19,6 +19,7 @@ import ru.beykerykt.lightapi.server.ServerModInfo;
 import ru.beykerykt.lightapi.server.ServerModManager;
 import ru.beykerykt.lightapi.server.nms.INMSHandler;
 import ru.beykerykt.lightapi.server.nms.craftbukkit.*;
+import ru.beykerykt.lightapi.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,23 +62,23 @@ public class LightAPI {
         ServerModManager.registerServerMod(craftbukkit);
 
         // init nms
-        String serverName = ServerModManager.getServerName();
+        String serverName = Utils.serverName();
         Class<? extends INMSHandler> clazz = ServerModManager.findImplementaion("CraftBukkit");
 
         if (clazz == null) {
             Logger.logError("No LightAPI implementations was found for §f%s %s",
-                    serverName, ServerModManager.getServerVersion());
+                    serverName, Utils.serverVersion());
             Logger.logError("Support for lighting features may be limited");
         } else {
             try {
                 ServerModManager.initImplementaion(clazz);
                 Logger.logInfo("Loading LightAPI implementation for §f%s %s",
-                        serverName, ServerModManager.getServerVersion());
+                        serverName, Utils.serverVersion());
                 machine = new RequestSteamMachine();
                 machine.start(UPDATE_DELAY_TICKS, MAX_ITERATIONS_PER_TICK);
             } catch (Exception e) {
                 Logger.logError("Could not initialise LightAPI implementation for §f%s %s",
-                        serverName, ServerModManager.getServerVersion());
+                        serverName, Utils.serverVersion());
                 Logger.logError("Support for lighting features may be limited");
                 e.printStackTrace();
             }

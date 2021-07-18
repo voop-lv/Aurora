@@ -99,3 +99,6 @@ PRERELEASE 0.0.3:
 
 2.1.1:
 - Re-added 1.16.4 support
+
+2.1.2
+- Added 1.17.1 support
