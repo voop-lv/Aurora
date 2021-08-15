@@ -1,6 +1,7 @@
 package com.zenya.aurora.util.ext;
 
 import com.zenya.aurora.Aurora;
+import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,7 +36,7 @@ import java.util.List;
  */
 
 public class LightAPI {
-    public static final LightAPI INSTANCE = new LightAPI();
+    public static LightAPI INSTANCE = new LightAPI();
     private final int UPDATE_DELAY_TICKS = 2;
     private final int MAX_ITERATIONS_PER_TICK = 5000;
     private static RequestSteamMachine machine;
@@ -61,7 +62,7 @@ public class LightAPI {
         craftbukkit.getVersions().put("v1_17_R1", CraftBukkit_v1_17_R1.class);
         ServerModManager.registerServerMod(craftbukkit);
 
-        // init nms
+        //Init NMS
         String serverName = Utils.serverName();
         Class<? extends INMSHandler> clazz = ServerModManager.findImplementaion("CraftBukkit");
 
@@ -76,21 +77,37 @@ public class LightAPI {
                         serverName, Utils.serverVersion());
                 machine = new RequestSteamMachine();
                 machine.start(UPDATE_DELAY_TICKS, MAX_ITERATIONS_PER_TICK);
-            } catch (Exception e) {
+            } catch (Exception exc) {
                 Logger.logError("Could not initialise LightAPI implementation for §f%s %s",
                         serverName, Utils.serverVersion());
                 Logger.logError("Support for lighting features may be limited");
-                e.printStackTrace();
+                exc.printStackTrace();
             }
         }
+
+        //Test light creation & deletion
+        //Disable if fork uses ca.spottedleaf.starlight lighting engine
+        try {
+            Bukkit.getServer().getWorlds();
+            if(Bukkit.getServer().getWorlds().size() != 0) {
+                Location testLoc = new Location(Bukkit.getServer().getWorlds().get(0), 0, 0, 0);
+                setLight(testLoc, LightType.BLOCK, 15, true);
+                clearLight(testLoc, LightType.BLOCK, true);
+            }
+        } catch(ClassCastException exc) {
+            Logger.logError("Unknown server fork &f%s", serverName);
+            Logger.logError("Use Spigot or Paper to enable support for lighting features");
+            disable();
+        }
+        Logger.logInfo("Enabling LightAPI...");
     }
 
-    public void disable() {
-        machine.shutdown();
-    }
-
-    public static boolean isEnabled() {
-        return (INSTANCE != null ? true : false);
+    public static void disable() {
+        Logger.logInfo("Disabling LightAPI...");
+        if(INSTANCE != null) {
+            machine.shutdown();
+        }
+        INSTANCE = null;
     }
 
     @SuppressWarnings("unused")

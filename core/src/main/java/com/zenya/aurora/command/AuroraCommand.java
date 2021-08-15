@@ -2,6 +2,7 @@ package com.zenya.aurora.command;
 
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.event.ParticleUpdateEvent;
+import com.zenya.aurora.util.ext.LightAPI;
 import com.zenya.aurora.util.ext.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
@@ -72,6 +73,15 @@ public class AuroraCommand implements CommandExecutor {
 
             if(args[0].toLowerCase().equals("reload")) {
                 StorageFileManager.reloadFiles();
+                if(StorageFileManager.getConfig().getBool("enable-lighting")) {
+                    LightAPI lightAPI = LightAPI.INSTANCE;
+                } else {
+                    try {
+                        LightAPI.disable();
+                    } catch(NoClassDefFoundError exc) {
+                        //Already disabled, do nothing
+                    }
+                }
                 ParticleFileCache.reload();
                 chat.withArgs(ParticleFileManager.INSTANCE.getParticles().size()).sendMessages("command.reload");
 

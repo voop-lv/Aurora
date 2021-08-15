@@ -100,5 +100,9 @@ PRERELEASE 0.0.3:
 2.1.1:
 - Re-added 1.16.4 support
 
-2.1.2
+2.1.2:
 - Added 1.17.1 support
+
+2.1.3:
+- Compatibility fix to automatically disable particle lighting when running on an unsupported Spigot fork
+- Added global toggle for particle lighting in "config.yml"

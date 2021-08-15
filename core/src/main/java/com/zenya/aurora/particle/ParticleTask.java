@@ -1,6 +1,7 @@
 package com.zenya.aurora.particle;
 
 import com.zenya.aurora.api.ParticleFactory;
+import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.ext.ZParticleDisplay;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.scheduler.TaskKey;
@@ -34,7 +35,7 @@ public abstract class ParticleTask {
         this.particle = Particle.valueOf(particleFile.getParticle().getParticleName());
         this.display = ParticleFactory.toDisplay(particle, player);
         this.maxCount = particleFile.getParticle().getMaxCount();
-        this.lighting = (LightAPI.isEnabled() && particleFile.getParticle().isEnableLighting());
+        this.lighting = StorageFileManager.getConfig().getBool("enable-lighting") && particleFile.getParticle().isEnableLighting();
         this.rate = particleFile.getProperties().getRate();
         this.update = particleFile.getProperties().getUpdate();
         this.duration = particleFile.getProperties().getDuration();

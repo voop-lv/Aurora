@@ -1,6 +1,6 @@
 # Config wiki and help can be found at https://gitlab.com/Zenya4/aurora/-/wikis/General-Configuration
 # For internal reference only, do not change the config version
-config-version: 3
+config-version: 4
 
 # Only spawn particles in the given CHUNK radius around players
 # It is highly recommended to keep this value at 2-3 for the best viewing experience
@@ -17,3 +17,9 @@ stop-spawning-at: 24000
 disabled-worlds:
   - "vanilla"
   - "testworld"
+
+# Global toggle for if particles should be allowed to spawn with lighting
+# Setting this to false will prevent Aurora from creating light when spawning ANY particles
+# Setting this to true will let Aurora choose depending on "particle.enableLighting" in each particle config
+# It can be useful to disable lighting if you're experiencing performance issues
+enable-lighting: true

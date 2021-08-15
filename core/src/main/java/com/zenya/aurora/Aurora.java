@@ -53,17 +53,19 @@ public class Aurora extends JavaPlugin  {
         //Register API
         AuroraAPI.setAPI(new AuroraAPIImpl());
 
+        //Init config, messages, biomes and db
+        storageFileManager = StorageFileManager.INSTANCE;
+
         //Init LightAPI
-        lightAPI = LightAPI.INSTANCE;
+        if(StorageFileManager.getConfig().getBool("enable-lighting")) lightAPI = LightAPI.INSTANCE;
+
+        //Init particle files
+        particleFileManager = ParticleFileManager.INSTANCE;
+        particleFileCache = ParticleFileCache.INSTANCE;
 
         //Register all runnables
         //Spigot buyer ID check in here
         taskManager = TaskManager.INSTANCE;
-
-        //Init all configs and particle files
-        storageFileManager = StorageFileManager.INSTANCE;
-        particleFileManager = ParticleFileManager.INSTANCE;
-        particleFileCache = ParticleFileCache.INSTANCE;
 
         //Register events
         this.getServer().getPluginManager().registerEvents(new Listeners(), this);
@@ -86,7 +88,11 @@ public class Aurora extends JavaPlugin  {
         for(Player player : players) {
             pm.unregisterTasks(player);
         }
-        lightAPI.disable();
+        try {
+            LightAPI.disable();
+        } catch(NoClassDefFoundError exc) {
+            //Silence errors
+        }
     }
 
     private class AuroraAPIImpl extends AuroraAPI {
