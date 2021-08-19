@@ -106,3 +106,8 @@ PRERELEASE 0.0.3:
 2.1.3:
 - Compatibility fix to automatically disable particle lighting when running on an unsupported Spigot fork
 - Added global toggle for particle lighting in "config.yml"
+
+2.1.4:
+- Compatibility fix with particle configs not generating properly on Windows hosts
+- Bug fix with particle configs not generating properly when server name contains spaces
+- More fixes to automatically disable particle lighting when running on an unsupported Spigot fork

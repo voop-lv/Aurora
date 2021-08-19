@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
+import com.zenya.aurora.util.ChatBuilder;
 import com.zenya.aurora.util.Logger;
 import com.zenya.aurora.util.RandomNumber;
 
@@ -28,24 +29,25 @@ public class ParticleFileManager {
         builder.registerTypeAdapter(RandomNumber.class, new RandomNumber.RandomNumberDeserializer());
         gson = builder.create();
 
-        //Create default particle files if not exists
-        if (!PARTICLE_FOLDER.isDirectory()) {
-            PARTICLE_FOLDER.mkdirs();
+        try {
+            //Create default particle files if not exists
+            if (!PARTICLE_FOLDER.isDirectory() || !Files.newDirectoryStream(PARTICLE_FOLDER.toPath()).iterator().hasNext()) {
+                PARTICLE_FOLDER.mkdirs();
 
-            try {
-                final JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath())); //Read .jar file
+                //Use ChatBuilder.fileSeparator instead of File.separator to sanitise escape characters in Windows filepaths
+                final JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replace("%20", " "))); //Read .jar file
                 final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
                 while (entries.hasMoreElements()) {
                     final String path = entries.nextElement().getName();
-                    final String name = path.split(File.separator)[path.split(File.separator).length - 1];
-                    if(path.contains("particles" + File.separator) && (name.endsWith(".json") || name.endsWith(".txt"))) {
-                        Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles" + File.separator + name), new File(PARTICLE_FOLDER, name).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    final String name = path.split("/")[path.split("/").length - 1];
+                    if (path.contains("particles/") && (name.endsWith(".json") || name.endsWith(".txt"))) {
+                        Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles/" + name), new File(PARTICLE_FOLDER, name).toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
-                jar.close();
-            } catch (IOException exc) {
-                exc.printStackTrace();
+            jar.close();
             }
+        } catch (IOException exc) {
+            exc.printStackTrace();
         }
 
         //Register all files inside a hashmap as ParticleFile classes

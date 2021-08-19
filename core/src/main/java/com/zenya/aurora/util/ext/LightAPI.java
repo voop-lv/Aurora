@@ -70,6 +70,8 @@ public class LightAPI {
             Logger.logError("No LightAPI implementations was found for §f%s %s",
                     serverName, Utils.serverVersion());
             Logger.logError("Support for lighting features may be limited");
+            disable();
+            return;
         } else {
             try {
                 ServerModManager.initImplementaion(clazz);
@@ -81,33 +83,34 @@ public class LightAPI {
                 Logger.logError("Could not initialise LightAPI implementation for §f%s %s",
                         serverName, Utils.serverVersion());
                 Logger.logError("Support for lighting features may be limited");
-                exc.printStackTrace();
+                disable();
+                return;
             }
         }
 
-        //Test light creation & deletion
         //Disable if fork uses ca.spottedleaf.starlight lighting engine
         try {
-            Bukkit.getServer().getWorlds();
-            if(Bukkit.getServer().getWorlds().size() != 0) {
-                Location testLoc = new Location(Bukkit.getServer().getWorlds().get(0), 0, 0, 0);
-                setLight(testLoc, LightType.BLOCK, 15, true);
-                clearLight(testLoc, LightType.BLOCK, true);
+            Class<?> starlight = Class.forName("ca.spottedleaf.starlight.light.StarLightInterface", false, getClass().getClassLoader()); //$2
+            if(starlight != null) {
+                Logger.logError("No LightAPI implementations was found for §f%s %s",
+                        serverName, Utils.serverVersion());
+                Logger.logError("Support for lighting features may be limited");
+                disable();
+                return;
             }
-        } catch(ClassCastException exc) {
-            Logger.logError("Unknown server fork &f%s", serverName);
-            Logger.logError("Use Spigot or Paper to enable support for lighting features");
-            disable();
+        } catch(ClassNotFoundException exc) {
+            //Not using starlight, enable LightAPI as per normal
+            Logger.logInfo("Enabling LightAPI...");
         }
-        Logger.logInfo("Enabling LightAPI...");
+
     }
 
     public static void disable() {
-        Logger.logInfo("Disabling LightAPI...");
         if(INSTANCE != null) {
+            Logger.logInfo("Disabling LightAPI...");
             machine.shutdown();
+            INSTANCE = null;
         }
-        INSTANCE = null;
     }
 
     @SuppressWarnings("unused")
