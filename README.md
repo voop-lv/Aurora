@@ -6,22 +6,22 @@ Aurora provides a unique experience for all players by generating dynamic **ambi
 
 ## Wiki
 #### Aurora
-- [Home](https://gitlab.com/Zenya4/aurora/-/wikis/Home)
-- [Features](https://gitlab.com/Zenya4/aurora/-/wikis/Features)
-- [Commands](https://gitlab.com/Zenya4/aurora/-/wikis/Commands)
-- [Permissions](https://gitlab.com/Zenya4/aurora/-/wikis/Permissions)
+- [Home](https://github.com/OpticFusion1/Aurora/wiki)
+- [Features](https://github.com/OpticFusion1/Aurora/wiki/Features)
+- [Commands](https://github.com/OpticFusion1/Aurora/wiki/Commands)
+- [Permissions](https://github.com/OpticFusion1/Aurora/wiki/Permissions)
 
 #### Configuration
-- [General Configuration](https://gitlab.com/Zenya4/aurora/-/wikis/General-Configuration)
-- [Particle Configuration](https://gitlab.com/Zenya4/aurora/-/wikis/Particle-Configuration)
-- [Biome Presents](https://gitlab.com/Zenya4/aurora/-/wikis/Biome-Presents)
+- [General Configuration](https://github.com/OpticFusion1/Aurora/wiki/General-Configuration)
+- [Particle Configuration](https://github.com/OpticFusion1/Aurora/wiki/Particle-Configuration)
+- [Biome Presents](https://github.com/OpticFusion1/Aurora/wiki/Biome-Presents)
 
 #### Support
-- [Frequently Asked Questions](https://gitlab.com/Zenya4/aurora/-/wikis/Frequently-Asked-Questions)
-- [WorldGuard Compatibility](https://gitlab.com/Zenya4/aurora/-/wikis/WorldGuard-Compatibility)
-- [Developer API](https://gitlab.com/Zenya4/aurora/-/wikis/Developer-API)
-- [Terms Of Service](https://gitlab.com/Zenya4/aurora/-/wikis/Terms-Of-Service)
+- [Frequently Asked Questions](https://github.com/OpticFusion1/Aurora/wiki/Frequently-Asked-Questions)
+- [WorldGuard Compatibility](https://github.com/OpticFusion1/Aurora/wiki/WorldGuard-Compatibility)
+- [Developer API](https://github.com/OpticFusion1/Aurora/wiki/Developer-API)
+- [Terms Of Service](https://github.com/OpticFusion1/Aurora/wiki/Terms-Of-Service)
 
 ## More Info
 [Download](https://www.spigotmc.org/resources/%E2%98%84%EF%B8%8Faurora%E2%98%84%EF%B8%8F-ambient-particle-display-customisable-per-biome.89399/) (SpigotMC)<br>
-[Support](https://discord.gg/KGuaxpM) (Discord)
+[Support](https://discord.gg/jMEsq4zHVA) (Discord)
