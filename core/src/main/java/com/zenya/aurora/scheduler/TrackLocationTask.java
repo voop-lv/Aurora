@@ -36,12 +36,13 @@ public class TrackLocationTask implements AuroraTask {
       @Override
       public void run() {
         playerCoords.thenAcceptAsync(coordMap -> {
-          if (Bukkit.getOnlinePlayers() != null && Bukkit.getOnlinePlayers().size() != 0) {
+          if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player player : Bukkit.getOnlinePlayers()) {
               //Chunk change
               Location curr = player.getLocation();
               Location old = coordMap.getOrDefault(player, new Location(player.getWorld(), 0, 0, 0));
-              if (!Arrays.equals(new ChunkContainer().fromLocation(curr).getChunkCoords(), new ChunkContainer().fromLocation(old).getChunkCoords())) {
+              if (!Arrays.equals(new ChunkContainer().fromLocation(curr).getChunkCoords(),
+                      new ChunkContainer().fromLocation(old).getChunkCoords())) {
                 new BukkitRunnable() {
                   @Override
                   public void run() {
@@ -62,7 +63,7 @@ public class TrackLocationTask implements AuroraTask {
       @Override
       public void run() {
         playerCoords.thenAcceptAsync(coordMap -> {
-          if (Bukkit.getOnlinePlayers() != null && Bukkit.getOnlinePlayers().size() != 0) {
+          if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player player : Bukkit.getOnlinePlayers()) {
               if (!coordMap.containsKey(player)) {
                 //Initialise player location
@@ -82,8 +83,8 @@ public class TrackLocationTask implements AuroraTask {
       @Override
       public void run() {
         playerCoords.thenAcceptAsync(coordMap -> {
-          if (Bukkit.getOnlinePlayers() != null && Bukkit.getOnlinePlayers().size() != 0) {
-            if (coordMap.keySet() != null && coordMap.keySet().size() != 0) {
+          if (!Bukkit.getOnlinePlayers().isEmpty()) {
+            if (coordMap.keySet() != null && !coordMap.keySet().isEmpty()) {
               coordMap.entrySet().removeIf(entry -> (!Bukkit.getOnlinePlayers().contains(entry.getKey())));
             }
           } else {

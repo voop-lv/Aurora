@@ -20,6 +20,7 @@ public class LineParticle extends ComplexParticleTask {
 
   @Override
   public BukkitTask generate() {
-    return AuroraAPI.getAPI().getParticleFactory().createLine(locs[locIndex], locs[locIndex + 1], rate.generateDouble(), update.generateInt(), duration.generateLong(), display);
+    return AuroraAPI.getAPI().getParticleFactory().createLine(locs[locIndex], locs[locIndex + 1], rate.generateDouble(),
+            update.generateInt(), duration.generateLong(), display);
   }
 }

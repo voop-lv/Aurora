@@ -110,7 +110,8 @@ public class AuroraCommand implements CommandExecutor {
                 if (AmbientParticlesFlag.INSTANCE.getParticles(player).contains(particleFile)) {
                   //Set if particle is in region
                   particleName = ChatBuilder.translateColor("&b");
-                } else if (AmbientParticlesFlag.INSTANCE.getParticles(player).size() == 0 && ParticleFileCache.INSTANCE.getClass(biomeName).contains(particleFile)) {
+                } else if (AmbientParticlesFlag.INSTANCE.getParticles(player).isEmpty()
+                        && ParticleFileCache.INSTANCE.getClass(biomeName).contains(particleFile)) {
                   //If region has no particles, fallback to biome
                   particleName = ChatBuilder.translateColor("&b");
                 }
@@ -147,16 +148,20 @@ public class AuroraCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        if (args[1].toLowerCase().equals("on")) {
-          ToggleManager.INSTANCE.registerToggle(player.getName(), true);
-          chat.sendMessages("command.toggle.enable");
-        } else if (args[1].toLowerCase().equals("off")) {
-          ToggleManager.INSTANCE.registerToggle(player.getName(), false);
-          chat.sendMessages("command.toggle.disable");
-        } else {
-          //Wrong arg2 for toggle
-          sendUsage(sender);
-          return true;
+        switch (args[1].toLowerCase()) {
+          case "on" -> {
+            ToggleManager.INSTANCE.registerToggle(player.getName(), true);
+            chat.sendMessages("command.toggle.enable");
+          }
+          case "off" -> {
+            ToggleManager.INSTANCE.registerToggle(player.getName(), false);
+            chat.sendMessages("command.toggle.disable");
+          }
+          default -> {
+            //Wrong arg2 for toggle
+            sendUsage(sender);
+            return true;
+          }
         }
         Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
         return true;

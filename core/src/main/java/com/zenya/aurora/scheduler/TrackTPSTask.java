@@ -43,7 +43,7 @@ public class TrackTPSTask implements AuroraTask {
 
     //Task to populate avgTps
     BukkitTask task2 = new BukkitRunnable() {
-      ArrayList<Float> tpsList = new ArrayList<Float>();
+      ArrayList<Float> tpsList = new ArrayList<>();
 
       @Override
       public void run() {

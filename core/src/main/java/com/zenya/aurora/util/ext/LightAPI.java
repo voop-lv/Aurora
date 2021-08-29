@@ -75,12 +75,12 @@ public class LightAPI {
     } else {
       try {
         ServerModManager.initImplementaion(clazz);
-        Logger.logInfo("Loading LightAPI implementation for §f%s %s",
+        Logger.logInfo("Loading LightAPI implementation for �f%s %s",
                 serverName, Utils.serverVersion());
         machine = new RequestSteamMachine();
         machine.start(UPDATE_DELAY_TICKS, MAX_ITERATIONS_PER_TICK);
       } catch (Exception exc) {
-        Logger.logError("Could not initialise LightAPI implementation for §f%s %s",
+        Logger.logError("Could not initialise LightAPI implementation for �f%s %s",
                 serverName, Utils.serverVersion());
         Logger.logError("Support for lighting features may be limited");
         disable();
@@ -92,11 +92,9 @@ public class LightAPI {
     try {
       Class<?> starlight = Class.forName("ca.spottedleaf.starlight.light.StarLightInterface", false, getClass().getClassLoader()); //$2
       if (starlight != null) {
-        Logger.logError("No LightAPI implementations was found for §f%s %s",
-                serverName, Utils.serverVersion());
+        Logger.logError("No LightAPI implementations was found for §f%s %s", serverName, Utils.serverVersion());
         Logger.logError("Support for lighting features may be limited");
         disable();
-        return;
       }
     } catch (ClassNotFoundException exc) {
       //Not using starlight, enable LightAPI as per normal
@@ -194,18 +192,15 @@ public class LightAPI {
       Bukkit.getPluginManager().callEvent(event);
 
       if (!event.isCancelled()) {
-        Runnable request = new Runnable() {
-          @Override
-          public void run() {
-            synchronized (lock) {
-              ServerModManager.getNMSHandler().createLight(
-                      event.getWorld(),
-                      event.getX(),
-                      event.getY(),
-                      event.getZ(),
-                      event.getLightType(),
-                      event.getLightLevel());
-            }
+        Runnable request = () -> {
+          synchronized (lock) {
+            ServerModManager.getNMSHandler().createLight(
+                    event.getWorld(),
+                    event.getX(),
+                    event.getY(),
+                    event.getZ(),
+                    event.getLightType(),
+                    event.getLightLevel());
           }
         };
         if (event.isAsync()) {
@@ -250,16 +245,13 @@ public class LightAPI {
       Bukkit.getPluginManager().callEvent(event);
 
       if (!event.isCancelled()) {
-        Runnable request = new Runnable() {
-          @Override
-          public void run() {
-            ServerModManager.getNMSHandler().deleteLight(
-                    event.getWorld(),
-                    event.getX(),
-                    event.getY(),
-                    event.getZ(),
-                    event.getLightType());
-          }
+        Runnable request = () -> {
+          ServerModManager.getNMSHandler().deleteLight(
+                  event.getWorld(),
+                  event.getX(),
+                  event.getY(),
+                  event.getZ(),
+                  event.getLightType());
         };
         if (event.isAsync()) {
           machine.addToQueue(request);
@@ -309,7 +301,7 @@ public class LightAPI {
     if (Aurora.getInstance().isEnabled()) {
       return ServerModManager.getNMSHandler().collectChunks(world, x, y, z, lightType, lightLevel);
     }
-    return new ArrayList<ChunkInfo>();
+    return new ArrayList<>();
   }
 
   @Deprecated
@@ -388,7 +380,7 @@ public class LightAPI {
     return false;
   }
 
-  private static BlockFace[] SIDES = {
+  private static final BlockFace[] SIDES = {
     BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST
   };
 

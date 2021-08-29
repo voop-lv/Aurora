@@ -20,6 +20,7 @@ public class CubeParticle extends SimpleParticleTask {
 
   @Override
   public BukkitTask generate() {
-    return AuroraAPI.getAPI().getParticleFactory().createCube(locs[locIndex], length.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
+    return AuroraAPI.getAPI().getParticleFactory().createCube(locs[locIndex], length.generateDouble(), rate.generateDouble(),
+            update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
   }
 }

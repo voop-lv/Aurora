@@ -42,26 +42,19 @@ public class Listeners implements Listener {
               particleFile.getSpawning().isShuffleLocations()).thenAcceptAsync(locs -> {
 
         switch (particleFile.getParticle().getParticleType().toUpperCase()) {
-          case "LINE":
+          case "LINE" ->
             ParticleManager.INSTANCE.registerTask(player, new LineParticle(player, locs, particleFile));
-            break;
-          case "CUBE":
+          case "CUBE" ->
             ParticleManager.INSTANCE.registerTask(player, new CubeParticle(player, locs, particleFile));
-            break;
-          case "RING":
+          case "RING" ->
             ParticleManager.INSTANCE.registerTask(player, new RingParticle(player, locs, particleFile));
-            break;
-          case "CIRCLE":
+          case "CIRCLE" ->
             ParticleManager.INSTANCE.registerTask(player, new CircleParticle(player, locs, particleFile));
-            break;
-          case "SPHERE":
+          case "SPHERE" ->
             ParticleManager.INSTANCE.registerTask(player, new SphereParticle(player, locs, particleFile));
-            break;
-          case "WAVE":
+          case "WAVE" ->
             ParticleManager.INSTANCE.registerTask(player, new WaveParticle(player, locs, particleFile));
-            break;
-          default:
-            //Default to point particle
+          default -> //Default to point particle
             ParticleManager.INSTANCE.registerTask(player, new PointParticle(player, locs, particleFile));
         }
       });
@@ -121,16 +114,16 @@ public class Listeners implements Listener {
     if (WGManager.INSTANCE.getWorldGuard() != null) {
       List<ParticleFile> regionParticles = AmbientParticlesFlag.INSTANCE.getParticles(player);
       //WorldGuard support
-      if (regionParticles.size() != 0) {
+      if (!regionParticles.isEmpty()) {
         spawnParticles(e, regionParticles);
       } else {
-        if (biomeParticles != null && biomeParticles.size() != 0) {
+        if (biomeParticles != null && !biomeParticles.isEmpty()) {
           spawnParticles(e, biomeParticles);
         }
       }
     } else {
       //No WorldGuard support
-      if (biomeParticles != null && biomeParticles.size() != 0) {
+      if (biomeParticles != null && !biomeParticles.isEmpty()) {
         spawnParticles(e, biomeParticles);
       }
     }

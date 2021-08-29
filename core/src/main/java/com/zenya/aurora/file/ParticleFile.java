@@ -31,7 +31,7 @@ public class ParticleFile {
         for (String biome : biomes) {
           if (biome.toUpperCase().startsWith("PRESENT:")) {
             String present = biome.substring(8).replaceAll(" ", "");
-            if (presentsFile.getList(present) != null && presentsFile.getList(present).size() != 0) {
+            if (presentsFile.getList(present) != null && !presentsFile.getList(present).isEmpty()) {
               for (String presentBiome : presentsFile.getList(present)) {
                 finalBiomes.add(presentBiome);
               }

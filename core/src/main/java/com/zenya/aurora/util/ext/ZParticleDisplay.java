@@ -329,6 +329,7 @@ public class ZParticleDisplay {
    * @return the cloned ZParticleDisplay.
    */
   @Nonnull
+  @Override
   public ZParticleDisplay clone() {
     ZParticleDisplay display = new ZParticleDisplay(particle, locationCaller, (location == null ? null : cloneLocation(location)), count, offsetx, offsety, offsetz, extra, players);
     display.data = data;

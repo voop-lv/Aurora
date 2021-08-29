@@ -15,30 +15,34 @@ public class AuroraTab implements TabCompleter {
     List<String> matches = new ArrayList<>();
 
     switch (args.length) {
-      case 0:
+      case 0 -> {
         matches.add("aurora");
         return StringUtil.copyPartialMatches(cmd.getName(), matches, new ArrayList<>());
-      case 1:
+      }
+      case 1 -> {
         matches.add("help");
         matches.add("toggle");
         matches.add("reload");
         matches.add("status");
         matches.add("fixlighting");
         return StringUtil.copyPartialMatches(args[0], matches, new ArrayList<>());
+      }
 
-      case 2:
+      case 2 -> {
         switch (args[0].toLowerCase()) {
-          case "toggle":
+          case "toggle" -> {
             matches.add("on");
             matches.add("off");
             return StringUtil.copyPartialMatches(args[1], matches, new ArrayList<>());
-
-          case "fixlighting":
+          }
+          case "fixlighting" -> {
             for (int i = 1; i <= 10; i++) {
               matches.add(String.valueOf(i));
             }
             return StringUtil.copyPartialMatches(args[1], matches, new ArrayList<>());
+          }
         }
+      }
     }
     return null;
   }

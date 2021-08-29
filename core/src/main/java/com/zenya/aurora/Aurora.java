@@ -19,8 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Set;
-
 public class Aurora extends JavaPlugin {
 
   private static Aurora instance;
@@ -86,8 +84,7 @@ public class Aurora extends JavaPlugin {
     HandlerList.unregisterAll(instance);
     taskManager.unregisterTasks();
     ParticleManager pm = ParticleManager.INSTANCE;
-    final Set<Player> players = pm.getPlayers();
-    for (Player player : players) {
+    for (Player player : pm.getPlayers()) {
       pm.unregisterTasks(player);
     }
     try {

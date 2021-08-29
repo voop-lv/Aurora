@@ -171,9 +171,6 @@ public class YAMLFile extends StorageFile {
 
   public boolean listContains(String node, String item) {
     List<String> list = getList(node);
-    if (list != null && list.size() != 0 && list.contains(item)) {
-      return true;
-    }
-    return false;
+    return list != null && !list.isEmpty() && list.contains(item);
   }
 }

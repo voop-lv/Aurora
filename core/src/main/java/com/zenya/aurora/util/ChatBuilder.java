@@ -67,7 +67,7 @@ public class ChatBuilder {
     text = player == null ? text : text.replaceAll("%world%", player.getWorld().getName());
     text = player == null ? text : text.replaceAll("%player%", player.getName());
 
-    if (args != null && args.size() != 0) {
+    if (args != null && !args.isEmpty()) {
       for (int i = 0; i < args.size(); i++) {
         text = text.replaceAll("%arg" + (i + 1) + "%", args.get(i));
       }
@@ -87,7 +87,7 @@ public class ChatBuilder {
   }
 
   public void sendMessage() {
-    if (text == null || text == "") {
+    if (text == null || text.isEmpty()) {
       return;
     }
 

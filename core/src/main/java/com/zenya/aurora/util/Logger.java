@@ -21,15 +21,13 @@ public final class Logger {
     }
 
     if (Aurora.getInstance().getLogger().isLoggable(level)) {
-      Bukkit.getConsoleSender().sendMessage(String.format(
-              "Â§7[Â§b%sÂ§7] %s",
-              "Aurora",
-              adjustResetFormat("Â§r" + message, level == Level.SEVERE ? "Â§c" : "Â§f")
+      Bukkit.getConsoleSender().sendMessage(String.format("§7[§b%s§7] %s", "Aurora",
+              adjustResetFormat("§r" + message, level == Level.SEVERE ? "§c" : "§f")
       ));
     }
   }
 
   private static String adjustResetFormat(String message, String append) {
-    return message.replaceAll("Â§r", "Â§r" + append);
+    return message.replaceAll("§r", "§r" + append);
   }
 }

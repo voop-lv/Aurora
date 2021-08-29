@@ -9,23 +9,23 @@ import java.util.concurrent.ConcurrentMap;
 public class ToggleManager {
 
   public static final ToggleManager INSTANCE = new ToggleManager();
-  private ConcurrentMap<String, Boolean> toggleMap = new ConcurrentHashMap<>();
+  private static final ConcurrentMap<String, Boolean> TOGGLE_MAP = new ConcurrentHashMap<>();
 
   public Boolean isToggled(String playerName) {
-    if (!toggleMap.containsKey(playerName)) {
+    if (!TOGGLE_MAP.containsKey(playerName)) {
       new BukkitRunnable() {
         @Override
         public void run() {
           boolean status = StorageFileManager.getDatabase().getToggleStatus(playerName);
-          toggleMap.put(playerName, status);
+          TOGGLE_MAP.put(playerName, status);
         }
       }.runTask(Aurora.getInstance());
     }
-    return toggleMap.getOrDefault(playerName, false);
+    return TOGGLE_MAP.getOrDefault(playerName, false);
   }
 
   public void registerToggle(String playerName, boolean status) {
-    toggleMap.put(playerName, status);
+    TOGGLE_MAP.put(playerName, status);
     new BukkitRunnable() {
       @Override
       public void run() {
@@ -35,10 +35,10 @@ public class ToggleManager {
   }
 
   public void cacheToggle(String playerName, boolean enabled) {
-    toggleMap.put(playerName, enabled);
+    TOGGLE_MAP.put(playerName, enabled);
   }
 
   public void uncacheToggle(String playerName) {
-    toggleMap.remove(playerName);
+    TOGGLE_MAP.remove(playerName);
   }
 }

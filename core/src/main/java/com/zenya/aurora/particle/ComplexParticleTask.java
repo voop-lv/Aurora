@@ -37,7 +37,7 @@ public abstract class ComplexParticleTask extends ParticleTask {
       @Override
       public void run() {
         //Remove expired tasks
-        if (drawTasks.size() != 0) {
+        if (!drawTasks.isEmpty()) {
           drawTasks.removeIf(drawTask -> !Bukkit.getScheduler().isQueued(drawTask.getTaskId()) && !Bukkit.getScheduler().isCurrentlyRunning(drawTask.getTaskId()));
         }
 

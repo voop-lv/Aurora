@@ -167,28 +167,26 @@ public class ZParticle implements ParticleFactory {
     };
     double[][] rotMatrix;
     switch (axis) {
-      case 'x':
+      case 'x' ->
         rotMatrix = new double[][]{
           {1, 0, 0},
           {0, cos, -sin},
           {0, sin, cos},};
-        break;
-      case 'y':
+      case 'y' ->
         rotMatrix = new double[][]{
           {cos, 0, sin},
           {0, 0, -sin},
           {-sin, 0, cos},};
-        break;
-      case 'z':
+      case 'z' ->
         rotMatrix = new double[][]{
           {cos, -sin, 0},
           {sin, cos, 0},
           {0, 0, 0}
         };
-        break;
-      default:
+      default -> {
         char selection[] = new char[]{'x', 'y', 'z'};
         return rotateAbout(vec, ref, angle, selection[randInt(0, 2)]);
+      }
     }
     double result[] = new double[3];
 
@@ -546,12 +544,14 @@ public class ZParticle implements ParticleFactory {
     }
 
     //Rotate positions
-    List<Location> locs = new ArrayList<>();
+//    List<Location> locs = new ArrayList<>();
     angle = Math.toRadians(angle);
     axis = randomAxis(axis);
     for (int i = 0; i < wave.size(); i++) {
-      Vector rotated = rotateAbout(new Vector(wave.get(i)[0], wave.get(i)[1], wave.get(i)[2]), new Vector(line.get(i)[0], line.get(i)[1], line.get(i)[2]), angle, axis);
-      locs.add(rotated.toLocation(start.getWorld()));
+      /*Vector rotated = */
+      rotateAbout(new Vector(wave.get(i)[0], wave.get(i)[1], wave.get(i)[2]), new Vector(line.get(i)[0],
+              line.get(i)[1], line.get(i)[2]), angle, axis);
+//      locs.add(rotated.toLocation(start.getWorld()));
     }
 
     return new BukkitRunnable() {

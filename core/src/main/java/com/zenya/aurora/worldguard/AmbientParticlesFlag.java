@@ -45,7 +45,7 @@ public class AmbientParticlesFlag {
     }
 
     for (ProtectedRegion region : regions.getRegions()) {
-      if (region.getFlag(flag) != null && region.getFlag(flag).size() != 0) {
+      if (region.getFlag(flag) != null && !region.getFlag(flag).isEmpty()) {
         for (String particleName : region.getFlag(flag)) {
           ParticleFile particleFile = ParticleFileManager.INSTANCE.getParticleByName(particleName);
           if (particleFile != null && !enabledParticles.contains(particleFile)) {

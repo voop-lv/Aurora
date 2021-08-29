@@ -20,6 +20,7 @@ public class RingParticle extends SimpleParticleTask {
 
   @Override
   public BukkitTask generate() {
-    return AuroraAPI.getAPI().getParticleFactory().createRing(locs[locIndex], radius.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
+    return AuroraAPI.getAPI().getParticleFactory().createRing(locs[locIndex], radius.generateDouble(), rate.generateDouble(),
+            update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
   }
 }

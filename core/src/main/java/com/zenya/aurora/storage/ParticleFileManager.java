@@ -35,17 +35,20 @@ public class ParticleFileManager {
       if (!PARTICLE_FOLDER.isDirectory() || !Files.newDirectoryStream(PARTICLE_FOLDER.toPath()).iterator().hasNext()) {
         PARTICLE_FOLDER.mkdirs();
 
-        //Use ChatBuilder.fileSeparator instead of File.separator to sanitise escape characters in Windows filepaths
-        final JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath().replace("%20", " "))); //Read .jar file
-        final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-        while (entries.hasMoreElements()) {
-          final String path = entries.nextElement().getName();
-          final String name = path.split("/")[path.split("/").length - 1];
-          if (path.contains("particles/") && (name.endsWith(".json") || name.endsWith(".txt"))) {
-            Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles/" + name), new File(PARTICLE_FOLDER, name).toPath(), StandardCopyOption.REPLACE_EXISTING);
+        try ( //Use ChatBuilder.fileSeparator instead of File.separator to sanitise escape characters in Windows filepaths
+                 JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath().
+                        replace("%20", " "))) //Read .jar file
+                ) {
+          final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+          while (entries.hasMoreElements()) {
+            final String path = entries.nextElement().getName();
+            final String name = path.split("/")[path.split("/").length - 1];
+            if (path.contains("particles/") && (name.endsWith(".json") || name.endsWith(".txt"))) {
+              Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles/" + name), new File(PARTICLE_FOLDER,
+                      name).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
           }
-        }
-        jar.close();
+        } //gives ALL entries in jar
       }
     } catch (IOException exc) {
       exc.printStackTrace();

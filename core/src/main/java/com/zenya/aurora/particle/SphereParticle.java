@@ -20,6 +20,7 @@ public class SphereParticle extends SimpleParticleTask {
 
   @Override
   public BukkitTask generate() {
-    return AuroraAPI.getAPI().getParticleFactory().createSphere(locs[locIndex], radius.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), display);
+    return AuroraAPI.getAPI().getParticleFactory().createSphere(locs[locIndex], radius.generateDouble(), rate.generateDouble(),
+            update.generateInt(), duration.generateLong(), display);
   }
 }

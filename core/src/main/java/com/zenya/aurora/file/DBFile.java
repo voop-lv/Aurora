@@ -47,29 +47,29 @@ public class DBFile extends StorageFile {
     Object result = null;
 
     try {
-      Connection conn = connect();
-      if ((parameters == null || parameters.length == 0) && query == null) {
-        //Simple statement
-        Statement statement = conn.createStatement();
-        statement.execute(sql);
-      } else {
-        PreparedStatement ps = conn.prepareStatement(sql);
-        for (int i = 0; i < parameters.length; i++) {
-          ps.setObject(i + 1, parameters[i]);
-        }
-
-        if (query == null) {
-          //Prepared statement
-          ps.execute();
+      try ( Connection conn = connect()) {
+        if ((parameters == null || parameters.length == 0) && query == null) {
+          //Simple statement
+          Statement statement = conn.createStatement();
+          statement.execute(sql);
         } else {
-          //Query statement
-          ResultSet rs = ps.executeQuery();
-          if (rs.next()) {
-            result = rs.getObject(query);
+          PreparedStatement ps = conn.prepareStatement(sql);
+          for (int i = 0; i < parameters.length; i++) {
+            ps.setObject(i + 1, parameters[i]);
+          }
+
+          if (query == null) {
+            //Prepared statement
+            ps.execute();
+          } else {
+            //Query statement
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+              result = rs.getObject(query);
+            }
           }
         }
       }
-      conn.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -97,7 +97,7 @@ public class DBFile extends StorageFile {
     String sql = "SELECT toggle FROM aurora WHERE player = ?";
     Object toggleInt = sendQueryStatement(sql, "toggle", playerName);
     if (toggleInt != null && toggleInt instanceof Integer) {
-      status = (Integer) toggleInt == 1 ? true : false;
+      status = (Integer) toggleInt == 1;
     }
     return status;
   }
