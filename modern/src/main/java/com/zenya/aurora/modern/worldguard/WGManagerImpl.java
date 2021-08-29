@@ -11,19 +11,20 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public class WGManagerImpl extends WGManager {
-    @Override
-    public RegionManager getRegionManager(World world) {
-        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world));
-    }
 
-    @Override
-    public ApplicableRegionSet getApplicableRegionSet(Location loc) {
-        return getRegionManager(loc.getWorld()).getApplicableRegions(BukkitAdapter.asBlockVector(loc));
-    }
+  @Override
+  public RegionManager getRegionManager(World world) {
+    return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world));
+  }
 
-    @Override
-    public <T extends Flag<?>> T registerFlag(T flag) throws FlagConflictException {
-        WorldGuard.getInstance().getFlagRegistry().register(flag);
-        return flag;
-    }
+  @Override
+  public ApplicableRegionSet getApplicableRegionSet(Location loc) {
+    return getRegionManager(loc.getWorld()).getApplicableRegions(BukkitAdapter.asBlockVector(loc));
+  }
+
+  @Override
+  public <T extends Flag<?>> T registerFlag(T flag) throws FlagConflictException {
+    WorldGuard.getInstance().getFlagRegistry().register(flag);
+    return flag;
+  }
 }

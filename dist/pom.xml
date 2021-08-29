@@ -1,122 +1,82 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>dist</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>dist</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>com.zenya.aurora</groupId>
+    <artifactId>parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+  </parent>
 
-    <parent>
-        <groupId>com.zenya.aurora</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+  <dependencies>
+    <!-- Plugin core -->
+    <dependency>
+      <groupId>com.zenya.aurora</groupId>
+      <artifactId>core</artifactId>
+      <version>1.2.5</version>
+    </dependency>
 
-    <dependencies>
-        <!-- Plugin core -->
-        <dependency>
-            <groupId>com.zenya.aurora</groupId>
-            <artifactId>core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+    <!-- Modern dependencies (>= 1.13)-->
+    <dependency>
+      <groupId>com.zenya.aurora</groupId>
+      <artifactId>modern</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
-        <!-- Modern dependencies (>= 1.13)-->
-        <dependency>
-            <groupId>com.zenya.aurora</groupId>
-            <artifactId>modern</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+    <!-- Legacy dependencies (< 1.13) -->
+    <dependency>
+      <groupId>com.zenya.aurora</groupId>
+      <artifactId>legacy</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
-        <!-- Legacy dependencies (< 1.13) -->
-        <dependency>
-            <groupId>com.zenya.aurora</groupId>
-            <artifactId>legacy</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+    <!-- ProGuard obfuscation -->
+    <dependency>
+      <groupId>com.github.wvengen</groupId>
+      <artifactId>proguard-maven-plugin</artifactId>
+      <version>2.4.0</version>
+    </dependency>
+  </dependencies>
 
-        <!-- ProGuard obfuscation -->
-        <dependency>
-            <groupId>com.github.wvengen</groupId>
-            <artifactId>proguard-maven-plugin</artifactId>
-            <version>2.4.0</version>
-        </dependency>
-    </dependencies>
+  <build>
+    <directory>../target</directory>
+    <finalName>Aurora</finalName>
+    <resources>
+      <resource>
+        <targetPath>.</targetPath>
+        <filtering>true</filtering>
+        <directory>${basedir}/../core/src/main/resources/</directory>
+        <includes>
+          <include>plugin.yml</include>
+        </includes>
+      </resource>
+    </resources>
 
-    <build>
-        <directory>../target</directory>
-        <finalName>Aurora</finalName>
-        <resources>
-            <resource>
-                <targetPath>.</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/../core/src/main/resources/</directory>
+    <plugins>
+      <!-- Combine all dependencies into 1 jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
                 <includes>
-                    <include>plugin.yml</include>
+                  <include>com.zenya.aurora:*</include>
                 </includes>
-            </resource>
-        </resources>
-
-        <plugins>
-            <!-- Combine all dependencies into 1 jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>com.zenya.aurora:*</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- ProGuard obfuscation -->
-            <plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <version>2.4.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals><goal>proguard</goal></goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <options>
-                        <option>-keepdirectories</option>
-                        <option>-keep class com.zenya.aurora.Aurora { *; }</option>
-                        <option>-keepclassmembers class * implements org.bukkit.event.Listener {
-                            @org.bukkit.event.EventHandler *;
-                            }</option>
-                        <option>-keepclassmembers class * extends org.bukkit.event.Event {
-                            org.bukkit.event.HandlerList getHandlers();
-                            org.bukkit.event.HandlerList getHandlerList();
-                        }</option>
-                        <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile { *; }</option>
-                        <option>-keepclassmembers class com.zenya.aurora.file.ParticleFile$* { *; }</option>
-                        <option>-keepclassmembers class com.zenya.aurora.util.ext.ZBiome { *; }</option>
-                        <option>-keep class * extends com.zenya.aurora.worldguard.WGManager</option>
-                        <option>-keep class com.zenya.aurora.api.* { *; }</option>
-                        <option>-keepnames class com.zenya.aurora.util.ext.ZParticleDisplay</option>
-                        <option>-keepattributes !LocalVariableTable,!LocalVariableTypeTable,Exceptions,InnerClasses,Signature,Deprecated,LineNumberTable,*Annotation*,EnclosingMethod</option>
-                        <option>-dontwarn</option>
-                    </options>
-                    <libs>
-                        <lib>${java.home}\lib\rt.jar</lib>
-                        <lib>${settings.localRepository}\com\google\guava\guava\21.0\guava-21.0.jar</lib>
-                        <lib>${settings.localRepository}\com\google\code\gson\gson\2.8.5\gson-2.8.5.jar</lib>
-                        <lib>${settings.localRepository}\org\spigotmc\spigot-api\1.17-R0.1-SNAPSHOT\spigot-api-1.17-R0.1-SNAPSHOT.jar</lib>
-                    </libs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+              </artifactSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -9,17 +9,17 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class CircleParticle extends SimpleParticleTask {
 
-    public CircleParticle(Player player, Location[] locs, ParticleFile particleFile) {
-        super(player, locs, particleFile);
-    }
+  public CircleParticle(Player player, Location[] locs, ParticleFile particleFile) {
+    super(player, locs, particleFile);
+  }
 
-    @Override
-    public TaskKey getKey() {
-        return TaskKey.CIRCLE_PARTICLE;
-    }
+  @Override
+  public TaskKey getKey() {
+    return TaskKey.CIRCLE_PARTICLE;
+  }
 
-    @Override
-    public BukkitTask generate() {
-        return AuroraAPI.getAPI().getParticleFactory().createCircle(locs[locIndex], radius.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
-    }
+  @Override
+  public BukkitTask generate() {
+    return AuroraAPI.getAPI().getParticleFactory().createCircle(locs[locIndex], radius.generateDouble(), rate.generateDouble(), update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
+  }
 }
