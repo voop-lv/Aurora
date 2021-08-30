@@ -16,7 +16,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <module>core</module>
     <module>modern</module>
     <module>legacy</module>
-    <module>dist</module>
   </modules>
 
 </project>
