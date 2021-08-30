@@ -1,0 +1,41 @@
+// Wiki: https://gitlab.com/Zenya4/aurora/-/wikis/Particle-Configuration
+
+// This is a generic example particle config which can be used for ALL particle types
+// Note that some values in "properties" will be ignored depending on the shape in "particle.particleType"
+// It is HIGHLY RECOMMENDED to use the templates provided in the link above instead to make your configs more readable
+
+// Usage: Before using this default config, remove all comments (//...) and rename the file extension to .json
+
+{
+  "name": "Example Particle",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "PLAINS",
+      "PRESENT: SHORE"
+    ],
+    "spawnDistance": 10.0,
+    "randMultiplier": 0.5,
+    "relativePlayerPosition": false,
+    "minY": 80.0,
+    "maxY": 100.0,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FLAME",
+    "particleType": "CUBE",
+    "maxCount": 8,
+    "enableLighting": false
+  },
+  "properties": {
+    "length": [2.0, 5.0],
+    "radius": [1.0, 3.0],
+    "rate": 0.5,
+    "update": 5,
+    "duration": [180, 200],
+    "waveCycles": [4.5, 6.0],
+    "waveAmplitude": 3.0,
+    "rotationAngle": 35.0,
+    "rotationAxis": "x"
+  }
+}

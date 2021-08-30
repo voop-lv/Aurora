@@ -111,3 +111,7 @@ PRERELEASE 0.0.3:
 - Compatibility fix with particle configs not generating properly on Windows hosts
 - Bug fix with particle configs not generating properly when server name contains spaces
 - More fixes to automatically disable particle lighting when running on an unsupported Spigot fork
+
+2.1.5:
+- Compiled using java 16 and now uses java 16 features. Breaks support for older versions of MC, however 2.1.4 will still work with those versions.
+- Removed the blacklist check

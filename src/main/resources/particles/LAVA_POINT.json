@@ -1,0 +1,28 @@
+{
+  "name": "LAVA_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "GIANT_SPRUCE_TAIGA",
+      "GIANT_SPRUCE_TAIGA_HILLS",
+      "WARM_OCEAN",
+      "DEEP_WARM_OCEAN"
+    ],
+    "spawnDistance": 8.0,
+    "randMultiplier": 0.5,
+    "relativePlayerPosition": false,
+    "minY": 90.0,
+    "maxY": 110.0,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "LAVA",
+    "particleType": "POINT",
+    "maxCount": 20,
+    "enableLighting": false
+  },
+  "properties": {
+    "update": 10,
+    "duration": 100
+  }
+}

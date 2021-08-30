@@ -1,0 +1,30 @@
+{
+  "name": "TOTEM_RING",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "GRAVELLY_MOUNTAINS",
+      "MODIFIED_GRAVELLY_MOUNTAINS"
+    ],
+    "spawnDistance": 10.0,
+    "randMultiplier": 0.5,
+    "relativePlayerPosition": false,
+    "minY": 95.0,
+    "maxY": 110.0,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "TOTEM",
+    "particleType": "RING",
+    "maxCount": 2,
+    "enableLighting": false
+  },
+  "properties": {
+    "radius": 4,
+    "rate": 0.5,
+    "update": 5,
+    "duration": 100,
+    "rotationAngle": -25,
+    "rotationAxis": "x"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "FLAME_POINT",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "SHATTERED_SAVANNA",
+      "SHATTERED_SAVANNA_PLATEAU",
+      "DESERT_LAKES"
+    ],
+    "spawnDistance": 5.0,
+    "randMultiplier": 0.5,
+    "relativePlayerPosition": false,
+    "minY": 80.0,
+    "maxY": 100.0,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FLAME",
+    "particleType": "POINT",
+    "maxCount": 20,
+    "enableLighting": false
+  },
+  "properties": {
+    "update": 10,
+    "duration": 150
+  }
+}

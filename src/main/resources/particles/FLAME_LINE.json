@@ -1,0 +1,28 @@
+{
+  "name": "FLAME_LINE",
+  "enabled": true,
+  "spawning": {
+    "biomes": [
+      "DESERT",
+      "GIANT_SPRUCE_TAIGA",
+      "GIANT_SPRUCE_TAIGA_HILLS"
+    ],
+    "spawnDistance": 20.0,
+    "randMultiplier": 0.5,
+    "relativePlayerPosition": false,
+    "minY": 90.0,
+    "maxY": 100.0,
+    "shuffleLocations": true
+  },
+  "particle": {
+    "particleName": "FLAME",
+    "particleType": "LINE",
+    "maxCount": 5,
+    "enableLighting": false
+  },
+  "properties": {
+    "rate": 0.5,
+    "update": 2,
+    "duration": 1
+  }
+}
