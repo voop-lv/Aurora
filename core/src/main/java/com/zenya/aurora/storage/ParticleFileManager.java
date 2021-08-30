@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
-import com.zenya.aurora.util.ChatBuilder;
 import com.zenya.aurora.util.Logger;
 import com.zenya.aurora.util.RandomNumber;
 

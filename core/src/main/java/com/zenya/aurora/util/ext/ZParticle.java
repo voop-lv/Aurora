@@ -397,7 +397,7 @@ public class ZParticle implements ParticleFactory {
     }
 
     //Rotate positions
-    ArrayList<Location> locs = new ArrayList<>();
+    List<Location> locs = new ArrayList<>();
     angle = Math.toRadians(angle);
     axis = randomAxis(axis);
     for (double[] locPos : outline) {
@@ -441,7 +441,7 @@ public class ZParticle implements ParticleFactory {
     }
 
     //Rotate positions
-    ArrayList<Location> locs = new ArrayList<>();
+    List<Location> locs = new ArrayList<>();
     angle = Math.toRadians(angle);
     axis = randomAxis(axis);
     for (double[] locPos : circle) {
@@ -487,7 +487,7 @@ public class ZParticle implements ParticleFactory {
     }
 
     //Only add edges of the sphere
-    ArrayList<Location> locs = new ArrayList<>();
+    List<Location> locs = new ArrayList<>();
     for (double[] locPos : sphere) {
       Location point = new Location(center.getWorld(), locPos[0], locPos[1], locPos[2]);
       if (point.distance(center) > radius - rate && point.distance(center) < radius + rate) {

@@ -11,7 +11,7 @@ import java.util.*;
 public class ParticleManager {
 
   public final static ParticleManager INSTANCE = new ParticleManager();
-  private ListMultimap<Player, ParticleTask> particleMap = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
+  private final ListMultimap<Player, ParticleTask> particleMap = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
 
   public List<ParticleTask> getTasks(Player player) {
     synchronized (particleMap) {
@@ -37,7 +37,7 @@ public class ParticleManager {
       oldTasks = particleMap.removeAll(player);
     }
 
-    if (oldTasks != null && oldTasks.size() != 0) {
+    if (oldTasks != null && !oldTasks.isEmpty()) {
       for (ParticleTask oldTask : oldTasks) {
         oldTask.killTasks();
       }

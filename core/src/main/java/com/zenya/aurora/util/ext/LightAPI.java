@@ -1,7 +1,6 @@
 package com.zenya.aurora.util.ext;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -67,7 +66,7 @@ public class LightAPI {
     Class<? extends INMSHandler> clazz = ServerModManager.findImplementaion("CraftBukkit");
 
     if (clazz == null) {
-      Logger.logError("No LightAPI implementations was found for Â§f%s %s",
+      Logger.logError("No LightAPI implementations was found for §f%s %s",
               serverName, Utils.serverVersion());
       Logger.logError("Support for lighting features may be limited");
       disable();
@@ -92,7 +91,7 @@ public class LightAPI {
     try {
       Class<?> starlight = Class.forName("ca.spottedleaf.starlight.light.StarLightInterface", false, getClass().getClassLoader()); //$2
       if (starlight != null) {
-        Logger.logError("No LightAPI implementations was found for Â§f%s %s", serverName, Utils.serverVersion());
+        Logger.logError("No LightAPI implementations was found for §f%s %s", serverName, Utils.serverVersion());
         Logger.logError("Support for lighting features may be limited");
         disable();
       }
