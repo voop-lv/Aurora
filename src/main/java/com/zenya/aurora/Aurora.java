@@ -48,6 +48,9 @@ public class Aurora extends JavaPlugin {
   public void onEnable() {
     instance = this;
 
+    // Enables Metrics
+    new MetricsLite(this, 12646);
+    
     //Register API
     AuroraAPI.setAPI(new AuroraAPIImpl());
 
@@ -72,11 +75,7 @@ public class Aurora extends JavaPlugin {
 
     //Register commands
     this.getCommand("aurora").setExecutor(new AuroraCommand());
-    try {
-      this.getCommand("aurora").setTabCompleter(new AuroraTab());
-    } catch (Exception exc) {
-      //Do nothing, version doesn't support tabcomplete
-    }
+    this.getCommand("aurora").setTabCompleter(new AuroraTab());
   }
 
   @Override

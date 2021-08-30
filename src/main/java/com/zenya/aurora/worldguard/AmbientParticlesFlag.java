@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AmbientParticlesFlag {
 
-  public static AmbientParticlesFlag INSTANCE = new AmbientParticlesFlag();
+  public static final AmbientParticlesFlag INSTANCE = new AmbientParticlesFlag();
   private SetFlag<String> flag;
 
   public AmbientParticlesFlag() {
