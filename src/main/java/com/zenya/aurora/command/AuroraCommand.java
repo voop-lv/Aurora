@@ -72,15 +72,14 @@ public class AuroraCommand implements CommandExecutor {
 
       if (args[0].toLowerCase().equals("reload")) {
         StorageFileManager.reloadFiles();
-        if (StorageFileManager.getConfig().getBool("enable-lighting")) {
-          LightAPI lightAPI = LightAPI.INSTANCE;
-        } else {
-          try {
-            LightAPI.disable();
-          } catch (NoClassDefFoundError exc) {
-            //Already disabled, do nothing
-          }
+        if(!StorageFileManager.getConfig().getBool("enable-lighting")){
+            try {
+                LightAPI.disable();
+            } catch(NoClassDefFoundError exc) {
+            // Already disabled, do nothing
+            }
         }
+        LightAPI api = LightAPI.INSTANCE;
         ParticleFileCache.reload();
         chat.withArgs(ParticleFileManager.INSTANCE.getParticles().size()).sendMessages("command.reload");
 

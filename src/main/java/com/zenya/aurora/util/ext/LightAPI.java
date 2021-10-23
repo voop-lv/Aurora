@@ -38,6 +38,7 @@ public class LightAPI {
   private final int UPDATE_DELAY_TICKS = 2;
   private final int MAX_ITERATIONS_PER_TICK = 5000;
   private static RequestSteamMachine machine;
+  private static boolean disabled = false;
 
   // To synchronize nms create/delete light methods to avoid conflicts in multi-threaded calls. Got a better idea?
   private static final Object lock = new Object();
@@ -65,6 +66,7 @@ public class LightAPI {
     Class<? extends INMSHandler> clazz = ServerModManager.findImplementaion("CraftBukkit");
 
     if (clazz == null) {
+      disabled = true;
       Logger.logError("No LightAPI implementations was found for §f%s %s",
               serverName, Utils.serverVersion());
       Logger.logError("Support for lighting features may be limited");
@@ -78,6 +80,7 @@ public class LightAPI {
         machine = new RequestSteamMachine();
         machine.start(UPDATE_DELAY_TICKS, MAX_ITERATIONS_PER_TICK);
       } catch (Exception exc) {
+        disabled = true;
         Logger.logError("Could not initialise LightAPI implementation for §f%s %s",
                 serverName, Utils.serverVersion());
         Logger.logError("Support for lighting features may be limited");
@@ -90,7 +93,8 @@ public class LightAPI {
     try {
       Class<?> starlight = Class.forName("ca.spottedleaf.starlight.light.StarLightInterface", false, getClass().getClassLoader()); //$2
       if (starlight != null) {
-        Logger.logError("No LightAPI implementations was found for §f%s %s", serverName, Utils.serverVersion());
+        disabled = true;
+        Logger.logError("No LightAPI implementations was found for §f%s %s §fdue to incompatibilities with StarLight", serverName, Utils.serverVersion());
         Logger.logError("Support for lighting features may be limited");
         disable();
       }
@@ -123,6 +127,9 @@ public class LightAPI {
    * @see #setLight(Location, LightType, int, boolean)
    */
   public static void clearLight(Location location, LightType lightType, boolean async) {
+    if (disabled) {
+      return;
+    }
     setLight(location, lightType, 0, async);
   }
 
@@ -135,6 +142,9 @@ public class LightAPI {
    * @param async Whether light updating should be asynchronous
    */
   public static void setLight(Location location, LightType lightType, int lightLevel, boolean async) {
+    if (disabled) {
+      return;
+    }
     Block block = location.getBlock();
     int oldLightLevel = lightType == LightType.BLOCK ? block.getLightFromBlocks() : block.getLightFromSky();
     if (oldLightLevel != lightLevel) {
@@ -166,6 +176,9 @@ public class LightAPI {
 
   @SuppressWarnings("WeakerAccess")
   public static boolean createLight(Location location, LightType lightType, int lightlevel, boolean async) {
+    if (disabled) {
+      return false;
+    }
     return createLight(
             location.getWorld(),
             location.getBlockX(),
@@ -179,12 +192,18 @@ public class LightAPI {
   @Deprecated
   public static boolean createLight(
           World world, int x, final int y, final int z, final int lightlevel, boolean async) {
+    if (disabled) {
+      return false;
+    }
     return createLight(world, x, y, z, LightType.BLOCK, lightlevel, async);
   }
 
   @SuppressWarnings("WeakerAccess")
   public static boolean createLight(
           World world, int x, final int y, final int z, LightType lightType, final int lightlevel, boolean async) {
+    if (disabled) {
+      return false;
+    }
     if (Aurora.getInstance().isEnabled()) {
       final SetLightEvent event = new SetLightEvent(world, x, y, z, lightType, lightlevel, async);
       Bukkit.getPluginManager().callEvent(event);

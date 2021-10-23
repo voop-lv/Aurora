@@ -1,6 +1,7 @@
 package com.zenya.aurora.worldguard;
 
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.RegionResultSet;
 import com.sk89q.worldguard.protection.flags.SetFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
@@ -41,7 +42,10 @@ public class AmbientParticlesFlag {
     List<ParticleFile> enabledParticles = new ArrayList<>();
     //Add __global__ region
     if (global != null) {
-      regions.getRegions().add(global);
+      List<ProtectedRegion> regionList = new ArrayList<>();
+      regionList.add(global);
+      regionList.addAll(regions.getRegions());
+      regions = new RegionResultSet(regionList, null);
     }
 
     for (ProtectedRegion region : regions.getRegions()) {
