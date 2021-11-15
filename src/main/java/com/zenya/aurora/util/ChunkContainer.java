@@ -48,17 +48,19 @@ public class ChunkContainer {
   }
 
   public Location toLocation(int worldCoordX, double y, int worldCoordZ) {
-    Objects.requireNonNull(world, "World world cannot be null for ChunkContainer");
-    Objects.requireNonNull(chunkX, "Integer chunkX cannot be null for ChunkContainer");
-    Objects.requireNonNull(chunkZ, "Integer chunkZ cannot be null for ChunkContainer");
+    check();
     return new Location(world, LocationTools.toWorldCoord(chunkX, worldCoordX), y, LocationTools.toWorldCoord(chunkZ, worldCoordZ));
   }
 
   public Chunk toChunk() {
+    check();
+    return world.getChunkAt(chunkX, chunkZ);
+  }
+
+  private void check() {
     Objects.requireNonNull(world, "World world cannot be null for ChunkContainer");
     Objects.requireNonNull(chunkX, "Integer chunkX cannot be null for ChunkContainer");
     Objects.requireNonNull(chunkZ, "Integer chunkZ cannot be null for ChunkContainer");
-    return world.getChunkAt(chunkX, chunkZ);
   }
 
   public ChunkContainer setX(int chunkX) {
