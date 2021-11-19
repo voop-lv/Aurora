@@ -13,8 +13,7 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ */
 package com.zenya.aurora;
 
 import com.google.gson.JsonArray;
@@ -106,7 +105,7 @@ public class MetricsLite {
     YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
     // Check if the config file exists
-    if (!config.isSet("serverUuid")) {      
+    if (!config.isSet("serverUuid")) {
       // Add default values
       config.addDefault("enabled", true);
       // Every server gets it's unique random id.

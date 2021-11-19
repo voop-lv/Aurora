@@ -50,7 +50,7 @@ public class Aurora extends JavaPlugin {
 
     // Enables Metrics
     new MetricsLite(this, 12646);
-    
+
     //Register API
     AuroraAPI.setAPI(new AuroraAPIImpl());
 

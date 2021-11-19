@@ -72,12 +72,12 @@ public class AuroraCommand implements CommandExecutor {
 
       if (args[0].toLowerCase().equals("reload")) {
         StorageFileManager.reloadFiles();
-        if(!StorageFileManager.getConfig().getBool("enable-lighting")){
-            try {
-                LightAPI.disable();
-            } catch(NoClassDefFoundError exc) {
+        if (!StorageFileManager.getConfig().getBool("enable-lighting")) {
+          try {
+            LightAPI.disable();
+          } catch (NoClassDefFoundError exc) {
             // Already disabled, do nothing
-            }
+          }
         }
         LightAPI api = LightAPI.INSTANCE;
         ParticleFileCache.reload();

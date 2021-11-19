@@ -1,50 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"xsi:schemaLocation="http://maven.apache.org/POM/4.0.0http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.zenya.aurora</groupId>
   <artifactId>Aurora</artifactId>
   <version>2.3</version>
   <packaging>jar</packaging>
-
-  <dependencies>
-    <!-- Spigot 1.17 jar used for compiling -->
-    <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot-api</artifactId>
-      <version>1.17-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <!-- XSeries used for multi-version compatibility -->
-    <dependency>
-      <groupId>com.github.cryptomorin</groupId>
-      <artifactId>XSeries</artifactId>
-      <version>8.1.0</version>
-    </dependency>
-
-    <!-- LightAPI used for setting NMS block lighting -->
-    <dependency>
-      <groupId>io.github.qveshn</groupId>
-      <artifactId>LightAPI-fork</artifactId>
-      <version>3.5.2-SNAPSHOT</version>
-    </dependency>
-
-    <!-- WorldGuard for WGManager abstract class -->
-    <dependency>
-      <groupId>com.sk89q.worldguard</groupId>
-      <artifactId>worldguard-bukkit</artifactId>
-      <version>7.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <!-- Java additional annotations for ZParticle & ZParticleDisplay -->
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>3.0.2</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
 
   <repositories>
     <!-- Main repo for Spigot API -->
@@ -133,9 +92,49 @@
       </plugin>
     </plugins>
   </build>
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-    </properties>
-    <name>Aurora</name>
+
+  <dependencies>
+    <!-- Spigot 1.17.1 jar used for compiling -->
+    <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+      <version>1.17.1-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- XSeries used for multi-version compatibility -->
+    <dependency>
+      <groupId>com.github.cryptomorin</groupId>
+      <artifactId>XSeries</artifactId>
+      <version>8.4.0</version>
+    </dependency>
+
+    <!-- LightAPI used for setting NMS block lighting -->
+    <dependency>
+      <groupId>io.github.qveshn</groupId>
+      <artifactId>LightAPI-fork</artifactId>
+      <version>3.5.2-SNAPSHOT</version>
+    </dependency>
+
+    <!-- WorldGuard for WGManager abstract class -->
+    <dependency>
+      <groupId>com.sk89q.worldguard</groupId>
+      <artifactId>worldguard-bukkit</artifactId>
+      <version>7.0.6</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Java additional annotations for ZParticle & ZParticleDisplay -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  
+  <properties>
+    <maven.compiler.source>16</maven.compiler.source>
+    <maven.compiler.target>16</maven.compiler.target>
+  </properties>
 </project>
