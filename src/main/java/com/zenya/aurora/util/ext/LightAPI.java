@@ -19,10 +19,10 @@ import ru.beykerykt.lightapi.server.ServerModInfo;
 import ru.beykerykt.lightapi.server.ServerModManager;
 import ru.beykerykt.lightapi.server.nms.INMSHandler;
 import ru.beykerykt.lightapi.utils.Utils;
-import ru.beykerykt.lightapi.server.nms.craftbukkit.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import ru.beykerykt.lightapi.server.nms.craftbukkit.CraftBukkit_v1_18_R1;
 
 /**
  * LightAPI Fork by Qveshn https://github.com/Qveshn/LightAPI
@@ -45,20 +45,7 @@ public class LightAPI {
 
   public LightAPI() {
     ServerModInfo craftbukkit = new ServerModInfo("CraftBukkit");
-    craftbukkit.getVersions().put("v1_8_R3", CraftBukkit_v1_8_R3.class);
-    craftbukkit.getVersions().put("v1_9_R1", CraftBukkit_v1_9_R1.class);
-    craftbukkit.getVersions().put("v1_9_R2", CraftBukkit_v1_9_R2.class);
-    craftbukkit.getVersions().put("v1_10_R1", CraftBukkit_v1_10_R1.class);
-    craftbukkit.getVersions().put("v1_11_R1", CraftBukkit_v1_11_R1.class);
-    craftbukkit.getVersions().put("v1_12_R1", CraftBukkit_v1_12_R1.class);
-    craftbukkit.getVersions().put("v1_13_R1", CraftBukkit_v1_13_R1.class);
-    craftbukkit.getVersions().put("v1_13_R2", CraftBukkit_v1_13_R2.class);
-    craftbukkit.getVersions().put("v1_14_R1", CraftBukkit_v1_14_R1.class);
-    craftbukkit.getVersions().put("v1_15_R1", CraftBukkit_v1_15_R1.class);
-    craftbukkit.getVersions().put("v1_16_R1", CraftBukkit_v1_16_R1.class);
-    craftbukkit.getVersions().put("v1_16_R2", CraftBukkit_v1_16_R2.class);
-    craftbukkit.getVersions().put("v1_16_R3", CraftBukkit_v1_16_R3.class);
-    craftbukkit.getVersions().put("v1_17_R1", CraftBukkit_v1_17_R1.class);
+    craftbukkit.getVersions().put("v1_18_R1", CraftBukkit_v1_18_R1.class);
     ServerModManager.registerServerMod(craftbukkit);
 
     //Init NMS
