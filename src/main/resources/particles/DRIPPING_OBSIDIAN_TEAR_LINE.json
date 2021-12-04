@@ -3,10 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "MODIFIED_BADLANDS_PLATEAU",
-      "MODIFIED_WOODED_BADLANDS_PLATEAU",
-      "SNOWY_TAIGA",
-      "SNOWY_TAIGA_HILLS"
+      "SNOWY_TAIGA"
     ],
     "spawnDistance": 25.0,
     "randMultiplier": 0.5,

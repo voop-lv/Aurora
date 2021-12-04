@@ -4,8 +4,6 @@
   "spawning": {
     "biomes": [
       "JUNGLE",
-      "JUNGLE_HILLS",
-      "MODIFIED_JUNGLE",
       "PLAINS"
     ],
     "spawnDistance": 8.0,

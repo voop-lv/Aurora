@@ -3,10 +3,9 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "TALL_BIRCH_FOREST",
-      "TALL_BIRCH_HILLS",
+      "OLD_GROWTH_BIRCH_FOREST",
       "SAVANNA",
-      "SHATTERED_SAVANNA"
+      "WINDSWEPT_SAVANNA"
     ],
     "spawnDistance": 30.0,
     "randMultiplier": 0.5,

@@ -3,10 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "SNOWY_TAIGA_HILLS",
-      "SNOWY_TAIGA_MOUNTAINS",
-      "SNOWY_TUNDRA",
-      "SWAMP_HILLS"
+      "SNOWY_PLAINS"
     ],
     "spawnDistance": 15.0,
     "randMultiplier": 0.5,

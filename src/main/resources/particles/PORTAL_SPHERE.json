@@ -4,9 +4,8 @@
   "spawning": {
     "biomes": [
       "DARK_FOREST",
-      "DARK_FOREST_HILLS",
       "BEACH",
-      "STONE_SHORE"
+      "STONY_SHORE"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,

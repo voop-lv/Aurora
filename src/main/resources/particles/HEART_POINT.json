@@ -3,8 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "JUNGLE_EDGE",
-      "MODIFIED_JUNGLE_EDGE"
+      "SPARSE_JUNGLE"
     ],
     "spawnDistance": 5.0,
     "randMultiplier": 0.5,

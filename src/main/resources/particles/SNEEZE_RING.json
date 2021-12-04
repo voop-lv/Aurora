@@ -5,8 +5,7 @@
     "biomes": [
       "FLOWER_FOREST",
       "TAIGA",
-      "TAIGA_HILLS",
-      "SNOWY_TUNDRA"
+      "SNOWY_PLAINS"
     ],
     "spawnDistance": 10.0,
     "randMultiplier": 0.5,

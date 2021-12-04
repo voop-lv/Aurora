@@ -3,7 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "STONE_SHORE"
+      "STONY_SHORE"
     ],
     "spawnDistance": 10.0,
     "randMultiplier": 0.5,

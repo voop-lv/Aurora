@@ -4,8 +4,7 @@
   "spawning": {
     "biomes": [
       "SUNFLOWER_PLAINS",
-      "JUNGLE_EDGE",
-      "MODIFIED_JUNGLE_EDGE"
+      "SPARSE_JUNGLE"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,

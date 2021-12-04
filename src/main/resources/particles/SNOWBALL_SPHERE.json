@@ -3,9 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "TAIGA",
-      "TAIGA_HILLS",
-      "TAIGA_MOUNTAINS"
+      "TAIGA"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,

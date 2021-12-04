@@ -4,7 +4,6 @@
   "spawning": {
     "biomes": [
       "BIRCH_FOREST",
-      "BIRCH_FOREST_HILLS",
       "SWAMP"
     ],
     "spawnDistance": 30.0,

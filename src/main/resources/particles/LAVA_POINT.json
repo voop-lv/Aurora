@@ -3,10 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "GIANT_SPRUCE_TAIGA",
-      "GIANT_SPRUCE_TAIGA_HILLS",
-      "WARM_OCEAN",
-      "DEEP_WARM_OCEAN"
+      "WARM_OCEAN"
     ],
     "spawnDistance": 8.0,
     "randMultiplier": 0.5,

@@ -3,7 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "DESERT_LAKES"
+      "DESERT"
     ],
     "spawnDistance": 20.0,
     "randMultiplier": 0.5,

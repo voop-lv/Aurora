@@ -3,7 +3,9 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "SNOWY_MOUNTAINS"
+      "SNOWY_BEACH",
+      "SNOWY_PLAINS",
+      "SNOWY_TAIGA"
     ],
     "spawnDistance": 5.0,
     "randMultiplier": 0.5,

@@ -3,8 +3,7 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "DARK_FOREST",
-      "DARK_FOREST_HILLS"
+      "DARK_FOREST"
     ],
     "spawnDistance": 10.0,
     "randMultiplier": 0.5,

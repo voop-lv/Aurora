@@ -3,10 +3,8 @@
   "enabled": true,
   "spawning": {
     "biomes": [
-      "GRAVELLY_MOUNTAINS",
-      "MODIFIED_GRAVELLY_MOUNTAINS",
-      "MOUNTAIN_EDGE",
-      "MOUNTAINS"
+      "WINDSWEPT_GRAVELLY_HILLS",
+      "WINDSWEPT_HILLS"
     ],
     "spawnDistance": 25.0,
     "randMultiplier": 0.5,
