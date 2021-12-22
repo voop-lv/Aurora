@@ -1,6 +1,5 @@
 package com.zenya.aurora.storage;
 
-import com.zenya.aurora.util.ext.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
 
@@ -35,11 +34,7 @@ public class ParticleFileCache {
 
   private void registerBiome(String biomeName, ParticleFile particleFile) {
     try {
-      if (ZBiome.matchZBiome(biomeName).equals(ZBiome.CUSTOM)) {
-        registerClass(biomeName, particleFile);
-      } else {
-        registerClass(ZBiome.matchZBiome(biomeName).name(), particleFile);
-      }
+      registerClass(biomeName, particleFile);
     } catch (Exception exc) {
       Logger.logError("Error loading biome %s from particle %s", biomeName, particleFile.getName());
     }

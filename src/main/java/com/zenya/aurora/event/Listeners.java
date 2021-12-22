@@ -1,7 +1,6 @@
 package com.zenya.aurora.event;
 
 import com.zenya.aurora.Aurora;
-import com.zenya.aurora.util.ext.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleManager;
@@ -88,7 +87,7 @@ public class Listeners implements Listener {
     //Init variables
     Player player = e.getPlayer();
     Biome biome = player.getLocation().getBlock().getBiome();
-    String biomeName = ZBiome.matchZBiome(biome).equals(ZBiome.CUSTOM) ? biome.name() : ZBiome.matchZBiome(biome).name();
+    String biomeName = biome.toString();
 
     //Remove old tasks
     ParticleManager.INSTANCE.unregisterTasks(player);

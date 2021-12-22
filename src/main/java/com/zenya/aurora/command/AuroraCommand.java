@@ -3,7 +3,6 @@ package com.zenya.aurora.command;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.event.ParticleUpdateEvent;
 import com.zenya.aurora.util.ext.LightAPI;
-import com.zenya.aurora.util.ext.ZBiome;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.storage.ParticleFileCache;
 import com.zenya.aurora.storage.ParticleFileManager;
@@ -102,7 +101,7 @@ public class AuroraCommand implements CommandExecutor {
             if (particleFile.isEnabled() && sender instanceof Player) {
               Player player = (Player) sender;
               Biome biome = player.getLocation().getBlock().getBiome();
-              String biomeName = ZBiome.matchZBiome(biome).equals(ZBiome.CUSTOM) ? biome.name() : ZBiome.matchZBiome(biome).name();
+              String biomeName = biome.toString();
 
               //WG support
               if (WGManager.getWorldGuard() != null) {
