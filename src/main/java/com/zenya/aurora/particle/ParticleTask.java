@@ -11,7 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import ru.beykerykt.lightapi.LightType;
+import ru.beykerykt.minecraft.lightapi.common.api.engine.LightFlag;
 
 public abstract class ParticleTask {
 
@@ -58,14 +58,14 @@ public abstract class ParticleTask {
 
   public abstract void runTasks();
 
-  public void killTasks() {
+  public void killTasks(boolean isShutdown) {
     for (BukkitTask t : runnables) {
       t.cancel();
     }
 
     if (lighting) {
       for (Location loc : locs) {
-        LightAPI.clearLight(loc, LightType.BLOCK, true);
+        LightAPI.clearLight(loc, LightFlag.BLOCK_LIGHTING, true, isShutdown);
       }
     }
   }

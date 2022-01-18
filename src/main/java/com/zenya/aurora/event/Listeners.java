@@ -90,7 +90,7 @@ public class Listeners implements Listener {
     String biomeName = biome.toString();
 
     //Remove old tasks
-    ParticleManager.INSTANCE.unregisterTasks(player);
+    ParticleManager.INSTANCE.unregisterTasks(player, false);
 
     //Ignore if spawn conditions are not met
     if (StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) {

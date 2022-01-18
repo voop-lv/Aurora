@@ -31,7 +31,7 @@ public class ParticleManager {
     }
   }
 
-  public void unregisterTasks(Player player) {
+  public void unregisterTasks(Player player, boolean isShutdown) {
     List<ParticleTask> oldTasks;
     synchronized (particleMap) {
       oldTasks = particleMap.removeAll(player);
@@ -39,7 +39,7 @@ public class ParticleManager {
 
     if (oldTasks != null && !oldTasks.isEmpty()) {
       for (ParticleTask oldTask : oldTasks) {
-        oldTask.killTasks();
+        oldTask.killTasks(isShutdown);
       }
     }
   }

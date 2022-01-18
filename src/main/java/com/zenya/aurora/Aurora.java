@@ -84,7 +84,7 @@ public class Aurora extends JavaPlugin {
     taskManager.unregisterTasks();
     ParticleManager pm = ParticleManager.INSTANCE;
     for (Player player : pm.getPlayers()) {
-      pm.unregisterTasks(player);
+      pm.unregisterTasks(player, true);
     }
     try {
       LightAPI.disable();
