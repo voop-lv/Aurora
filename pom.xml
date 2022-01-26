@@ -129,7 +129,7 @@
         <dependency>
             <groupId>com.github.BeYkeRYkt</groupId>
             <artifactId>LightAPI</artifactId>
-            <version>5.1.0</version>
+            <version>5.1.0-Bukkit</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
