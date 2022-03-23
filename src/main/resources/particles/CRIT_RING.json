@@ -1,29 +1,29 @@
 {
-  "name": "CRIT_RING",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "BAMBOO_JUNGLE"
-    ],
-    "spawnDistance": 10.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 80.0,
-    "maxY": 90.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "CRIT",
-    "particleType": "RING",
-    "maxCount": 7,
-    "enableLighting": true
-  },
-  "properties": {
-    "radius": 2,
-    "rate": 0.4,
-    "update": 5,
-    "duration": 70,
-    "rotationAngle": 0,
-    "rotationAxis": "x"
-  }
+    "name": "CRIT_RING",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "BAMBOO_JUNGLE"
+        ],
+        "spawnDistance": 10.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 80.0,
+        "maxY": 90.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "CRIT",
+        "particleType": "RING",
+        "maxCount": 7,
+        "enableLighting": true
+    },
+    "properties": {
+        "radius": 2,
+        "rate": 0.4,
+        "update": 5,
+        "duration": 70,
+        "rotationAngle": 0,
+        "rotationAxis": "x"
+    }
 }

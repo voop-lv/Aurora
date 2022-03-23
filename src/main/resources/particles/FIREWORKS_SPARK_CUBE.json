@@ -1,29 +1,29 @@
 {
-  "name": "FIREWORKS_SPARK_CUBE",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "SNOWY_PLAINS"
-    ],
-    "spawnDistance": 15.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 85.0,
-    "maxY": 105.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "FIREWORKS_SPARK",
-    "particleType": "CUBE",
-    "maxCount": 5,
-    "enableLighting": false
-  },
-  "properties": {
-    "length": 3,
-    "rate": 0.5,
-    "update": 7,
-    "duration": 200,
-    "rotationAngle": 35,
-    "rotationAxis": "x"
-  }
+    "name": "FIREWORKS_SPARK_CUBE",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "SNOWY_PLAINS"
+        ],
+        "spawnDistance": 15.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 85.0,
+        "maxY": 105.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "FIREWORKS_SPARK",
+        "particleType": "CUBE",
+        "maxCount": 5,
+        "enableLighting": false
+    },
+    "properties": {
+        "length": 3,
+        "rate": 0.5,
+        "update": 7,
+        "duration": 200,
+        "rotationAngle": 35,
+        "rotationAxis": "x"
+    }
 }

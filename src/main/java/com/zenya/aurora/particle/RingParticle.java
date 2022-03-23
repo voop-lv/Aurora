@@ -9,18 +9,18 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class RingParticle extends SimpleParticleTask {
 
-  public RingParticle(Player player, Location[] locs, ParticleFile particleFile) {
-    super(player, locs, particleFile);
-  }
+    public RingParticle(Player player, Location[] locs, ParticleFile particleFile) {
+        super(player, locs, particleFile);
+    }
 
-  @Override
-  public TaskKey getKey() {
-    return TaskKey.RING_PARTICLE;
-  }
+    @Override
+    public TaskKey getKey() {
+        return TaskKey.RING_PARTICLE;
+    }
 
-  @Override
-  public BukkitTask generate() {
-    return AuroraAPI.getAPI().getParticleFactory().createRing(locs[locIndex], radius.generateDouble(), rate.generateDouble(),
-            update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
-  }
+    @Override
+    public BukkitTask generate() {
+        return AuroraAPI.getAPI().getParticleFactory().createRing(locs[locIndex], radius.generateDouble(), rate.generateDouble(),
+                update.generateInt(), duration.generateLong(), rotationAngle.generateDouble(), rotationAxis, display);
+    }
 }

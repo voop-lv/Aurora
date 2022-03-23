@@ -1,25 +1,25 @@
 {
-  "name": "HEART_POINT",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "SPARSE_JUNGLE"
-    ],
-    "spawnDistance": 5.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 60.0,
-    "maxY": 90.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "HEART",
-    "particleType": "POINT",
-    "maxCount": 45,
-    "enableLighting": true
-  },
-  "properties": {
-    "update": 5,
-    "duration": 20
-  }
+    "name": "HEART_POINT",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "SPARSE_JUNGLE"
+        ],
+        "spawnDistance": 5.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 60.0,
+        "maxY": 90.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "HEART",
+        "particleType": "POINT",
+        "maxCount": 45,
+        "enableLighting": true
+    },
+    "properties": {
+        "update": 5,
+        "duration": 20
+    }
 }

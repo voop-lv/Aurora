@@ -17,52 +17,52 @@ import java.util.List;
 
 public class AmbientParticlesFlag {
 
-  public static final AmbientParticlesFlag INSTANCE = new AmbientParticlesFlag();
-  private SetFlag<String> flag;
+    public static final AmbientParticlesFlag INSTANCE = new AmbientParticlesFlag();
+    private SetFlag<String> flag;
 
-  public AmbientParticlesFlag() {
-    try {
-      flag = WGManager.INSTANCE.registerFlag(new SetFlag<>("ambient-particles", new StringFlag(null)));
-    } catch (FlagConflictException exc) {
-      Logger.logError("Unable to register WorldGuard flag \"ambient-particles\"");
-      exc.printStackTrace();
-    }
-  }
-
-  public List<ParticleFile> getParticles(Player player) {
-    return getParticles(player.getLocation());
-  }
-
-  public List<ParticleFile> getParticles(Location loc) {
-    ProtectedRegion global = WGManager.INSTANCE.getRegionManager(loc.getWorld()).getRegion("__global__");
-    return getParticles(WGManager.INSTANCE.getApplicableRegionSet(loc), global);
-  }
-
-  private List<ParticleFile> getParticles(ApplicableRegionSet regions, ProtectedRegion global) {
-    List<ParticleFile> enabledParticles = new ArrayList<>();
-    //Add __global__ region
-    if (global != null) {
-      List<ProtectedRegion> regionList = new ArrayList<>();
-      regionList.add(global);
-      regionList.addAll(regions.getRegions());
-      regions = new RegionResultSet(regionList, null);
-    }
-
-    for (ProtectedRegion region : regions.getRegions()) {
-      if (region.getFlag(flag) != null && !region.getFlag(flag).isEmpty()) {
-        for (String particleName : region.getFlag(flag)) {
-          ParticleFile particleFile = ParticleFileManager.INSTANCE.getParticleByName(particleName);
-          if (particleFile != null && !enabledParticles.contains(particleFile)) {
-            enabledParticles.add(particleFile);
-          }
+    public AmbientParticlesFlag() {
+        try {
+            flag = WGManager.INSTANCE.registerFlag(new SetFlag<>("ambient-particles", new StringFlag(null)));
+        } catch (FlagConflictException exc) {
+            Logger.logError("Unable to register WorldGuard flag \"ambient-particles\"");
+            exc.printStackTrace();
         }
-      }
     }
-    return enabledParticles;
-  }
 
-  public SetFlag<String> getFlag() {
-    return flag;
-  }
+    public List<ParticleFile> getParticles(Player player) {
+        return getParticles(player.getLocation());
+    }
+
+    public List<ParticleFile> getParticles(Location loc) {
+        ProtectedRegion global = WGManager.INSTANCE.getRegionManager(loc.getWorld()).getRegion("__global__");
+        return getParticles(WGManager.INSTANCE.getApplicableRegionSet(loc), global);
+    }
+
+    private List<ParticleFile> getParticles(ApplicableRegionSet regions, ProtectedRegion global) {
+        List<ParticleFile> enabledParticles = new ArrayList<>();
+        //Add __global__ region
+        if (global != null) {
+            List<ProtectedRegion> regionList = new ArrayList<>();
+            regionList.add(global);
+            regionList.addAll(regions.getRegions());
+            regions = new RegionResultSet(regionList, null);
+        }
+
+        for (ProtectedRegion region : regions.getRegions()) {
+            if (region.getFlag(flag) != null && !region.getFlag(flag).isEmpty()) {
+                for (String particleName : region.getFlag(flag)) {
+                    ParticleFile particleFile = ParticleFileManager.INSTANCE.getParticleByName(particleName);
+                    if (particleFile != null && !enabledParticles.contains(particleFile)) {
+                        enabledParticles.add(particleFile);
+                    }
+                }
+            }
+        }
+        return enabledParticles;
+    }
+
+    public SetFlag<String> getFlag() {
+        return flag;
+    }
 
 }

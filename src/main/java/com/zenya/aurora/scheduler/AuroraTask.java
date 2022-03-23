@@ -4,9 +4,9 @@ import org.bukkit.scheduler.BukkitTask;
 
 public interface AuroraTask {
 
-  TaskKey getKey();
+    TaskKey getKey();
 
-  void runTasks();
+    void runTasks();
 
-  BukkitTask[] getTasks();
+    BukkitTask[] getTasks();
 }

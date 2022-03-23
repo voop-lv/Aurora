@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 
 public class CompatibilityHandler {
 
-  public static String getVersion() {
-    /*
+    public static String getVersion() {
+        /*
         1.9.2 - v1_9_R1
         1.9.4 - v1_9_R2
         1.10.2 - v1_10_R1
@@ -18,13 +18,13 @@ public class CompatibilityHandler {
         1.16.1 - v1_16_R1
         1.16.3 - v1_16_R2
         1.16.5 - v1_16_R3
-     */
-    String name = Bukkit.getServer().getClass().getPackage().getName();
-    String version = name.substring(name.lastIndexOf('.') + 1);
-    return version;
-  }
+         */
+        String name = Bukkit.getServer().getClass().getPackage().getName();
+        String version = name.substring(name.lastIndexOf('.') + 1);
+        return version;
+    }
 
-  public static int getProtocol() {
-    return Integer.parseInt(getVersion().split("_")[1]);
-  }
+    public static int getProtocol() {
+        return Integer.parseInt(getVersion().split("_")[1]);
+    }
 }

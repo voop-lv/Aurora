@@ -1,26 +1,26 @@
 {
-  "name": "SPELL_WITCH_POINT",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "OLD_GROWTH_PINE_TAIGA",
-      "MUSHROOM_FIELDS"
-    ],
-    "spawnDistance": 5.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 60.0,
-    "maxY": 80.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "SPELL_WITCH",
-    "particleType": "POINT",
-    "maxCount": 45,
-    "enableLighting": true
-  },
-  "properties": {
-    "update": 7,
-    "duration": 90
-  }
+    "name": "SPELL_WITCH_POINT",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "OLD_GROWTH_PINE_TAIGA",
+            "MUSHROOM_FIELDS"
+        ],
+        "spawnDistance": 5.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 60.0,
+        "maxY": 80.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "SPELL_WITCH",
+        "particleType": "POINT",
+        "maxCount": 45,
+        "enableLighting": true
+    },
+    "properties": {
+        "update": 7,
+        "duration": 90
+    }
 }

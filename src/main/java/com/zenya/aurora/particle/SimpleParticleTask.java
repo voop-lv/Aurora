@@ -17,56 +17,56 @@ import java.util.List;
 //For particles tasks which require setting lighting at a singular location
 public abstract class SimpleParticleTask extends ParticleTask {
 
-  public RandomNumber<Double> length;
-  public RandomNumber<Double> radius;
+    public RandomNumber<Double> length;
+    public RandomNumber<Double> radius;
 
-  public SimpleParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
-    super(player, locs, particleFile);
-    this.length = particleFile.getProperties().getLength();
-    this.radius = particleFile.getProperties().getRadius();
-    this.runTasks();
-  }
+    public SimpleParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
+        super(player, locs, particleFile);
+        this.length = particleFile.getProperties().getLength();
+        this.radius = particleFile.getProperties().getRadius();
+        this.runTasks();
+    }
 
-  @Override
-  public void runTasks() {
-    //List to track existing particle groups
-    List<BukkitTask> drawTasks = new ArrayList<>();
+    @Override
+    public void runTasks() {
+        //List to track existing particle groups
+        List<BukkitTask> drawTasks = new ArrayList<>();
 
-    //Task to set particle groups
-    BukkitTask task1 = new BukkitRunnable() {
-      @Override
-      public void run() {
-        //Remove expired tasks
-        if (!drawTasks.isEmpty()) {
-          drawTasks.removeIf(drawTask -> !Bukkit.getScheduler().isQueued(drawTask.getTaskId()) && !Bukkit.getScheduler().isCurrentlyRunning(drawTask.getTaskId()));
-        }
+        //Task to set particle groups
+        BukkitTask task1 = new BukkitRunnable() {
+            @Override
+            public void run() {
+                //Remove expired tasks
+                if (!drawTasks.isEmpty()) {
+                    drawTasks.removeIf(drawTask -> !Bukkit.getScheduler().isQueued(drawTask.getTaskId()) && !Bukkit.getScheduler().isCurrentlyRunning(drawTask.getTaskId()));
+                }
 
-        //Manage total displayed particle groups
-        if (drawTasks.size() < maxCount) {
-          //Create particles
-          drawTasks.add(generate());
+                //Manage total displayed particle groups
+                if (drawTasks.size() < maxCount) {
+                    //Create particles
+                    drawTasks.add(generate());
 
-          //Set lighting if enabled
-          if (lighting) {
-            new BukkitRunnable() {
-              @Override
-              public void run() {
-                LightAPI.setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
-              }
-            }.runTask(Aurora.getInstance());
-          }
+                    //Set lighting if enabled
+                    if (lighting) {
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                LightAPI.setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
+                            }
+                        }.runTask(Aurora.getInstance());
+                    }
 
-          //Go to next index
-          if (locIndex < (locs.length - 1)) {
-            locIndex++;
-          } else {
-            locIndex = 0;
-          }
-        }
-      }
-    }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
+                    //Go to next index
+                    if (locIndex < (locs.length - 1)) {
+                        locIndex++;
+                    } else {
+                        locIndex = 0;
+                    }
+                }
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
 
-    //Add to runnables[]
-    runnables = new BukkitTask[]{task1};
-  }
+        //Add to runnables[]
+        runnables = new BukkitTask[]{task1};
+    }
 }

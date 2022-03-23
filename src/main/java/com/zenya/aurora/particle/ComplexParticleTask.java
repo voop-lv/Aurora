@@ -18,57 +18,57 @@ import com.zenya.aurora.util.ext.LightAPI;
 //For particles tasks which require setting lighting at multiple locations
 public abstract class ComplexParticleTask extends ParticleTask {
 
-  public RandomNumber<Double> waveCycles;
-  public RandomNumber<Double> waveAmplitude;
+    public RandomNumber<Double> waveCycles;
+    public RandomNumber<Double> waveAmplitude;
 
-  public ComplexParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
-    super(player, locs, particleFile);
-    this.waveCycles = particleFile.getProperties().getWaveCycles();
-    this.waveAmplitude = particleFile.getProperties().getWaveAmplitude();
-    this.runTasks();
-  }
+    public ComplexParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
+        super(player, locs, particleFile);
+        this.waveCycles = particleFile.getProperties().getWaveCycles();
+        this.waveAmplitude = particleFile.getProperties().getWaveAmplitude();
+        this.runTasks();
+    }
 
-  @Override
-  public void runTasks() {
-    //List to track existing particle groups
-    List<BukkitTask> drawTasks = new ArrayList<>();
+    @Override
+    public void runTasks() {
+        //List to track existing particle groups
+        List<BukkitTask> drawTasks = new ArrayList<>();
 
-    //Task to set particle groups
-    BukkitTask task1 = new BukkitRunnable() {
-      @Override
-      public void run() {
-        //Remove expired tasks
-        if (!drawTasks.isEmpty()) {
-          drawTasks.removeIf(drawTask -> !Bukkit.getScheduler().isQueued(drawTask.getTaskId()) && !Bukkit.getScheduler().isCurrentlyRunning(drawTask.getTaskId()));
-        }
+        //Task to set particle groups
+        BukkitTask task1 = new BukkitRunnable() {
+            @Override
+            public void run() {
+                //Remove expired tasks
+                if (!drawTasks.isEmpty()) {
+                    drawTasks.removeIf(drawTask -> !Bukkit.getScheduler().isQueued(drawTask.getTaskId()) && !Bukkit.getScheduler().isCurrentlyRunning(drawTask.getTaskId()));
+                }
 
-        //Manage total displayed particle groups
-        if (drawTasks.size() < maxCount) {
-          //Create particles
-          drawTasks.add(generate());
+                //Manage total displayed particle groups
+                if (drawTasks.size() < maxCount) {
+                    //Create particles
+                    drawTasks.add(generate());
 
-          //Set lighting if enabled
-          if (lighting) {
-            new BukkitRunnable() {
-              @Override
-              public void run() {
-                LightAPI.setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
-                LightAPI.setLight(locs[locIndex + 1], LightFlag.BLOCK_LIGHTING, 15, true, false);
-              }
-            }.runTask(Aurora.getInstance());
-          }
+                    //Set lighting if enabled
+                    if (lighting) {
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                LightAPI.setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
+                                LightAPI.setLight(locs[locIndex + 1], LightFlag.BLOCK_LIGHTING, 15, true, false);
+                            }
+                        }.runTask(Aurora.getInstance());
+                    }
 
-          //Go to next index
-          if (locIndex < (locs.length - 2)) {
-            locIndex++;
-          } else {
-            locIndex = 0;
-          }
-        }
-      }
-    }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
+                    //Go to next index
+                    if (locIndex < (locs.length - 2)) {
+                        locIndex++;
+                    } else {
+                        locIndex = 0;
+                    }
+                }
+            }
+        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
 
-    //Add to runnables[]
-    runnables = new BukkitTask[]{task1};
-  }
+        //Add to runnables[]
+        runnables = new BukkitTask[]{task1};
+    }
 }

@@ -1,27 +1,27 @@
 {
-  "name": "SPELL_INSTANT_SPHERE",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "WOODED_BADLANDS"
-    ],
-    "spawnDistance": 20.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 120.0,
-    "maxY": 130.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "SPELL_INSTANT",
-    "particleType": "SPHERE",
-    "maxCount": 5,
-    "enableLighting": true
-  },
-  "properties": {
-    "radius": 1,
-    "rate": 0.2,
-    "update": 7,
-    "duration": 150
-  }
+    "name": "SPELL_INSTANT_SPHERE",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "WOODED_BADLANDS"
+        ],
+        "spawnDistance": 20.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 120.0,
+        "maxY": 130.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "SPELL_INSTANT",
+        "particleType": "SPHERE",
+        "maxCount": 5,
+        "enableLighting": true
+    },
+    "properties": {
+        "radius": 1,
+        "rate": 0.2,
+        "update": 7,
+        "duration": 150
+    }
 }

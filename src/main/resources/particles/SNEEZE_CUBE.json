@@ -1,30 +1,30 @@
 {
-  "name": "SNEEZE_CUBE",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "WINDSWEPT_GRAVELLY_HILLS",
-      "WINDSWEPT_HILLS"
-    ],
-    "spawnDistance": 25.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 80.0,
-    "maxY": 90.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "SNEEZE",
-    "particleType": "CUBE",
-    "maxCount": 6,
-    "enableLighting": true
-  },
-  "properties": {
-    "length": 3.0,
-    "rate": 0.5,
-    "update": 7,
-    "duration": 150,
-    "rotationAngle": 50,
-    "rotationAxis": "x"
-  }
+    "name": "SNEEZE_CUBE",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "WINDSWEPT_GRAVELLY_HILLS",
+            "WINDSWEPT_HILLS"
+        ],
+        "spawnDistance": 25.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 80.0,
+        "maxY": 90.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "SNEEZE",
+        "particleType": "CUBE",
+        "maxCount": 6,
+        "enableLighting": true
+    },
+    "properties": {
+        "length": 3.0,
+        "rate": 0.5,
+        "update": 7,
+        "duration": 150,
+        "rotationAngle": 50,
+        "rotationAxis": "x"
+    }
 }

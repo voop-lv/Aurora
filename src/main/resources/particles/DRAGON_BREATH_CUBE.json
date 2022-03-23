@@ -1,31 +1,31 @@
 {
-  "name": "DRAGON_BREATH_CUBE",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "BADLANDS",
-      "ERODED_BADLANDS",
-      "SAVANNA_PLATEAU"
-    ],
-    "spawnDistance": 20.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 80.0,
-    "maxY": 90.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "DRAGON_BREATH",
-    "particleType": "CUBE",
-    "maxCount": 5,
-    "enableLighting": true
-  },
-  "properties": {
-    "length": 3.0,
-    "rate": 0.5,
-    "update": 7,
-    "duration": 50,
-    "rotationAngle": 0,
-    "rotationAxis": "x"
-  }
+    "name": "DRAGON_BREATH_CUBE",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "BADLANDS",
+            "ERODED_BADLANDS",
+            "SAVANNA_PLATEAU"
+        ],
+        "spawnDistance": 20.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 80.0,
+        "maxY": 90.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "DRAGON_BREATH",
+        "particleType": "CUBE",
+        "maxCount": 5,
+        "enableLighting": true
+    },
+    "properties": {
+        "length": 3.0,
+        "rate": 0.5,
+        "update": 7,
+        "duration": 50,
+        "rotationAngle": 0,
+        "rotationAxis": "x"
+    }
 }

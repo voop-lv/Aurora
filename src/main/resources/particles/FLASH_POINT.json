@@ -1,25 +1,25 @@
 {
-  "name": "FLASH_POINT",
-  "enabled": true,
-  "spawning": {
-    "biomes": [
-      "WINDSWEPT_FOREST"
-    ],
-    "spawnDistance": 5.0,
-    "randMultiplier": 0.5,
-    "relativePlayerPosition": false,
-    "minY": 120.0,
-    "maxY": 130.0,
-    "shuffleLocations": true
-  },
-  "particle": {
-    "particleName": "FLASH",
-    "particleType": "POINT",
-    "maxCount": 20,
-    "enableLighting": false
-  },
-  "properties": {
-    "update": 5,
-    "duration": 5
-  }
+    "name": "FLASH_POINT",
+    "enabled": true,
+    "spawning": {
+        "biomes": [
+            "WINDSWEPT_FOREST"
+        ],
+        "spawnDistance": 5.0,
+        "randMultiplier": 0.5,
+        "relativePlayerPosition": false,
+        "minY": 120.0,
+        "maxY": 130.0,
+        "shuffleLocations": true
+    },
+    "particle": {
+        "particleName": "FLASH",
+        "particleType": "POINT",
+        "maxCount": 20,
+        "enableLighting": false
+    },
+    "properties": {
+        "update": 5,
+        "duration": 5
+    }
 }

@@ -15,28 +15,28 @@ import org.bukkit.plugin.Plugin;
 
 public class WGManager {
 
-  public static final WGManager INSTANCE = new WGManager();
+    public static final WGManager INSTANCE = new WGManager();
 
-  public static WorldGuardPlugin getWorldGuard() {
-    Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
-    return (plugin == null || !(plugin instanceof WorldGuardPlugin)) ? null : (WorldGuardPlugin) plugin;
-  }
+    public static WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
+        return (plugin == null || !(plugin instanceof WorldGuardPlugin)) ? null : (WorldGuardPlugin) plugin;
+    }
 
-  public ApplicableRegionSet getApplicableRegionSet(Player player) {
-    return getApplicableRegionSet(player.getLocation());
-  }
+    public ApplicableRegionSet getApplicableRegionSet(Player player) {
+        return getApplicableRegionSet(player.getLocation());
+    }
 
-  public RegionManager getRegionManager(World world) {
-    return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world));
-  }
+    public RegionManager getRegionManager(World world) {
+        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world));
+    }
 
-  public ApplicableRegionSet getApplicableRegionSet(Location loc) {
-    return getRegionManager(loc.getWorld()).getApplicableRegions(BukkitAdapter.asBlockVector(loc));
-  }
+    public ApplicableRegionSet getApplicableRegionSet(Location loc) {
+        return getRegionManager(loc.getWorld()).getApplicableRegions(BukkitAdapter.asBlockVector(loc));
+    }
 
-  public <T extends Flag<?>> T registerFlag(T flag) throws FlagConflictException {
-    WorldGuard.getInstance().getFlagRegistry().register(flag);
-    return flag;
-  }
+    public <T extends Flag<?>> T registerFlag(T flag) throws FlagConflictException {
+        WorldGuard.getInstance().getFlagRegistry().register(flag);
+        return flag;
+    }
 
 }
