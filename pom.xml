@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zenya.aurora</groupId>
     <artifactId>Aurora</artifactId>
-    <version>4.2</version>
+    <version>4.3</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -97,8 +97,8 @@
         <!-- Spigot 1.18 jar used for compiling -->
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
+            <artifactId>spigot-api</artifactId>
+            <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -123,6 +123,13 @@
             <groupId>com.github.BeYkeRYkt</groupId>
             <artifactId>LightAPI</artifactId>
             <version>5.2.0-Bukkit</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <type>jar</type>
             <scope>provided</scope>
         </dependency>
     </dependencies>
