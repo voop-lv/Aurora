@@ -3,3 +3,7 @@
 /legacy/target/
 /target/
 /Aurora/target/
+.idea
+.gradle
+*.jar
+/build

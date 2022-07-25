@@ -1,6 +1,6 @@
 name: Aurora
 description: Illuminate the night with breathtaking ambient particle effects
-version: ${project.version}
+version: ${version}
 author: Optic_Fusion1
 main: com.zenya.aurora.Aurora
 api-version: 1.18
