@@ -4,7 +4,9 @@ version: ${version}
 author: Optic_Fusion1
 main: com.zenya.aurora.Aurora
 api-version: 1.18
-softdepend: [WorldGuard, LightAPI]
+depend:
+  - LightAPI
+softdepend: [WorldGuard]
 
 commands:
   aurora:
