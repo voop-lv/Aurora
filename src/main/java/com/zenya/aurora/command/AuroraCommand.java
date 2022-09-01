@@ -23,6 +23,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class AuroraCommand implements CommandExecutor {
+    private final Aurora plugin;
+    private final StorageFileManager storageFileManager;
+    private final ToggleManager toggleManager;
+    private final LightAPI lightAPI;
+    private final ParticleFileManager particleFileManager;
+    private final ParticleFileCache particleFileCache;
+    private final WGManager wgManager;
+    private final AmbientParticlesFlag ambientParticlesFlag;
+
+    public AuroraCommand(Aurora plugin) {
+        this.plugin = plugin;
+        this.storageFileManager = this.plugin.getStorageFileManager();
+        this.toggleManager = this.plugin.getToggleManager();
+        this.lightAPI = this.plugin.getLightAPI();
+        this.particleFileManager = this.plugin.getParticleFileManager();
+        this.particleFileCache = this.plugin.getParticleFileCache();
+        this.wgManager = plugin.getWorldGuardManager();
+        this.ambientParticlesFlag = this.plugin.getAmbientParticlesFlag();
+    }
 
     private void sendUsage(CommandSender sender) {
         ChatBuilder chat = (new ChatBuilder()).withSender(sender);
@@ -59,11 +78,11 @@ public class AuroraCommand implements CommandExecutor {
                 }
                 Player player = (Player) sender;
                 chat.withPlayer(player);
-                if (ToggleManager.INSTANCE.isToggled(player.getName())) {
-                    ToggleManager.INSTANCE.registerToggle(player.getName(), false);
+                if (this.toggleManager.isToggled(player.getName())) {
+                    this.toggleManager.registerToggle(player.getName(), false);
                     chat.sendMessages("command.toggle.disable");
                 } else {
-                    ToggleManager.INSTANCE.registerToggle(player.getName(), true);
+                    this.toggleManager.registerToggle(player.getName(), true);
                     chat.sendMessages("command.toggle.enable");
                 }
                 Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
@@ -71,17 +90,17 @@ public class AuroraCommand implements CommandExecutor {
             }
 
             if (args[0].toLowerCase().equals("reload")) {
-                StorageFileManager.reloadFiles();
-                if (!StorageFileManager.getConfig().getBool("enable-lighting")) {
+                this.storageFileManager.reloadFiles();
+                if (!this.storageFileManager.getConfig().getBool("enable-lighting")) {
                     try {
-                        LightAPI.disable();
+                        this.lightAPI.disable();
                     } catch (NoClassDefFoundError exc) {
                         // Already disabled, do nothing
                     }
                 }
-                LightAPI api = LightAPI.INSTANCE;
-                ParticleFileCache.reload();
-                chat.withArgs(ParticleFileManager.INSTANCE.getParticles().size()).sendMessages("command.reload");
+
+                this.particleFileCache.reload();
+                chat.withArgs(this.particleFileManager.getParticles().size()).sendMessages("command.reload");
 
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(p));
@@ -91,11 +110,11 @@ public class AuroraCommand implements CommandExecutor {
 
             if (args[0].toLowerCase().equals("status")) {
                 String globalFiles = "";
-                if (ParticleFileManager.INSTANCE.getParticles() == null || ParticleFileManager.INSTANCE.getParticles().size() == 0) {
+                if (this.particleFileManager.getParticles() == null || this.particleFileManager.getParticles().size() == 0) {
                     //No particle files
                     globalFiles += "None";
                 } else {
-                    for (ParticleFile particleFile : ParticleFileManager.INSTANCE.getParticles()) {
+                    for (ParticleFile particleFile : this.particleFileManager.getParticles()) {
                         //Check if enabled or disabled
                         String particleName = particleFile.isEnabled() ? Colorize.colorize("&a") : Colorize.colorize("&c");
                         //If enabled, check if active in region/biome
@@ -105,23 +124,23 @@ public class AuroraCommand implements CommandExecutor {
                             String biomeName = biome.toString();
 
                             //WG support
-                            if (WGManager.getWorldGuard() != null) {
-                                if (AmbientParticlesFlag.INSTANCE.getParticles(player).contains(particleFile)) {
+                            if (this.wgManager.getWorldGuard() != null) {
+                                if (this.ambientParticlesFlag.getParticles(player).contains(particleFile)) {
                                     //Set if particle is in region
                                     particleName = Colorize.colorize("&b");
-                                } else if (AmbientParticlesFlag.INSTANCE.getParticles(player).isEmpty()
-                                        && ParticleFileCache.INSTANCE.getClass(biomeName).contains(particleFile)) {
+                                } else if (this.ambientParticlesFlag.getParticles(player).isEmpty()
+                                        && this.particleFileCache.getClass(biomeName).contains(particleFile)) {
                                     //If region has no particles, fallback to biome
                                     particleName = Colorize.colorize("&b");
                                 }
                                 //No WG
-                            } else if (ParticleFileCache.INSTANCE.getClass(biomeName).contains(particleFile)) {
+                            } else if (this.particleFileCache.getClass(biomeName).contains(particleFile)) {
                                 //Only set if particle is in biome
                                 particleName = Colorize.colorize("&b");
                             }
 
                             //Check if disabled in world
-                            if (StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) {
+                            if (this.storageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) {
                                 particleName = Colorize.colorize("&c");
                             }
                         }
@@ -129,7 +148,7 @@ public class AuroraCommand implements CommandExecutor {
                         globalFiles += particleName;
                     }
                 }
-                chat.withArgs(ParticleFileManager.INSTANCE.getParticles().size(), globalFiles).sendMessages("command.status");
+                chat.withArgs(this.particleFileManager.getParticles().size(), globalFiles).sendMessages("command.status");
                 return true;
             }
 
@@ -149,11 +168,11 @@ public class AuroraCommand implements CommandExecutor {
 
                 switch (args[1].toLowerCase()) {
                     case "on" -> {
-                        ToggleManager.INSTANCE.registerToggle(player.getName(), true);
+                        this.toggleManager.registerToggle(player.getName(), true);
                         chat.sendMessages("command.toggle.enable");
                     }
                     case "off" -> {
-                        ToggleManager.INSTANCE.registerToggle(player.getName(), false);
+                        this.toggleManager.registerToggle(player.getName(), false);
                         chat.sendMessages("command.toggle.disable");
                     }
                     default -> {
@@ -184,7 +203,7 @@ public class AuroraCommand implements CommandExecutor {
                             }
                             chat.withArgs(chunks, chunks).sendMessages("command.fixlighting.done");
                         }
-                    }.runTask(Aurora.getInstance());
+                    }.runTask(this.plugin);
                 } catch (NumberFormatException exc) {
                     //Wrong arg2
                     sendUsage(sender);

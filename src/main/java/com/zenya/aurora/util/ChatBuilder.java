@@ -1,16 +1,18 @@
 package com.zenya.aurora.util;
 
+import com.zenya.aurora.Aurora;
+import com.zenya.aurora.file.YAMLFile;
+import com.zenya.aurora.scheduler.TaskKey;
 import com.zenya.aurora.scheduler.TrackTPSTask;
 import com.zenya.aurora.storage.StorageFileManager;
+import optic_fusion1.aurora.util.Colorize;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import optic_fusion1.aurora.util.Colorize;
 
 public class ChatBuilder {
 
@@ -64,7 +66,7 @@ public class ChatBuilder {
     public String build() {
         //Placeholders
         text = text == null ? "" : Colorize.colorize(text);
-        text = text.replaceAll("%tps%", Float.toString(TrackTPSTask.INSTANCE.getAverageTps()));
+        text = text.replaceAll("%tps%", Float.toString(Aurora.getPlugin(Aurora.class).getTaskManager().getTask(TaskKey.TRACK_TPS_TASK, TrackTPSTask.class).getAverageTps()));
         text = player == null ? text : text.replaceAll("%world%", player.getWorld().getName());
         text = player == null ? text : text.replaceAll("%player%", player.getName());
 
@@ -100,13 +102,15 @@ public class ChatBuilder {
     }
 
     public void sendMessages(String node) {
-        if (StorageFileManager.getMessages().isList(node)) {
-            for (String item : StorageFileManager.getMessages().getList(node)) {
+        final YAMLFile messages = Aurora.getPlugin(Aurora.class).getStorageFileManager().getMessages();
+        if (messages.isList(node)) {
+            for (String item : messages.getList(node)) {
                 withText(item).sendMessage();
             }
-        } else {
-            withText(StorageFileManager.getMessages().getString(node)).sendMessage();
+            return;
         }
+
+        withText(messages.getString(node)).sendMessage();
     }
 
 }

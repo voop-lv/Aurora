@@ -1,5 +1,6 @@
 package com.zenya.aurora.particle;
 
+import com.zenya.aurora.Aurora;
 import com.zenya.aurora.api.ParticleFactory;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.ext.ZParticleDisplay;
@@ -14,6 +15,7 @@ import org.bukkit.scheduler.BukkitTask;
 import ru.beykerykt.minecraft.lightapi.common.api.engine.LightFlag;
 
 public abstract class ParticleTask {
+    private final Aurora plugin;
 
     public BukkitTask runnables[];
     public int locIndex = 0;
@@ -30,23 +32,32 @@ public abstract class ParticleTask {
     public RandomNumber<Double> rotationAngle;
     public char rotationAxis;
 
+    private final LightAPI lightAPI;
+
     public ParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
+        this.plugin = Aurora.getPlugin(Aurora.class);
         this.player = player;
         this.locs = locs;
         this.particle = Particle.valueOf(particleFile.getParticle().getParticleName());
         this.display = ParticleFactory.toDisplay(particle, player);
         this.maxCount = particleFile.getParticle().getMaxCount();
-        this.lighting = StorageFileManager.getConfig().getBool("enable-lighting") && particleFile.getParticle().isEnableLighting();
+        this.lighting = plugin.getStorageFileManager().getConfig().getBool("enable-lighting") && particleFile.getParticle().isEnableLighting();
         this.rate = particleFile.getProperties().getRate();
         this.update = particleFile.getProperties().getUpdate();
         this.duration = particleFile.getProperties().getDuration();
         this.rotationAngle = particleFile.getProperties().getRotationAngle();
         this.rotationAxis = particleFile.getProperties().getRotationAxis();
+
+        this.lightAPI = plugin.getLightAPI();
     }
 
     public abstract TaskKey getKey();
 
     public abstract BukkitTask generate();
+
+    public Aurora getPlugin() {
+        return this.plugin;
+    }
 
     public Player getPlayer() {
         return player;
@@ -56,6 +67,10 @@ public abstract class ParticleTask {
         return runnables;
     }
 
+    public LightAPI getLightAPI() {
+        return this.lightAPI;
+    }
+
     public abstract void runTasks();
 
     public void killTasks(boolean isShutdown) {
@@ -63,10 +78,12 @@ public abstract class ParticleTask {
             t.cancel();
         }
 
-        if (lighting) {
-            for (Location loc : locs) {
-                LightAPI.clearLight(loc, LightFlag.BLOCK_LIGHTING, true, isShutdown);
-            }
+        if (!lighting) {
+            return;
+        }
+
+        for (Location loc : locs) {
+            this.lightAPI.clearLight(loc, LightFlag.BLOCK_LIGHTING, true, isShutdown);
         }
     }
 }

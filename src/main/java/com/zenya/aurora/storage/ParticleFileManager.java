@@ -17,13 +17,15 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ParticleFileManager {
-
-    public static ParticleFileManager INSTANCE = new ParticleFileManager();
-    private final File PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder(), "particles");
+    private final Aurora plugin;
+    private final File particleFolder;
     private HashMap<String, ParticleFile> particleFileMap = new HashMap<>();
     private Gson gson;
 
-    public ParticleFileManager() {
+    public ParticleFileManager(Aurora plugin) {
+        this.plugin = plugin;
+        this.particleFolder = new File(plugin.getDataFolder(), "particles");
+
         //Register RandomNumber GSON Object
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(RandomNumber.class, new RandomNumber.RandomNumberDeserializer());
@@ -31,8 +33,8 @@ public class ParticleFileManager {
 
         try {
             //Create default particle files if not exists
-            if (!PARTICLE_FOLDER.isDirectory() || !Files.newDirectoryStream(PARTICLE_FOLDER.toPath()).iterator().hasNext()) {
-                PARTICLE_FOLDER.mkdirs();
+            if (!this.particleFolder.isDirectory() || !Files.newDirectoryStream(this.particleFolder.toPath()).iterator().hasNext()) {
+                this.particleFolder.mkdirs();
 
                 try ( //Use ChatBuilder.fileSeparator instead of File.separator to sanitise escape characters in Windows filepaths
                          JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath().
@@ -43,7 +45,7 @@ public class ParticleFileManager {
                         final String path = entries.nextElement().getName();
                         final String name = path.split("/")[path.split("/").length - 1];
                         if (path.contains("particles/") && (name.endsWith(".json") || name.endsWith(".txt"))) {
-                            Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles/" + name), new File(PARTICLE_FOLDER,
+                            Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles/" + name), new File(this.particleFolder,
                                     name).toPath(), StandardCopyOption.REPLACE_EXISTING);
                         }
                     }
@@ -54,7 +56,7 @@ public class ParticleFileManager {
         }
 
         //Register all files inside a hashmap as ParticleFile classes
-        for (String filename : PARTICLE_FOLDER.list()) {
+        for (String filename : this.particleFolder.list()) {
             if (filename.toLowerCase().endsWith(".json")) {
                 registerClass(filename);
             }
@@ -99,7 +101,7 @@ public class ParticleFileManager {
 
     private void registerClass(String filename) {
         try {
-            particleFileMap.put(filename, gson.fromJson(new FileReader(new File(PARTICLE_FOLDER, filename)), ParticleFile.class));
+            particleFileMap.put(filename, gson.fromJson(new FileReader(new File(this.particleFolder, filename)), ParticleFile.class));
         } catch (Exception e) {
             Logger.logError("Error parsing particle file " + filename);
             e.printStackTrace();
@@ -111,7 +113,7 @@ public class ParticleFileManager {
         particleFileMap.remove(name);
     }
 
-    public static void reload() {
-        INSTANCE = new ParticleFileManager();
+    public void reload() {
+        this.plugin.reloadParticleFileManager();
     }
 }

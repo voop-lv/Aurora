@@ -1,5 +1,6 @@
 package com.zenya.aurora.storage;
 
+import com.zenya.aurora.Aurora;
 import com.zenya.aurora.scheduler.AuroraTask;
 import com.zenya.aurora.scheduler.TaskKey;
 import com.zenya.aurora.scheduler.TrackLocationTask;
@@ -9,17 +10,19 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.*;
 
 public class TaskManager {
-
-    public static final TaskManager INSTANCE = new TaskManager();
     private HashMap<TaskKey, AuroraTask> taskMap = new HashMap<>();
 
-    public TaskManager() {
-        registerTask(TaskKey.TRACK_TPS_TASK, TrackTPSTask.INSTANCE);
-        registerTask(TaskKey.TRACK_LOCATION_TASK, TrackLocationTask.INSTANCE);
+    public TaskManager(Aurora plugin) {
+        registerTask(TaskKey.TRACK_TPS_TASK, new TrackTPSTask(plugin));
+        registerTask(TaskKey.TRACK_LOCATION_TASK, new TrackLocationTask(plugin));
     }
 
-    public AuroraTask getTask(TaskKey key) {
-        return taskMap.get(key);
+    public <T extends AuroraTask> T getTask(TaskKey key, Class<T> taskClass) {
+        return (T) taskMap.get(key);
+    }
+
+    public <T extends AuroraTask> T getTask(TaskKey key) {
+        return (T) taskMap.get(key);
     }
 
     public void registerTask(TaskKey key, AuroraTask task) {

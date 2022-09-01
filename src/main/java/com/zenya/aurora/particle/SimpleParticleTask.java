@@ -51,9 +51,9 @@ public abstract class SimpleParticleTask extends ParticleTask {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                LightAPI.setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
+                                getLightAPI().setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
                             }
-                        }.runTask(Aurora.getInstance());
+                        }.runTask(getPlugin());
                     }
 
                     //Go to next index
@@ -64,7 +64,7 @@ public abstract class SimpleParticleTask extends ParticleTask {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
+        }.runTaskTimerAsynchronously(this.getPlugin(), 0, update.generateInt());
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1};

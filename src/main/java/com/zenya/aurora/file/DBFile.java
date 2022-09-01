@@ -7,24 +7,24 @@ import java.sql.*;
 
 public class DBFile extends StorageFile {
 
-    public DBFile(String fileName) {
-        this(Aurora.getInstance().getDataFolder().getPath(), fileName);
+    public DBFile(Aurora plugin, String fileName) {
+        this(plugin, plugin.getDataFolder().getPath(), fileName);
     }
 
-    public DBFile(String directory, String fileName) {
-        this(directory, fileName, null, false);
+    public DBFile(Aurora plugin, String directory, String fileName) {
+        this(plugin, directory, fileName, null, false);
     }
 
-    public DBFile(String directory, String fileName, Integer fileVersion, boolean resetFile) {
-        super(directory, fileName, fileVersion, resetFile);
+    public DBFile(Aurora plugin, String directory, String fileName, Integer fileVersion, boolean resetFile) {
+        super(plugin, directory, fileName, fileVersion, resetFile);
 
         if (!file.exists()) {
             this.createTables();
         }
     }
 
-    private static Connection connect() {
-        String url = "jdbc:sqlite:" + Aurora.getInstance().getDataFolder() + File.separator + "database.db";
+    private Connection connect() {
+        String url = "jdbc:sqlite:" + this.plugin.getDataFolder() + File.separator + "database.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -35,15 +35,15 @@ public class DBFile extends StorageFile {
         return conn;
     }
 
-    private static void sendStatement(String sql) {
+    private void sendStatement(String sql) {
         sendPreparedStatement(sql, null);
     }
 
-    private static void sendPreparedStatement(String sql, Object... parameters) {
+    private void sendPreparedStatement(String sql, Object... parameters) {
         sendQueryStatement(sql, null, parameters);
     }
 
-    private static Object sendQueryStatement(String sql, String query, Object... parameters) {
+    private Object sendQueryStatement(String sql, String query, Object... parameters) {
         Object result = null;
 
         try {

@@ -50,9 +50,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see Vector
  */
 public class ZParticle implements ParticleFactory {
+    private final Aurora plugin;
 
-    public ZParticle() {
-
+    public ZParticle(Aurora plugin) {
+        this.plugin = plugin;
     }
 
     /**
@@ -215,7 +216,7 @@ public class ZParticle implements ParticleFactory {
                 ticks += update;
                 display.withLocation(loc).spawn();
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 
     @Override
@@ -250,7 +251,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(start).spawn(finalX * i, finalY * i, finalZ * i);
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 
     @Override
@@ -304,11 +305,11 @@ public class ZParticle implements ParticleFactory {
 
                         display.withLocation(start).spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2]);
                     }
-                }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+                }.runTaskTimerAsynchronously(ZParticle.this.plugin, 0, update);
 
                 progress += 1;
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 
     @Override
@@ -379,7 +380,7 @@ public class ZParticle implements ParticleFactory {
                     isDone = true;
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 
     @Override
@@ -420,7 +421,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(loc).spawn();
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 
     @Override
@@ -464,7 +465,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(loc).spawn();
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 
     @Override
@@ -510,7 +511,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(loc).spawn();
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 
     @Override
@@ -579,10 +580,10 @@ public class ZParticle implements ParticleFactory {
 
                         display.withLocation(start).spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2]);
                     }
-                }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+                }.runTaskTimerAsynchronously(ZParticle.this.plugin, 0, update);
 
                 progress += 1;
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update);
+        }.runTaskTimerAsynchronously(this.plugin, 0, update);
     }
 }

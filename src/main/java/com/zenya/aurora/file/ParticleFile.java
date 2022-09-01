@@ -1,5 +1,6 @@
 package com.zenya.aurora.file;
 
+import com.zenya.aurora.Aurora;
 import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.RandomNumber;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class ParticleFile {
         private boolean shuffleLocations;
 
         public String[] getBiomes() {
-            YAMLFile presentsFile = StorageFileManager.getBiomes();
+            YAMLFile presentsFile = Aurora.getPlugin(Aurora.class).getStorageFileManager().getBiomes();
             List<String> finalBiomes = new ArrayList<>();
 
             if (biomes != null && biomes.length != 0) {

@@ -23,6 +23,23 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
 public class Listeners implements Listener {
+    private final Aurora plugin;
+    private final ToggleManager toggleManager;
+    private final StorageFileManager storageFileManager;
+    private final ParticleFileCache particleFileCache;
+    private final ParticleManager particleManager;
+    private final WGManager wgManager;
+    private final AmbientParticlesFlag ambientParticlesFlag;
+
+    public Listeners(Aurora plugin) {
+        this.plugin = plugin;
+        this.toggleManager = this.plugin.getToggleManager();
+        this.storageFileManager = this.plugin.getStorageFileManager();
+        this.particleFileCache = this.plugin.getParticleFileCache();
+        this.particleManager = this.plugin.getParticleManager();
+        this.wgManager = this.plugin.getWorldGuardManager();
+        this.ambientParticlesFlag = this.plugin.getAmbientParticlesFlag();
+    }
 
     private void spawnParticles(ParticleUpdateEvent e, List<ParticleFile> particleFiles) {
         Player player = e.getPlayer();
@@ -33,7 +50,7 @@ public class Listeners implements Listener {
             }
 
             LocationTools.getParticleLocations(
-                    e.getNearbyChunks(StorageFileManager.getConfig().getInt("particle-spawn-radius")),
+                    e.getNearbyChunks(this.storageFileManager.getConfig().getInt("particle-spawn-radius")),
                     particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMinY() + player.getLocation().getY() : particleFile.getSpawning().getMinY(),
                     particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMaxY() + player.getLocation().getY() : particleFile.getSpawning().getMaxY(),
                     particleFile.getSpawning().getSpawnDistance(),
@@ -42,19 +59,19 @@ public class Listeners implements Listener {
 
                 switch (particleFile.getParticle().getParticleType().toUpperCase()) {
                     case "LINE" ->
-                        ParticleManager.INSTANCE.registerTask(player, new LineParticle(player, locs, particleFile));
+                        this.particleManager.registerTask(player, new LineParticle(player, locs, particleFile));
                     case "CUBE" ->
-                        ParticleManager.INSTANCE.registerTask(player, new CubeParticle(player, locs, particleFile));
+                        this.particleManager.registerTask(player, new CubeParticle(player, locs, particleFile));
                     case "RING" ->
-                        ParticleManager.INSTANCE.registerTask(player, new RingParticle(player, locs, particleFile));
+                        this.particleManager.registerTask(player, new RingParticle(player, locs, particleFile));
                     case "CIRCLE" ->
-                        ParticleManager.INSTANCE.registerTask(player, new CircleParticle(player, locs, particleFile));
+                        this.particleManager.registerTask(player, new CircleParticle(player, locs, particleFile));
                     case "SPHERE" ->
-                        ParticleManager.INSTANCE.registerTask(player, new SphereParticle(player, locs, particleFile));
+                        this.particleManager.registerTask(player, new SphereParticle(player, locs, particleFile));
                     case "WAVE" ->
-                        ParticleManager.INSTANCE.registerTask(player, new WaveParticle(player, locs, particleFile));
+                        this.particleManager.registerTask(player, new WaveParticle(player, locs, particleFile));
                     default -> //Default to point particle
-                        ParticleManager.INSTANCE.registerTask(player, new PointParticle(player, locs, particleFile));
+                        this.particleManager.registerTask(player, new PointParticle(player, locs, particleFile));
                 }
             });
         }
@@ -67,18 +84,18 @@ public class Listeners implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                boolean status = StorageFileManager.getDatabase().getToggleStatus(player.getName());
-                ToggleManager.INSTANCE.cacheToggle(player.getName(), status);
+                boolean status = Listeners.this.storageFileManager.getDatabase().getToggleStatus(player.getName());
+                Listeners.this.toggleManager.cacheToggle(player.getName(), status);
                 Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
             }
-        }.runTask(Aurora.getInstance());
+        }.runTask(this.plugin);
     }
 
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         Player player = e.getPlayer();
 
-        ToggleManager.INSTANCE.uncacheToggle(player.getName());
+        this.toggleManager.uncacheToggle(player.getName());
         Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
     }
 
@@ -90,10 +107,10 @@ public class Listeners implements Listener {
         String biomeName = biome.toString();
 
         //Remove old tasks
-        ParticleManager.INSTANCE.unregisterTasks(player, false);
+        this.particleManager.unregisterTasks(player, false);
 
         //Ignore if spawn conditions are not met
-        if (StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) {
+        if (this.storageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) {
             return;
         }
         if (!TimeCheck.isDuring(player.getPlayerTime())) {
@@ -104,14 +121,14 @@ public class Listeners implements Listener {
         if (!player.hasPermission("aurora.view")) {
             return;
         }
-        if (!ToggleManager.INSTANCE.isToggled(player.getName())) {
+        if (!this.toggleManager.isToggled(player.getName())) {
             return;
         }
 
         //Register new tasks
-        List<ParticleFile> biomeParticles = ParticleFileCache.INSTANCE.getClass(biomeName);
-        if (WGManager.INSTANCE.getWorldGuard() != null) {
-            List<ParticleFile> regionParticles = AmbientParticlesFlag.INSTANCE.getParticles(player);
+        List<ParticleFile> biomeParticles = this.particleFileCache.getClass(biomeName);
+        if (this.wgManager.getWorldGuard() != null) {
+            List<ParticleFile> regionParticles = this.ambientParticlesFlag.getParticles(player);
             //WorldGuard support
             if (!regionParticles.isEmpty()) {
                 spawnParticles(e, regionParticles);

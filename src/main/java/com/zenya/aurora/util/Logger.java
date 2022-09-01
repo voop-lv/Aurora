@@ -20,7 +20,7 @@ public final class Logger {
             message = String.format(message, args);
         }
 
-        if (Aurora.getInstance().getLogger().isLoggable(level)) {
+        if (Aurora.getPlugin(Aurora.class).getLogger().isLoggable(level)) {
             Bukkit.getConsoleSender().sendMessage(String.format("§7[§b%s§7] %s", "Aurora",
                     adjustResetFormat("§r" + message, level == Level.SEVERE ? "§c" : "§f")
             ));

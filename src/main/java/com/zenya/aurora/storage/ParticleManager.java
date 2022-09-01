@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class ParticleManager {
-
-    public final static ParticleManager INSTANCE = new ParticleManager();
     private final ListMultimap<Player, ParticleTask> particleMap = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
 
     public List<ParticleTask> getTasks(Player player) {

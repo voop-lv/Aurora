@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 public class TrackLocationTask implements AuroraTask {
-
-    public static final TrackLocationTask INSTANCE = new TrackLocationTask();
+    private final Aurora plugin;
     private BukkitTask runnables[];
     private CompletableFuture<HashMap<Player, Location>> playerCoords;
 
-    public TrackLocationTask() {
+    public TrackLocationTask(Aurora plugin) {
+        this.plugin = plugin;
         playerCoords = CompletableFuture.supplyAsync(() -> new HashMap<>());
         runTasks();
     }
@@ -48,7 +48,7 @@ public class TrackLocationTask implements AuroraTask {
                                     public void run() {
                                         Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
                                     }
-                                }.runTask(Aurora.getInstance());
+                                }.runTask(TrackLocationTask.this.plugin);
                                 //Force update
                                 coordMap.put(player, player.getLocation());
                             }
@@ -56,7 +56,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20 * 3);
+        }.runTaskTimerAsynchronously(this.plugin, 0, 20 * 3);
 
         //Task to update location map
         BukkitTask task2 = new BukkitRunnable() {
@@ -76,7 +76,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20 * 5);
+        }.runTaskTimerAsynchronously(this.plugin, 0, 20 * 5);
 
         //Task to remove old player entries
         BukkitTask task3 = new BukkitRunnable() {
@@ -92,7 +92,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, 20 * 10);
+        }.runTaskTimerAsynchronously(this.plugin, 0, 20 * 10);
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1, task2, task3};

@@ -1,5 +1,6 @@
 package com.zenya.aurora.storage;
 
+import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
 
@@ -10,12 +11,14 @@ import java.util.Set;
 import org.bukkit.block.Biome;
 
 public class ParticleFileCache {
-
-    public static ParticleFileCache INSTANCE = new ParticleFileCache();
+    private final Aurora plugin;
+    private final ParticleFileManager particleFileManager;
     private HashMap<String, List<ParticleFile>> particleCacheMap = new HashMap<>();
 
-    public ParticleFileCache() {
-        for (ParticleFile particleFile : ParticleFileManager.INSTANCE.getParticles()) {
+    public ParticleFileCache(Aurora plugin) {
+        this.plugin = plugin;
+        this.particleFileManager = plugin.getParticleFileManager();
+        for (ParticleFile particleFile : this.particleFileManager.getParticles()) {
             if (particleFile.getSpawning() == null || particleFile.getSpawning().getBiomes() == null || particleFile.getSpawning().getBiomes().length == 0) {
                 continue;
             }
@@ -56,8 +59,8 @@ public class ParticleFileCache {
         particleCacheMap.remove(name);
     }
 
-    public static void reload() {
-        ParticleFileManager.INSTANCE.reload();
-        INSTANCE = new ParticleFileCache();
+    public void reload() {
+        this.particleFileManager.reload();
+        this.plugin.reloadParticleFileCache();
     }
 }
