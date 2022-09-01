@@ -13,6 +13,7 @@ import com.zenya.aurora.util.ChatBuilder;
 import com.zenya.aurora.util.ChunkContainer;
 import com.zenya.aurora.worldguard.AmbientParticlesFlag;
 import com.zenya.aurora.worldguard.WGManager;
+import optic_fusion1.aurora.util.Colorize;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.command.Command;
@@ -96,7 +97,7 @@ public class AuroraCommand implements CommandExecutor {
                 } else {
                     for (ParticleFile particleFile : ParticleFileManager.INSTANCE.getParticles()) {
                         //Check if enabled or disabled
-                        String particleName = particleFile.isEnabled() ? ChatBuilder.translateColor("&a") : ChatBuilder.translateColor("&c");
+                        String particleName = particleFile.isEnabled() ? Colorize.colorize("&a") : Colorize.colorize("&c");
                         //If enabled, check if active in region/biome
                         if (particleFile.isEnabled() && sender instanceof Player) {
                             Player player = (Player) sender;
@@ -107,24 +108,24 @@ public class AuroraCommand implements CommandExecutor {
                             if (WGManager.getWorldGuard() != null) {
                                 if (AmbientParticlesFlag.INSTANCE.getParticles(player).contains(particleFile)) {
                                     //Set if particle is in region
-                                    particleName = ChatBuilder.translateColor("&b");
+                                    particleName = Colorize.colorize("&b");
                                 } else if (AmbientParticlesFlag.INSTANCE.getParticles(player).isEmpty()
                                         && ParticleFileCache.INSTANCE.getClass(biomeName).contains(particleFile)) {
                                     //If region has no particles, fallback to biome
-                                    particleName = ChatBuilder.translateColor("&b");
+                                    particleName = Colorize.colorize("&b");
                                 }
                                 //No WG
                             } else if (ParticleFileCache.INSTANCE.getClass(biomeName).contains(particleFile)) {
                                 //Only set if particle is in biome
-                                particleName = ChatBuilder.translateColor("&b");
+                                particleName = Colorize.colorize("&b");
                             }
 
                             //Check if disabled in world
                             if (StorageFileManager.getConfig().listContains("disabled-worlds", player.getWorld().getName())) {
-                                particleName = ChatBuilder.translateColor("&c");
+                                particleName = Colorize.colorize("&c");
                             }
                         }
-                        particleName += (particleFile.getName() + ChatBuilder.translateColor("&f, "));
+                        particleName += (particleFile.getName() + Colorize.colorize("&f, "));
                         globalFiles += particleName;
                     }
                 }

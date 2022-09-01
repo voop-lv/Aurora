@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import optic_fusion1.aurora.util.Colorize;
 
 public class ChatBuilder {
 
@@ -62,7 +63,7 @@ public class ChatBuilder {
 
     public String build() {
         //Placeholders
-        text = text == null ? "" : ChatColor.translateAlternateColorCodes('&', text);
+        text = text == null ? "" : Colorize.colorize(text);
         text = text.replaceAll("%tps%", Float.toString(TrackTPSTask.INSTANCE.getAverageTps()));
         text = player == null ? text : text.replaceAll("%world%", player.getWorld().getName());
         text = player == null ? text : text.replaceAll("%player%", player.getName());
@@ -108,7 +109,4 @@ public class ChatBuilder {
         }
     }
 
-    public static String translateColor(String str) {
-        return ChatColor.translateAlternateColorCodes('&', str);
-    }
 }
