@@ -19,12 +19,12 @@ public class DBFile extends StorageFile {
         super(plugin, directory, fileName, fileVersion, resetFile);
 
         if (!file.exists()) {
-            this.createTables();
+            createTables();
         }
     }
 
     private Connection connect() {
-        String url = "jdbc:sqlite:" + this.plugin.getDataFolder() + File.separator + "database.db";
+        String url = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "database.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -47,7 +47,7 @@ public class DBFile extends StorageFile {
         Object result = null;
 
         try {
-            try ( Connection conn = connect()) {
+            try (Connection conn = connect()) {
                 if ((parameters == null || parameters.length == 0) && query == null) {
                     //Simple statement
                     Statement statement = conn.createStatement();

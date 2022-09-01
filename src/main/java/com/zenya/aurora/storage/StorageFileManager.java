@@ -4,14 +4,13 @@ import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.DBFile;
 import com.zenya.aurora.file.StorageFile;
 import com.zenya.aurora.file.YAMLFile;
-
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 public class StorageFileManager {
+
     private final Aurora plugin;
 
     /**
@@ -64,25 +63,25 @@ public class StorageFileManager {
 
     public StorageFileManager(Aurora plugin) {
         this.plugin = plugin;
-        this.fileMap = new HashMap<>();
+        fileMap = new HashMap<>();
 
-        final String dataFolderPath = this.plugin.getDataFolder().getPath();
-        registerFile("config.yml", new YAMLFile(this.plugin, dataFolderPath, "config.yml", CONFIG_FILE_VERSION, CONFIG_RESET_FILE, CONFIG_IGNORED_NODES, CONFIG_REPLACE_NODES));
-        registerFile("messages.yml", new YAMLFile(this.plugin, dataFolderPath, "messages.yml", MESSAGES_FILE_VERSION, MESSAGES_RESET_FILE, MESSAGES_IGNORED_NODES, MESSAGES_REPLACE_NODES));
-        registerFile("biomes.yml", new YAMLFile(this.plugin, dataFolderPath, "biomes.yml", BIOMES_FILE_VERSION, BIOMES_RESET_FILE, BIOMES_IGNORED_NODES, BIOMES_REPLACE_NODES));
-        registerFile("database.db", new DBFile(this.plugin, dataFolderPath, "database.db", DATABASE_FILE_VERSION, DATABASE_RESET_FILE));
+        final String dataFolderPath = plugin.getDataFolder().getPath();
+        registerFile("config.yml", new YAMLFile(plugin, dataFolderPath, "config.yml", CONFIG_FILE_VERSION, CONFIG_RESET_FILE, CONFIG_IGNORED_NODES, CONFIG_REPLACE_NODES));
+        registerFile("messages.yml", new YAMLFile(plugin, dataFolderPath, "messages.yml", MESSAGES_FILE_VERSION, MESSAGES_RESET_FILE, MESSAGES_IGNORED_NODES, MESSAGES_REPLACE_NODES));
+        registerFile("biomes.yml", new YAMLFile(plugin, dataFolderPath, "biomes.yml", BIOMES_FILE_VERSION, BIOMES_RESET_FILE, BIOMES_IGNORED_NODES, BIOMES_REPLACE_NODES));
+        registerFile("database.db", new DBFile(plugin, dataFolderPath, "database.db", DATABASE_FILE_VERSION, DATABASE_RESET_FILE));
     }
 
     public void reloadFiles() {
-        this.fileMap.clear();
-        this.registerFile("config.yml", new YAMLFile(this.plugin, "config.yml"));
-        this.registerFile("messages.yml", new YAMLFile(this.plugin, "messages.yml"));
-        this.registerFile("biomes.yml", new YAMLFile(this.plugin, "biomes.yml"));
-        this.registerFile("database.db", new DBFile(this.plugin, "database.db"));
+        fileMap.clear();
+        registerFile("config.yml", new YAMLFile(plugin, "config.yml"));
+        registerFile("messages.yml", new YAMLFile(plugin, "messages.yml"));
+        registerFile("biomes.yml", new YAMLFile(plugin, "biomes.yml"));
+        registerFile("database.db", new DBFile(plugin, "database.db"));
     }
 
     public StorageFile getFile(String fileName) {
-        return this.fileMap.get(fileName);
+        return fileMap.get(fileName);
     }
 
     public YAMLFile getYAMLFile(String fileName) {
@@ -94,30 +93,30 @@ public class StorageFileManager {
     }
 
     public Set<String> getFileNames() {
-        return this.fileMap.keySet();
+        return fileMap.keySet();
     }
 
     public void registerFile(String fileName, StorageFile file) {
-        this.fileMap.put(fileName, file);
+        fileMap.put(fileName, file);
     }
 
     public void unregisterFile(String fileName) {
-        this.fileMap.remove(fileName);
+        fileMap.remove(fileName);
     }
 
     public YAMLFile getConfig() {
-        return (YAMLFile) this.getFile("config.yml");
+        return (YAMLFile) getFile("config.yml");
     }
 
     public YAMLFile getMessages() {
-        return (YAMLFile) this.getFile("messages.yml");
+        return (YAMLFile) getFile("messages.yml");
     }
 
     public YAMLFile getBiomes() {
-        return (YAMLFile) this.getFile("biomes.yml");
+        return (YAMLFile) getFile("biomes.yml");
     }
 
     public DBFile getDatabase() {
-        return (DBFile) this.getFile("database.db");
+        return (DBFile) getFile("database.db");
     }
 }

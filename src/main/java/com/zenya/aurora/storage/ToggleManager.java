@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class ToggleManager {
+
     private final Aurora plugin;
     private final StorageFileManager storageFileManager;
 
@@ -14,39 +15,39 @@ public class ToggleManager {
 
     public ToggleManager(Aurora plugin) {
         this.plugin = plugin;
-        this.storageFileManager = this.plugin.getStorageFileManager();
-        this.toggleMap = new ConcurrentHashMap<>();
+        storageFileManager = plugin.getStorageFileManager();
+        toggleMap = new ConcurrentHashMap<>();
     }
 
     public boolean isToggled(String playerName) {
-        if (!this.toggleMap.containsKey(playerName)) {
+        if (!toggleMap.containsKey(playerName)) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    final boolean status = ToggleManager.this.storageFileManager.getDatabase().getToggleStatus(playerName);
-                    ToggleManager.this.toggleMap.put(playerName, status);
+                    final boolean status = storageFileManager.getDatabase().getToggleStatus(playerName);
+                    toggleMap.put(playerName, status);
                 }
-            }.runTaskAsynchronously(this.plugin);
+            }.runTaskAsynchronously(plugin);
         }
 
-        return this.toggleMap.getOrDefault(playerName, false);
+        return toggleMap.getOrDefault(playerName, false);
     }
 
     public void registerToggle(String playerName, boolean status) {
-        this.toggleMap.put(playerName, status);
+        toggleMap.put(playerName, status);
         new BukkitRunnable() {
             @Override
             public void run() {
-                ToggleManager.this.storageFileManager.getDatabase().setToggleStatus(playerName, status);
+                storageFileManager.getDatabase().setToggleStatus(playerName, status);
             }
-        }.runTaskAsynchronously(this.plugin);
+        }.runTaskAsynchronously(plugin);
     }
 
     public void cacheToggle(String playerName, boolean enabled) {
-        this.toggleMap.put(playerName, enabled);
+        toggleMap.put(playerName, enabled);
     }
 
     public void uncacheToggle(String playerName) {
-        this.toggleMap.remove(playerName);
+        toggleMap.remove(playerName);
     }
 }

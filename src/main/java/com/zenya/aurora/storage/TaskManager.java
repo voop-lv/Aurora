@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.*;
 
 public class TaskManager {
+
     private HashMap<TaskKey, AuroraTask> taskMap = new HashMap<>();
 
     public TaskManager(Aurora plugin) {

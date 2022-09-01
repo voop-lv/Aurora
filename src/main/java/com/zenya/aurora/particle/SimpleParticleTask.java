@@ -1,8 +1,6 @@
 package com.zenya.aurora.particle;
 
-import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
-import com.zenya.aurora.util.ext.LightAPI;
 import com.zenya.aurora.util.RandomNumber;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,9 +20,9 @@ public abstract class SimpleParticleTask extends ParticleTask {
 
     public SimpleParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
         super(player, locs, particleFile);
-        this.length = particleFile.getProperties().getLength();
-        this.radius = particleFile.getProperties().getRadius();
-        this.runTasks();
+        length = particleFile.getProperties().getLength();
+        radius = particleFile.getProperties().getRadius();
+        runTasks();
     }
 
     @Override
@@ -64,7 +62,7 @@ public abstract class SimpleParticleTask extends ParticleTask {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(this.getPlugin(), 0, update.generateInt());
+        }.runTaskTimerAsynchronously(getPlugin(), 0, update.generateInt());
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1};

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 public class TrackLocationTask implements AuroraTask {
+
     private final Aurora plugin;
     private BukkitTask runnables[];
     private CompletableFuture<HashMap<Player, Location>> playerCoords;
@@ -48,7 +49,7 @@ public class TrackLocationTask implements AuroraTask {
                                     public void run() {
                                         Bukkit.getPluginManager().callEvent(new ParticleUpdateEvent(player));
                                     }
-                                }.runTask(TrackLocationTask.this.plugin);
+                                }.runTask(plugin);
                                 //Force update
                                 coordMap.put(player, player.getLocation());
                             }
@@ -56,7 +57,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, 20 * 3);
+        }.runTaskTimerAsynchronously(plugin, 0, 20 * 3);
 
         //Task to update location map
         BukkitTask task2 = new BukkitRunnable() {
@@ -76,7 +77,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, 20 * 5);
+        }.runTaskTimerAsynchronously(plugin, 0, 20 * 5);
 
         //Task to remove old player entries
         BukkitTask task3 = new BukkitRunnable() {
@@ -92,7 +93,7 @@ public class TrackLocationTask implements AuroraTask {
                     }
                 });
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, 20 * 10);
+        }.runTaskTimerAsynchronously(plugin, 0, 20 * 10);
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1, task2, task3};

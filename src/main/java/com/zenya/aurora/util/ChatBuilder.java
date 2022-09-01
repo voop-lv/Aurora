@@ -4,7 +4,6 @@ import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.YAMLFile;
 import com.zenya.aurora.scheduler.TaskKey;
 import com.zenya.aurora.scheduler.TrackTPSTask;
-import com.zenya.aurora.storage.StorageFileManager;
 import optic_fusion1.aurora.util.Colorize;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -47,7 +46,7 @@ public class ChatBuilder {
     public ChatBuilder withSender(CommandSender sender) {
         this.sender = sender;
         try {
-            this.player = (Player) sender;
+            player = (Player) sender;
         } catch (ClassCastException exc) {
             player = null;
         }

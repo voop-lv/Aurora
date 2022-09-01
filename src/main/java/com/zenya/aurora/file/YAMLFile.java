@@ -36,8 +36,8 @@ public class YAMLFile extends StorageFile {
     public YAMLFile(Aurora plugin, String directory, String fileName, Integer fileVersion, boolean resetFile, List<String> ignoredNodes, List<String> replaceNodes) {
         super(plugin, directory, fileName, fileVersion, resetFile);
 
-        this.origConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(fileName)));
-        this.config = YamlConfiguration.loadConfiguration(file);
+        origConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(fileName)));
+        config = YamlConfiguration.loadConfiguration(file);
 
         if (fileVersion != null) {
             try {
@@ -55,7 +55,7 @@ public class YAMLFile extends StorageFile {
     private void updateFile(List<String> ignoredNodes, List<String> replaceNodes) throws IOException {
         if (!file.exists()) {
             //Init file
-            this.plugin.saveResource(fileName, false);
+            plugin.saveResource(fileName, false);
             config = YamlConfiguration.loadConfiguration(file);
         } else {
             //Reset file for backward-compatibility
@@ -93,7 +93,7 @@ public class YAMLFile extends StorageFile {
                     config.save(file);
                 } else {
                     //Doing this keeps all the yml file comments
-                    this.plugin.saveResource(fileName, true);
+                    plugin.saveResource(fileName, true);
                 }
             }
         }

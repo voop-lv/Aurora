@@ -11,14 +11,15 @@ import java.util.Set;
 import org.bukkit.block.Biome;
 
 public class ParticleFileCache {
+
     private final Aurora plugin;
     private final ParticleFileManager particleFileManager;
     private HashMap<String, List<ParticleFile>> particleCacheMap = new HashMap<>();
 
     public ParticleFileCache(Aurora plugin) {
         this.plugin = plugin;
-        this.particleFileManager = plugin.getParticleFileManager();
-        for (ParticleFile particleFile : this.particleFileManager.getParticles()) {
+        particleFileManager = plugin.getParticleFileManager();
+        for (ParticleFile particleFile : particleFileManager.getParticles()) {
             if (particleFile.getSpawning() == null || particleFile.getSpawning().getBiomes() == null || particleFile.getSpawning().getBiomes().length == 0) {
                 continue;
             }
@@ -60,7 +61,7 @@ public class ParticleFileCache {
     }
 
     public void reload() {
-        this.particleFileManager.reload();
-        this.plugin.reloadParticleFileCache();
+        particleFileManager.reload();
+        plugin.reloadParticleFileCache();
     }
 }

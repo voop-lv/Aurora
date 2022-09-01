@@ -2,12 +2,12 @@ package com.zenya.aurora.util;
 
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.YAMLFile;
-import com.zenya.aurora.storage.StorageFileManager;
 
 public class TimeCheck {
 
     private static final long MIN_TIME;
     private static final long MAX_TIME;
+
     static {
         final YAMLFile yamlFile = Aurora.getPlugin(Aurora.class).getStorageFileManager().getConfig();
         MIN_TIME = yamlFile.getInt("start-spawning-at");

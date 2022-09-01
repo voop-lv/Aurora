@@ -16,6 +16,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Aurora extends JavaPlugin {
+
     private StorageFileManager storageFileManager;
     private ToggleManager toggleManager;
     private LightAPI lightAPI;
@@ -30,15 +31,15 @@ public class Aurora extends JavaPlugin {
     @Override
     public void onLoad() {
         //WorldGuard dependency
-        this.wgManager = new WGManager();
-        if (this.wgManager.getWorldGuard() != null) {
+        wgManager = new WGManager();
+        if (wgManager.getWorldGuard() != null) {
             try {
-                this.ambientParticlesFlag = new AmbientParticlesFlag(this);
+                ambientParticlesFlag = new AmbientParticlesFlag(this);
             } catch (Exception exc) {
                 Logger.logError("PlugMan or /reload is not supported by Aurora");
                 Logger.logError("If you're updating your particle configs, use /aurora reload");
                 Logger.logError("If you're updating the plugin version, restart your server");
-                this.getServer().getPluginManager().disablePlugin(this);
+                getServer().getPluginManager().disablePlugin(this);
             }
         }
     }
@@ -51,90 +52,90 @@ public class Aurora extends JavaPlugin {
         //Register API
         AuroraAPI.setAPI(new AuroraAPIImpl(this));
 
-        this.toggleManager = new ToggleManager(this);
+        toggleManager = new ToggleManager(this);
 
         //Init config, messages, biomes and db
-        this.storageFileManager = new StorageFileManager(this);
+        storageFileManager = new StorageFileManager(this);
 
         //Init LightAPI
-        if (this.storageFileManager.getConfig().getBool("enable-lighting")) {
-            this.lightAPI = new LightAPI();
+        if (storageFileManager.getConfig().getBool("enable-lighting")) {
+            lightAPI = new LightAPI();
         }
 
         //Init particle files
-        this.particleFileManager = new ParticleFileManager(this);
-        this.particleFileCache = new ParticleFileCache(this);
-        this.particleManager = new ParticleManager();
+        particleFileManager = new ParticleFileManager(this);
+        particleFileCache = new ParticleFileCache(this);
+        particleManager = new ParticleManager();
 
         //Register all runnables
         //Spigot buyer ID check in here
-        this.taskManager = new TaskManager(this);
+        taskManager = new TaskManager(this);
 
         //Register events
-        this.getServer().getPluginManager().registerEvents(new Listeners(this), this);
+        getServer().getPluginManager().registerEvents(new Listeners(this), this);
 
         //Register commands
-        this.getCommand("aurora").setExecutor(new AuroraCommand(this));
-        this.getCommand("aurora").setTabCompleter(new AuroraTab());
+        getCommand("aurora").setExecutor(new AuroraCommand(this));
+        getCommand("aurora").setTabCompleter(new AuroraTab());
     }
 
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
-        this.taskManager.unregisterTasks();
-        for (Player player : this.particleManager.getPlayers()) {
-            this.particleManager.unregisterTasks(player, true);
+        taskManager.unregisterTasks();
+        for (Player player : particleManager.getPlayers()) {
+            particleManager.unregisterTasks(player, true);
         }
 
         try {
-            this.lightAPI.disable();
+            lightAPI.disable();
         } catch (NoClassDefFoundError exc) {
             //Silence errors
         }
     }
 
     public StorageFileManager getStorageFileManager() {
-        return this.storageFileManager;
+        return storageFileManager;
     }
 
     public ToggleManager getToggleManager() {
-        return this.toggleManager;
+        return toggleManager;
     }
 
     public LightAPI getLightAPI() {
-        return this.lightAPI;
+        return lightAPI;
     }
 
     public ParticleFileManager getParticleFileManager() {
-        return this.particleFileManager;
+        return particleFileManager;
     }
 
     public void reloadParticleFileManager() {
-        this.particleFileManager = new ParticleFileManager(this);
+        particleFileManager = new ParticleFileManager(this);
     }
 
     public ParticleFileCache getParticleFileCache() {
-        return this.particleFileCache;
+        return particleFileCache;
     }
 
     public void reloadParticleFileCache() {
-        this.particleFileCache = new ParticleFileCache(this);
+        particleFileCache = new ParticleFileCache(this);
     }
 
     public ParticleManager getParticleManager() {
-        return this.particleManager;
+        return particleManager;
     }
 
     public TaskManager getTaskManager() {
-        return this.taskManager;
+        return taskManager;
     }
 
     public WGManager getWorldGuardManager() {
-        return this.wgManager;
+        return wgManager;
     }
 
     public AmbientParticlesFlag getAmbientParticlesFlag() {
-        return this.ambientParticlesFlag;
+        return ambientParticlesFlag;
     }
 
     private class AuroraAPIImpl extends AuroraAPI {
@@ -142,7 +143,7 @@ public class Aurora extends JavaPlugin {
         private ParticleFactory factory;
 
         public AuroraAPIImpl(Aurora plugin) {
-            this.factory = new ZParticle(plugin);
+            factory = new ZParticle(plugin);
         }
 
         @Override

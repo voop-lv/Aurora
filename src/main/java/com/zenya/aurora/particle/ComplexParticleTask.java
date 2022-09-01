@@ -1,6 +1,5 @@
 package com.zenya.aurora.particle;
 
-import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.RandomNumber;
 import org.bukkit.Bukkit;
@@ -8,12 +7,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
 import java.util.ArrayList;
-
 import java.util.List;
 import ru.beykerykt.minecraft.lightapi.common.api.engine.LightFlag;
-import com.zenya.aurora.util.ext.LightAPI;
 
 //For particles tasks which require setting lighting at multiple locations
 public abstract class ComplexParticleTask extends ParticleTask {
@@ -23,9 +19,9 @@ public abstract class ComplexParticleTask extends ParticleTask {
 
     public ComplexParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
         super(player, locs, particleFile);
-        this.waveCycles = particleFile.getProperties().getWaveCycles();
-        this.waveAmplitude = particleFile.getProperties().getWaveAmplitude();
-        this.runTasks();
+        waveCycles = particleFile.getProperties().getWaveCycles();
+        waveAmplitude = particleFile.getProperties().getWaveAmplitude();
+        runTasks();
     }
 
     @Override
@@ -66,7 +62,7 @@ public abstract class ComplexParticleTask extends ParticleTask {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(this.getPlugin(), 0, update.generateInt());
+        }.runTaskTimerAsynchronously(getPlugin(), 0, update.generateInt());
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1};

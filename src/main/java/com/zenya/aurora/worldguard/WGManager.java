@@ -7,7 +7,6 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.zenya.aurora.Aurora;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

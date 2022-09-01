@@ -50,6 +50,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @see Vector
  */
 public class ZParticle implements ParticleFactory {
+
     private final Aurora plugin;
 
     public ZParticle(Aurora plugin) {
@@ -210,13 +211,13 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (ticks > duration) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
                 ticks += update;
                 display.withLocation(loc).spawn();
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 
     @Override
@@ -238,7 +239,7 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (ticks > duration) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
                 ticks += update;
@@ -251,7 +252,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(start).spawn(finalX * i, finalY * i, finalZ * i);
                 }
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 
     @Override
@@ -286,7 +287,7 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (progress >= locs.size() - 1) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
 
@@ -298,18 +299,18 @@ public class ZParticle implements ParticleFactory {
                     @Override
                     public void run() {
                         if (ticks > duration) {
-                            this.cancel();
+                            cancel();
                             return;
                         }
                         ticks += update;
 
                         display.withLocation(start).spawn(locs.get(finalProgress)[0], locs.get(finalProgress)[1], locs.get(finalProgress)[2]);
                     }
-                }.runTaskTimerAsynchronously(ZParticle.this.plugin, 0, update);
+                }.runTaskTimerAsynchronously(plugin, 0, update);
 
                 progress += 1;
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 
     @Override
@@ -349,7 +350,7 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (ticks > duration) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
                 ticks += update;
@@ -380,7 +381,7 @@ public class ZParticle implements ParticleFactory {
                     isDone = true;
                 }
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 
     @Override
@@ -412,7 +413,7 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (ticks > duration) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
                 ticks += update;
@@ -421,7 +422,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(loc).spawn();
                 }
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 
     @Override
@@ -456,7 +457,7 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (ticks > duration) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
                 ticks += update;
@@ -465,7 +466,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(loc).spawn();
                 }
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 
     @Override
@@ -502,7 +503,7 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (ticks > duration) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
                 ticks += update;
@@ -511,7 +512,7 @@ public class ZParticle implements ParticleFactory {
                     display.withLocation(loc).spawn();
                 }
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 
     @Override
@@ -561,7 +562,7 @@ public class ZParticle implements ParticleFactory {
             @Override
             public void run() {
                 if (progress >= wave.size() - 1) {
-                    this.cancel();
+                    cancel();
                     return;
                 }
 
@@ -573,17 +574,17 @@ public class ZParticle implements ParticleFactory {
                     @Override
                     public void run() {
                         if (ticks > duration) {
-                            this.cancel();
+                            cancel();
                             return;
                         }
                         ticks += update;
 
                         display.withLocation(start).spawn(wave.get(finalProgress)[0], wave.get(finalProgress)[1], wave.get(finalProgress)[2]);
                     }
-                }.runTaskTimerAsynchronously(ZParticle.this.plugin, 0, update);
+                }.runTaskTimerAsynchronously(plugin, 0, update);
 
                 progress += 1;
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0, update);
+        }.runTaskTimerAsynchronously(plugin, 0, update);
     }
 }

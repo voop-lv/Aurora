@@ -7,6 +7,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.ArrayList;
 
 public class TrackTPSTask implements AuroraTask {
+
     private final Aurora plugin;
     private BukkitTask runnables[];
     private float instTps = 0;
@@ -39,7 +40,7 @@ public class TrackTPSTask implements AuroraTask {
                     instTps = (float) (1000 / tdiff);
                 }
             }
-        }.runTaskTimer(this.plugin, 0, 1);
+        }.runTaskTimer(plugin, 0, 1);
 
         //Task to populate avgTps
         BukkitTask task2 = new BukkitRunnable() {
@@ -59,7 +60,7 @@ public class TrackTPSTask implements AuroraTask {
                 }
                 avgTps = totalTps / tpsList.size();
             }
-        }.runTaskTimerAsynchronously(this.plugin, 20, 20);
+        }.runTaskTimerAsynchronously(plugin, 20, 20);
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1, task2};
