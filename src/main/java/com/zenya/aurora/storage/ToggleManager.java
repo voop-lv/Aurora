@@ -1,8 +1,8 @@
 package com.zenya.aurora.storage;
 
 import com.zenya.aurora.Aurora;
+import com.zenya.aurora.file.DBFile;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -24,7 +24,12 @@ public class ToggleManager {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    final boolean status = storageFileManager.getDatabase().getToggleStatus(playerName);
+                    DBFile database = storageFileManager.getDatabase();
+                    if (database == null) {
+                        plugin.getLogger().warning("StorageFileManager DBFile is null");
+                        return;
+                    }
+                    boolean status = database.getToggleStatus(playerName);
                     toggleMap.put(playerName, status);
                 }
             }.runTaskAsynchronously(plugin);

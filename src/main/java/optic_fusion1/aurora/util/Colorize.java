@@ -6,17 +6,17 @@ import org.bukkit.ChatColor;
 
 public final class Colorize {
 
+    private static final Pattern COLOR_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}");
+
     private Colorize() {
     }
 
     public static String colorize(String string) {
-        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-        for (Matcher matcher = pattern.matcher(string); matcher.find(); matcher = pattern.matcher(string)) {
+        for (Matcher matcher = COLOR_PATTERN.matcher(string); matcher.find(); matcher = COLOR_PATTERN.matcher(string)) {
             String color = string.substring(matcher.start(), matcher.end());
             string = string.replace(color, net.md_5.bungee.api.ChatColor.of(color) + "");
         }
-        string = ChatColor.translateAlternateColorCodes('&', string);
-        return string;
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
 
 }

@@ -11,7 +11,6 @@ import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 

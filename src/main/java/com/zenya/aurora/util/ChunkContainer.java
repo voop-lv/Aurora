@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-
 import java.util.Objects;
 
 public class ChunkContainer {
@@ -22,9 +21,9 @@ public class ChunkContainer {
     }
 
     public ChunkContainer(World world, Integer chunkX, Integer chunkZ) {
-        world = world;
-        chunkX = chunkX;
-        chunkZ = chunkZ;
+        this.world = world;
+        this.chunkX = chunkX;
+        this.chunkZ = chunkZ;
     }
 
     public ChunkContainer getContainer() {
@@ -64,12 +63,12 @@ public class ChunkContainer {
     }
 
     public ChunkContainer setX(int chunkX) {
-        chunkX = chunkX;
+        this.chunkX = chunkX;
         return this;
     }
 
     public ChunkContainer setZ(int chunkZ) {
-        chunkZ = chunkZ;
+        this.chunkZ = chunkZ;
         return this;
     }
 
@@ -78,7 +77,7 @@ public class ChunkContainer {
     }
 
     public ChunkContainer withWorld(World world) {
-        world = world;
+        this.world = world;
         return this;
     }
 

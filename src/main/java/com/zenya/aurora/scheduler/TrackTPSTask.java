@@ -3,7 +3,6 @@ package com.zenya.aurora.scheduler;
 import com.zenya.aurora.Aurora;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
 import java.util.ArrayList;
 
 public class TrackTPSTask implements AuroraTask {

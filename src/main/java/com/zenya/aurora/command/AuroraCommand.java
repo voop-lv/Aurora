@@ -44,18 +44,13 @@ public class AuroraCommand implements CommandExecutor {
         ambientParticlesFlag = plugin.getAmbientParticlesFlag();
     }
 
-    private void sendUsage(CommandSender sender) {
-        ChatBuilder chat = (new ChatBuilder()).withSender(sender);
-        chat.sendMessages("command.help");
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
         ChatBuilder chat = (new ChatBuilder()).withSender(sender);
 
         //No command arguments
         if (args.length < 1) {
-            sendUsage(sender);
+            chat.sendMessages("command.help");
             return true;
         }
 
@@ -68,7 +63,7 @@ public class AuroraCommand implements CommandExecutor {
         //help, toggle, reload, status
         if (args.length == 1) {
             if (args[0].toLowerCase().equals("help")) {
-                sendUsage(sender);
+                chat.sendMessages("command.help");
                 return true;
             }
 
@@ -154,7 +149,7 @@ public class AuroraCommand implements CommandExecutor {
             }
 
             //Wrong arg1
-            sendUsage(sender);
+            chat.sendMessages("command.help");
             return true;
         }
 
@@ -178,7 +173,7 @@ public class AuroraCommand implements CommandExecutor {
                     }
                     default -> {
                         //Wrong arg2 for toggle
-                        sendUsage(sender);
+                        chat.sendMessages("command.help");
                         return true;
                     }
                 }
@@ -207,17 +202,17 @@ public class AuroraCommand implements CommandExecutor {
                     }.runTask(plugin);
                 } catch (NumberFormatException exc) {
                     //Wrong arg2
-                    sendUsage(sender);
+                    chat.sendMessages("command.help");
                 }
                 return true;
             }
 
             //Wrong arg1
-            sendUsage(sender);
+            chat.sendMessages("command.help");
             return true;
         }
         //Incorrect number of args
-        sendUsage(sender);
+        chat.sendMessages("command.help");
         return true;
     }
 }

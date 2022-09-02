@@ -4,12 +4,11 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import org.bukkit.Color;
 
 /**
  * By default the particle xyz offsets and speed aren't 0, but everything will be 0 by default in this class. Particles are spawned to a location. So all the nearby players can see it.

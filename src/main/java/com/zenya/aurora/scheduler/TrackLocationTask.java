@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +16,7 @@ public class TrackLocationTask implements AuroraTask {
 
     private final Aurora plugin;
     private BukkitTask runnables[];
-    private CompletableFuture<HashMap<Player, Location>> playerCoords;
+    private final CompletableFuture<HashMap<Player, Location>> playerCoords;
 
     public TrackLocationTask(Aurora plugin) {
         this.plugin = plugin;

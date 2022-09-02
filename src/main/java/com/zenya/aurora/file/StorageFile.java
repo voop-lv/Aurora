@@ -1,7 +1,6 @@
 package com.zenya.aurora.file;
 
 import com.zenya.aurora.Aurora;
-
 import java.io.File;
 
 public abstract class StorageFile {

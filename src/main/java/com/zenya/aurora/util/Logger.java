@@ -2,7 +2,6 @@ package com.zenya.aurora.util;
 
 import com.zenya.aurora.Aurora;
 import org.bukkit.Bukkit;
-
 import java.util.logging.Level;
 
 public final class Logger {

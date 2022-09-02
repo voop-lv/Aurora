@@ -4,18 +4,18 @@ import com.google.common.base.Enums;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.api.ParticleFactory;
 import org.bukkit.Color;
-import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 
 /**
  * <b>ZParticle</b> - The most unique particle animation, text and image renderer.<br>

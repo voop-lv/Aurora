@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import ru.beykerykt.minecraft.lightapi.common.api.engine.LightFlag;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,7 +3,6 @@ package com.zenya.aurora.storage;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

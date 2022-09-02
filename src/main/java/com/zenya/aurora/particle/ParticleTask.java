@@ -36,8 +36,8 @@ public abstract class ParticleTask {
 
     public ParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
         plugin = Aurora.getPlugin(Aurora.class);
-        player = player;
-        locs = locs;
+        this.player = player;
+        this.locs = locs;
         particle = Particle.valueOf(particleFile.getParticle().getParticleName());
         display = ParticleFactory.toDisplay(particle, player);
         maxCount = particleFile.getParticle().getMaxCount();

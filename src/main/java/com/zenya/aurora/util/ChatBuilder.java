@@ -8,7 +8,6 @@ import optic_fusion1.aurora.util.Colorize;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

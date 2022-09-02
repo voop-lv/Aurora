@@ -5,13 +5,13 @@ import com.zenya.aurora.scheduler.AuroraTask;
 import com.zenya.aurora.scheduler.TaskKey;
 import com.zenya.aurora.scheduler.TrackLocationTask;
 import com.zenya.aurora.scheduler.TrackTPSTask;
+import java.util.HashMap;
+import java.util.Iterator;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.util.*;
 
 public class TaskManager {
 
-    private HashMap<TaskKey, AuroraTask> taskMap = new HashMap<>();
+    private static final HashMap<TaskKey, AuroraTask> TASK_MAP = new HashMap<>();
 
     public TaskManager(Aurora plugin) {
         registerTask(TaskKey.TRACK_TPS_TASK, new TrackTPSTask(plugin));
@@ -19,19 +19,19 @@ public class TaskManager {
     }
 
     public <T extends AuroraTask> T getTask(TaskKey key, Class<T> taskClass) {
-        return (T) taskMap.get(key);
+        return (T) TASK_MAP.get(key);
     }
 
     public <T extends AuroraTask> T getTask(TaskKey key) {
-        return (T) taskMap.get(key);
+        return (T) TASK_MAP.get(key);
     }
 
     public void registerTask(TaskKey key, AuroraTask task) {
-        taskMap.put(key, task);
+        TASK_MAP.put(key, task);
     }
 
     public void unregisterTasks() {
-        for (Iterator<AuroraTask> iterator = taskMap.values().iterator(); iterator.hasNext();) {
+        for (Iterator<AuroraTask> iterator = TASK_MAP.values().iterator(); iterator.hasNext();) {
             AuroraTask task = iterator.next();
             for (BukkitTask t : task.getTasks()) {
                 t.cancel();
