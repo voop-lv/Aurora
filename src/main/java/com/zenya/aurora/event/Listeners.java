@@ -57,8 +57,10 @@ public class Listeners implements Listener {
 
             LocationTools.getParticleLocations(
                     e.getNearbyChunks(storageFileManager.getConfig().getInt("particle-spawn-radius")),
-                    particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMinY() + player.getLocation().getY() : particleFile.getSpawning().getMinY(),
-                    particleFile.getSpawning().isRelativePlayerPosition() ? particleFile.getSpawning().getMaxY() + player.getLocation().getY() : particleFile.getSpawning().getMaxY(),
+                    particleFile.getSpawning().isRelativePlayerPosition()
+                    ? particleFile.getSpawning().getMinY() + player.getLocation().getY() : particleFile.getSpawning().getMinY(),
+                    particleFile.getSpawning().isRelativePlayerPosition()
+                    ? particleFile.getSpawning().getMaxY() + player.getLocation().getY() : particleFile.getSpawning().getMaxY(),
                     particleFile.getSpawning().getSpawnDistance(),
                     particleFile.getSpawning().getRandMultiplier(),
                     particleFile.getSpawning().isShuffleLocations()).thenAcceptAsync(locs -> {

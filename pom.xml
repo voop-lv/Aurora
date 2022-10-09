@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zenya.aurora</groupId>
     <artifactId>Aurora</artifactId>
-    <version>5</version>
+    <version>5.1</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -85,7 +85,7 @@
                                     <exclude>net.md-5:bungeecord-chat</exclude>
                                 </excludes>
                             </artifactSet>
-                            <finalName>Aurora</finalName>
+                            <finalName>${project.name}</finalName>
                         </configuration>
                     </execution>
                 </executions>
@@ -98,7 +98,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19-R0.1-SNAPSHOT</version>
+            <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

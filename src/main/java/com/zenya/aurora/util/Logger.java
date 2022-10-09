@@ -6,6 +6,11 @@ import java.util.logging.Level;
 
 public final class Logger {
 
+    private static final Aurora AURORA = Aurora.getPlugin(Aurora.class);
+    
+    private Logger() {
+    }
+
     public static void logInfo(String message, Object... args) {
         log(Level.INFO, message, args);
     }
@@ -19,7 +24,7 @@ public final class Logger {
             message = String.format(message, args);
         }
 
-        if (Aurora.getPlugin(Aurora.class).getLogger().isLoggable(level)) {
+        if (AURORA.getLogger().isLoggable(level)) {
             Bukkit.getConsoleSender().sendMessage(String.format("§7[§b%s§7] %s", "Aurora",
                     adjustResetFormat("§r" + message, level == Level.SEVERE ? "§c" : "§f")
             ));

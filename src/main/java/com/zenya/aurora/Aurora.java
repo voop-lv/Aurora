@@ -79,7 +79,7 @@ public class Aurora extends JavaPlugin {
         getCommand("aurora").setExecutor(new AuroraCommand(this));
         getCommand("aurora").setTabCompleter(new AuroraTab());
     }
-    
+
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
