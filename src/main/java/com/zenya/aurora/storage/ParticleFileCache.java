@@ -1,5 +1,6 @@
 package com.zenya.aurora.storage;
 
+import com.github.ipecter.rtu.biomelib.RTUBiomeLib;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
@@ -7,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import org.bukkit.block.Biome;
 
 public class ParticleFileCache {
 
@@ -24,8 +24,8 @@ public class ParticleFileCache {
             }
             String[] biomes = particleFile.getSpawning().getBiomes();
             if (biomes.length == 1 && biomes[0].equals("ALL")) {
-                for (Biome biome : Biome.values()) {
-                    registerBiome(biome.toString(), particleFile);
+                for (String biome : RTUBiomeLib.getInterface().getBiomesAsString()) {
+                    registerBiome(biome.toUpperCase(), particleFile);
                 }
                 return;
             }
@@ -52,7 +52,7 @@ public class ParticleFileCache {
     }
 
     public void registerClass(String biome, ParticleFile particleFile) {
-        particleCacheMap.computeIfAbsent(biome, k -> new ArrayList<>()).add(particleFile);
+        particleCacheMap.computeIfAbsent(namespaced(biome), k -> new ArrayList<>()).add(particleFile);
     }
 
     public void unregisterFile(String name) {
@@ -62,5 +62,9 @@ public class ParticleFileCache {
     public void reload() {
         particleFileManager.reload();
         plugin.reloadParticleFileCache();
+    }
+
+    private String namespaced(String name) {
+        return name.contains(":") ? name.toUpperCase() : "MINECRAFT:" + name.toUpperCase();
     }
 }

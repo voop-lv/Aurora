@@ -1,5 +1,6 @@
 package com.zenya.aurora.event;
 
+import com.github.ipecter.rtu.biomelib.RTUBiomeLib;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.particle.CircleParticle;
@@ -18,7 +19,6 @@ import com.zenya.aurora.util.TimeCheck;
 import com.zenya.aurora.worldguard.AmbientParticlesFlag;
 import com.zenya.aurora.worldguard.WGManager;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -111,8 +111,7 @@ public class Listeners implements Listener {
     public void onParticleUpdateEvent(ParticleUpdateEvent e) {
         //Init variables
         Player player = e.getPlayer();
-        Biome biome = player.getLocation().getBlock().getBiome();
-        String biomeName = biome.toString();
+        String biomeName = RTUBiomeLib.getInterface().getBiomeName(player.getLocation()).toUpperCase();
 
         //Remove old tasks
         particleManager.unregisterTasks(player, false);

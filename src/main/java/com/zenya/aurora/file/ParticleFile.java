@@ -33,15 +33,19 @@ public class ParticleFile {
                         String present = biome.substring(8).replaceAll(" ", "");
                         if (presentsFile.getList(present) != null && !presentsFile.getList(present).isEmpty()) {
                             for (String presentBiome : presentsFile.getList(present)) {
-                                finalBiomes.add(presentBiome);
+                                finalBiomes.add(namespaced(presentBiome));
                             }
                         }
                     } else {
-                        finalBiomes.add(biome);
+                        finalBiomes.add(namespaced(biome));
                     }
                 }
             }
             return finalBiomes.toArray(new String[finalBiomes.size()]);
+        }
+
+        private String namespaced(String name) {
+            return name.contains(":") ? name.toUpperCase() : "MINECRAFT:" + name.toUpperCase();
         }
 
         public double getSpawnDistance() {
