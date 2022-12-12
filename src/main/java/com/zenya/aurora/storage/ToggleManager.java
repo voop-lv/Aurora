@@ -1,44 +1,58 @@
 package com.zenya.aurora.storage;
 
 import com.zenya.aurora.Aurora;
+import com.zenya.aurora.file.DBFile;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class ToggleManager {
 
-    public static final ToggleManager INSTANCE = new ToggleManager();
-    private static final ConcurrentMap<String, Boolean> TOGGLE_MAP = new ConcurrentHashMap<>();
+    private final Aurora plugin;
+    private final StorageFileManager storageFileManager;
 
-    public Boolean isToggled(String playerName) {
-        if (!TOGGLE_MAP.containsKey(playerName)) {
+    private final ConcurrentMap<String, Boolean> toggleMap;
+
+    public ToggleManager(Aurora plugin) {
+        this.plugin = plugin;
+        storageFileManager = plugin.getStorageFileManager();
+        toggleMap = new ConcurrentHashMap<>();
+    }
+
+    public boolean isToggled(String playerName) {
+        if (!toggleMap.containsKey(playerName)) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    boolean status = StorageFileManager.getDatabase().getToggleStatus(playerName);
-                    TOGGLE_MAP.put(playerName, status);
+                    DBFile database = storageFileManager.getDatabase();
+                    if (database == null) {
+                        plugin.getLogger().warning("StorageFileManager DBFile is null");
+                        return;
+                    }
+                    boolean status = database.getToggleStatus(playerName);
+                    toggleMap.put(playerName, status);
                 }
-            }.runTask(Aurora.getInstance());
+            }.runTaskAsynchronously(plugin);
         }
-        return TOGGLE_MAP.getOrDefault(playerName, false);
+
+        return toggleMap.getOrDefault(playerName, false);
     }
 
     public void registerToggle(String playerName, boolean status) {
-        TOGGLE_MAP.put(playerName, status);
+        toggleMap.put(playerName, status);
         new BukkitRunnable() {
             @Override
             public void run() {
-                StorageFileManager.getDatabase().setToggleStatus(playerName, status);
+                storageFileManager.getDatabase().setToggleStatus(playerName, status);
             }
-        }.runTask(Aurora.getInstance());
+        }.runTaskAsynchronously(plugin);
     }
 
     public void cacheToggle(String playerName, boolean enabled) {
-        TOGGLE_MAP.put(playerName, enabled);
+        toggleMap.put(playerName, enabled);
     }
 
     public void uncacheToggle(String playerName) {
-        TOGGLE_MAP.remove(playerName);
+        toggleMap.remove(playerName);
     }
 }

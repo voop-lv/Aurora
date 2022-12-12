@@ -1,7 +1,10 @@
 package com.zenya.aurora.util;
 
-import com.google.gson.*;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,8 +18,8 @@ public class RandomNumber<T extends Number & Comparable<T>> {
     }
 
     public RandomNumber(T num1, T num2) {
-        lowerBound = num1.compareTo(num2) < 0 ? num1 : num2;
         upperBound = num1.compareTo(num2) > 0 ? num1 : num2;
+        lowerBound = num1.compareTo(num2) < 0 ? num1 : num2;
     }
 
     public RandomNumber withLowerBound(T lowerBound) {

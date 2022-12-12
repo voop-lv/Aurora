@@ -10,11 +10,12 @@ import org.bukkit.event.HandlerList;
 
 public class ParticleUpdateEvent extends Event implements Cancellable {
 
-    private boolean isCancelled;
+    //Default custom event methods
+    private static final HandlerList handlers = new HandlerList();
+    private boolean isCancelled = false;
     private Player player;
 
     public ParticleUpdateEvent(Player player) {
-        this.isCancelled = false;
         this.player = player;
     }
 
@@ -53,16 +54,14 @@ public class ParticleUpdateEvent extends Event implements Cancellable {
 
     @Override
     public boolean isCancelled() {
-        return this.isCancelled;
+        return isCancelled;
     }
 
     @Override
     public void setCancelled(boolean cancelled) {
-        this.isCancelled = cancelled;
+        isCancelled = cancelled;
     }
 
-    //Default custom event methods
-    private static final HandlerList handlers = new HandlerList();
 
     @Override
     public HandlerList getHandlers() {

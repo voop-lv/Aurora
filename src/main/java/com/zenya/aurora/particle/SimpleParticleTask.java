@@ -1,8 +1,6 @@
 package com.zenya.aurora.particle;
 
-import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
-import com.zenya.aurora.util.ext.LightAPI;
 import com.zenya.aurora.util.RandomNumber;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import ru.beykerykt.minecraft.lightapi.common.api.engine.LightFlag;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +19,9 @@ public abstract class SimpleParticleTask extends ParticleTask {
 
     public SimpleParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
         super(player, locs, particleFile);
-        this.length = particleFile.getProperties().getLength();
-        this.radius = particleFile.getProperties().getRadius();
-        this.runTasks();
+        length = particleFile.getProperties().getLength();
+        radius = particleFile.getProperties().getRadius();
+        runTasks();
     }
 
     @Override
@@ -51,9 +48,9 @@ public abstract class SimpleParticleTask extends ParticleTask {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                LightAPI.setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
+                                getLightAPI().setLight(locs[locIndex], LightFlag.BLOCK_LIGHTING, 15, true, false);
                             }
-                        }.runTask(Aurora.getInstance());
+                        }.runTask(getPlugin());
                     }
 
                     //Go to next index
@@ -64,7 +61,7 @@ public abstract class SimpleParticleTask extends ParticleTask {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Aurora.getInstance(), 0, update.generateInt());
+        }.runTaskTimerAsynchronously(getPlugin(), 0, update.generateInt());
 
         //Add to runnables[]
         runnables = new BukkitTask[]{task1};

@@ -2,28 +2,37 @@ package com.zenya.aurora.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.util.Logger;
 import com.zenya.aurora.util.RandomNumber;
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ParticleFileManager {
 
-    public static ParticleFileManager INSTANCE = new ParticleFileManager();
-    private final File PARTICLE_FOLDER = new File(Aurora.getInstance().getDataFolder(), "particles");
+    private final Aurora plugin;
+    private final File particleFolder;
     private HashMap<String, ParticleFile> particleFileMap = new HashMap<>();
     private Gson gson;
 
-    public ParticleFileManager() {
+    public ParticleFileManager(Aurora plugin) {
+        this.plugin = plugin;
+        particleFolder = new File(plugin.getDataFolder(), "particles");
+
         //Register RandomNumber GSON Object
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(RandomNumber.class, new RandomNumber.RandomNumberDeserializer());
@@ -31,11 +40,11 @@ public class ParticleFileManager {
 
         try {
             //Create default particle files if not exists
-            if (!PARTICLE_FOLDER.isDirectory() || !Files.newDirectoryStream(PARTICLE_FOLDER.toPath()).iterator().hasNext()) {
-                PARTICLE_FOLDER.mkdirs();
+            if (!particleFolder.isDirectory() || !Files.newDirectoryStream(particleFolder.toPath()).iterator().hasNext()) {
+                particleFolder.mkdirs();
 
                 try ( //Use ChatBuilder.fileSeparator instead of File.separator to sanitise escape characters in Windows filepaths
-                         JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath().
+                        JarFile jar = new JarFile(new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath().
                                 replace("%20", " "))) //Read .jar file
                         ) {
                     final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
@@ -43,7 +52,7 @@ public class ParticleFileManager {
                         final String path = entries.nextElement().getName();
                         final String name = path.split("/")[path.split("/").length - 1];
                         if (path.contains("particles/") && (name.endsWith(".json") || name.endsWith(".txt"))) {
-                            Files.copy(this.getClass().getClassLoader().getResourceAsStream("particles/" + name), new File(PARTICLE_FOLDER,
+                            Files.copy(getClass().getClassLoader().getResourceAsStream("particles/" + name), new File(particleFolder,
                                     name).toPath(), StandardCopyOption.REPLACE_EXISTING);
                         }
                     }
@@ -54,7 +63,7 @@ public class ParticleFileManager {
         }
 
         //Register all files inside a hashmap as ParticleFile classes
-        for (String filename : PARTICLE_FOLDER.list()) {
+        for (String filename : particleFolder.list()) {
             if (filename.toLowerCase().endsWith(".json")) {
                 registerClass(filename);
             }
@@ -90,28 +99,28 @@ public class ParticleFileManager {
         return null;
     }
 
-    private ParticleFile getParticleByFile(String fileName) {
-        if (!particleFileMap.containsKey(fileName) || particleFileMap.get(fileName) == null) {
-            registerClass(fileName);
-        }
-        return particleFileMap.get(fileName);
-    }
+//    private ParticleFile getParticleByFile(String fileName) {
+//        if (!particleFileMap.containsKey(fileName) || particleFileMap.get(fileName) == null) {
+//            registerClass(fileName);
+//        }
+//        return particleFileMap.get(fileName);
+//    }
 
     private void registerClass(String filename) {
         try {
-            particleFileMap.put(filename, gson.fromJson(new FileReader(new File(PARTICLE_FOLDER, filename)), ParticleFile.class));
-        } catch (Exception e) {
+            particleFileMap.put(filename, gson.fromJson(new FileReader(new File(particleFolder, filename)), ParticleFile.class));
+        } catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
             Logger.logError("Error parsing particle file " + filename);
             e.printStackTrace();
             particleFileMap.put(filename, null);
         }
     }
 
-    private void unregisterClass(String name) {
-        particleFileMap.remove(name);
-    }
+//    private void unregisterClass(String name) {
+//        particleFileMap.remove(name);
+//    }
 
-    public static void reload() {
-        INSTANCE = new ParticleFileManager();
+    public void reload() {
+        plugin.reloadParticleFileManager();
     }
 }

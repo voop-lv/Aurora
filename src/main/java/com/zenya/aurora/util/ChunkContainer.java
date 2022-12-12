@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-
 import java.util.Objects;
 
 public class ChunkContainer {
@@ -32,15 +31,15 @@ public class ChunkContainer {
     }
 
     public int getX() {
-        return this.chunkX;
+        return chunkX;
     }
 
     public int getZ() {
-        return this.chunkZ;
+        return chunkZ;
     }
 
     public World getWorld() {
-        return this.world;
+        return world;
     }
 
     public int[] getChunkCoords() {
@@ -83,22 +82,22 @@ public class ChunkContainer {
     }
 
     public ChunkContainer fromLocation(double coordX, double coordZ) {
-        this.chunkX = LocationTools.toChunkCoord(coordX);
-        this.chunkZ = LocationTools.toChunkCoord(coordZ);
+        chunkX = LocationTools.toChunkCoord(coordX);
+        chunkZ = LocationTools.toChunkCoord(coordZ);
         return this;
     }
 
     public ChunkContainer fromLocation(Location loc) {
-        this.world = loc.getWorld();
-        this.chunkX = LocationTools.toChunkCoord(loc.getX());
-        this.chunkZ = LocationTools.toChunkCoord(loc.getZ());
+        world = loc.getWorld();
+        chunkX = LocationTools.toChunkCoord(loc.getX());
+        chunkZ = LocationTools.toChunkCoord(loc.getZ());
         return this;
     }
 
     public ChunkContainer fromChunk(Chunk c) {
-        this.world = c.getWorld();
-        this.chunkX = c.getX();
-        this.chunkZ = c.getZ();
+        world = c.getWorld();
+        chunkX = c.getX();
+        chunkZ = c.getZ();
         return this;
     }
 }
