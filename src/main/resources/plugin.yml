@@ -3,15 +3,12 @@ description: Illuminate the night with breathtaking ambient particle effects
 version: ${version}
 author: Optic_Fusion1
 main: com.zenya.aurora.Aurora
-<<<<<<< HEAD
 api-version: 1.18
 depend:
   - LightAPI
 softdepend: [WorldGuard]
-=======
 api-version: 1.19
 softdepend: [WorldGuard, LightAPI]
->>>>>>> 43f022136a3c5363ce2d1a104f821fba2c1b819b
 
 commands:
   aurora:
