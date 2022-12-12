@@ -4,13 +4,12 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 import com.zenya.aurora.particle.ParticleTask;
+import java.util.List;
+import java.util.Set;
 import org.bukkit.entity.Player;
-
-import java.util.*;
 
 public class ParticleManager {
 
-    public final static ParticleManager INSTANCE = new ParticleManager();
     private final ListMultimap<Player, ParticleTask> particleMap = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
 
     public List<ParticleTask> getTasks(Player player) {

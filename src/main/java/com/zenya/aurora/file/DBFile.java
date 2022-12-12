@@ -1,30 +1,34 @@
 package com.zenya.aurora.file;
 
 import com.zenya.aurora.Aurora;
-
 import java.io.File;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBFile extends StorageFile {
 
-    public DBFile(String fileName) {
-        this(Aurora.getInstance().getDataFolder().getPath(), fileName);
+    public DBFile(Aurora plugin, String fileName) {
+        this(plugin, plugin.getDataFolder().getPath(), fileName);
     }
 
-    public DBFile(String directory, String fileName) {
-        this(directory, fileName, null, false);
+    public DBFile(Aurora plugin, String directory, String fileName) {
+        this(plugin, directory, fileName, null, false);
     }
 
-    public DBFile(String directory, String fileName, Integer fileVersion, boolean resetFile) {
-        super(directory, fileName, fileVersion, resetFile);
+    public DBFile(Aurora plugin, String directory, String fileName, Integer fileVersion, boolean resetFile) {
+        super(plugin, directory, fileName, fileVersion, resetFile);
 
         if (!file.exists()) {
-            this.createTables();
+            createTables();
         }
     }
 
-    private static Connection connect() {
-        String url = "jdbc:sqlite:" + Aurora.getInstance().getDataFolder() + File.separator + "database.db";
+    private Connection connect() {
+        String url = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "database.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -35,19 +39,19 @@ public class DBFile extends StorageFile {
         return conn;
     }
 
-    private static void sendStatement(String sql) {
+    private void sendStatement(String sql) {
         sendPreparedStatement(sql, null);
     }
 
-    private static void sendPreparedStatement(String sql, Object... parameters) {
+    private void sendPreparedStatement(String sql, Object... parameters) {
         sendQueryStatement(sql, null, parameters);
     }
 
-    private static Object sendQueryStatement(String sql, String query, Object... parameters) {
+    private Object sendQueryStatement(String sql, String query, Object... parameters) {
         Object result = null;
 
         try {
-            try ( Connection conn = connect()) {
+            try (Connection conn = connect()) {
                 if ((parameters == null || parameters.length == 0) && query == null) {
                     //Simple statement
                     Statement statement = conn.createStatement();

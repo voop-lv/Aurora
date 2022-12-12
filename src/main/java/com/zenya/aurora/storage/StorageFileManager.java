@@ -4,13 +4,14 @@ import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.DBFile;
 import com.zenya.aurora.file.StorageFile;
 import com.zenya.aurora.file.YAMLFile;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 public class StorageFileManager {
+
+    private final Aurora plugin;
 
     /**
      * config.yml *
@@ -58,22 +59,25 @@ public class StorageFileManager {
     private static final int DATABASE_FILE_VERSION = 0; //Unused for now
     private static final boolean DATABASE_RESET_FILE = false;
 
-    public static final StorageFileManager INSTANCE = new StorageFileManager();
-    private HashMap<String, StorageFile> fileMap = new HashMap<>();
+    private final HashMap<String, StorageFile> fileMap;
 
-    public StorageFileManager() {
-        registerFile("config.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "config.yml", CONFIG_FILE_VERSION, CONFIG_RESET_FILE, CONFIG_IGNORED_NODES, CONFIG_REPLACE_NODES));
-        registerFile("messages.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "messages.yml", MESSAGES_FILE_VERSION, MESSAGES_RESET_FILE, MESSAGES_IGNORED_NODES, MESSAGES_REPLACE_NODES));
-        registerFile("biomes.yml", new YAMLFile(Aurora.getInstance().getDataFolder().getPath(), "biomes.yml", BIOMES_FILE_VERSION, BIOMES_RESET_FILE, BIOMES_IGNORED_NODES, BIOMES_REPLACE_NODES));
-        registerFile("database.db", new DBFile(Aurora.getInstance().getDataFolder().getPath(), "database.db", DATABASE_FILE_VERSION, DATABASE_RESET_FILE));
+    public StorageFileManager(Aurora plugin) {
+        this.plugin = plugin;
+        fileMap = new HashMap<>();
+
+        final String dataFolderPath = plugin.getDataFolder().getPath();
+        registerFile("config.yml", new YAMLFile(plugin, dataFolderPath, "config.yml", CONFIG_FILE_VERSION, CONFIG_RESET_FILE, CONFIG_IGNORED_NODES, CONFIG_REPLACE_NODES));
+        registerFile("messages.yml", new YAMLFile(plugin, dataFolderPath, "messages.yml", MESSAGES_FILE_VERSION, MESSAGES_RESET_FILE, MESSAGES_IGNORED_NODES, MESSAGES_REPLACE_NODES));
+        registerFile("biomes.yml", new YAMLFile(plugin, dataFolderPath, "biomes.yml", BIOMES_FILE_VERSION, BIOMES_RESET_FILE, BIOMES_IGNORED_NODES, BIOMES_REPLACE_NODES));
+        registerFile("database.db", new DBFile(plugin, dataFolderPath, "database.db", DATABASE_FILE_VERSION, DATABASE_RESET_FILE));
     }
 
-    public static void reloadFiles() {
-        INSTANCE.fileMap.clear();
-        INSTANCE.registerFile("config.yml", new YAMLFile("config.yml"));
-        INSTANCE.registerFile("messages.yml", new YAMLFile("messages.yml"));
-        INSTANCE.registerFile("biomes.yml", new YAMLFile("biomes.yml"));
-        INSTANCE.registerFile("database.db", new DBFile("database.db"));
+    public void reloadFiles() {
+        fileMap.clear();
+        registerFile("config.yml", new YAMLFile(plugin, "config.yml"));
+        registerFile("messages.yml", new YAMLFile(plugin, "messages.yml"));
+        registerFile("biomes.yml", new YAMLFile(plugin, "biomes.yml"));
+        registerFile("database.db", new DBFile(plugin, "database.db"));
     }
 
     public StorageFile getFile(String fileName) {
@@ -100,19 +104,19 @@ public class StorageFileManager {
         fileMap.remove(fileName);
     }
 
-    public static YAMLFile getConfig() {
-        return (YAMLFile) INSTANCE.getFile("config.yml");
+    public YAMLFile getConfig() {
+        return (YAMLFile) getFile("config.yml");
     }
 
-    public static YAMLFile getMessages() {
-        return (YAMLFile) INSTANCE.getFile("messages.yml");
+    public YAMLFile getMessages() {
+        return (YAMLFile) getFile("messages.yml");
     }
 
-    public static YAMLFile getBiomes() {
-        return (YAMLFile) INSTANCE.getFile("biomes.yml");
+    public YAMLFile getBiomes() {
+        return (YAMLFile) getFile("biomes.yml");
     }
 
-    public static DBFile getDatabase() {
-        return (DBFile) INSTANCE.getFile("database.db");
+    public DBFile getDatabase() {
+        return (DBFile) getFile("database.db");
     }
 }

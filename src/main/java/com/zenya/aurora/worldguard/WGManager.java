@@ -15,9 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 public class WGManager {
 
-    public static final WGManager INSTANCE = new WGManager();
-
-    public static WorldGuardPlugin getWorldGuard() {
+    public WorldGuardPlugin getWorldGuard() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
         return (plugin == null || !(plugin instanceof WorldGuardPlugin)) ? null : (WorldGuardPlugin) plugin;
     }

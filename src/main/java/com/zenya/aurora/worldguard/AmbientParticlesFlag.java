@@ -6,23 +6,25 @@ import com.sk89q.worldguard.protection.flags.SetFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.zenya.aurora.Aurora;
 import com.zenya.aurora.file.ParticleFile;
-import com.zenya.aurora.storage.ParticleFileManager;
 import com.zenya.aurora.util.Logger;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class AmbientParticlesFlag {
 
-    public static final AmbientParticlesFlag INSTANCE = new AmbientParticlesFlag();
+    private final Aurora plugin;
+    private final WGManager wgManager;
     private SetFlag<String> flag;
 
-    public AmbientParticlesFlag() {
+    public AmbientParticlesFlag(Aurora plugin) {
+        this.plugin = plugin;
+        wgManager = plugin.getWorldGuardManager();
         try {
-            flag = WGManager.INSTANCE.registerFlag(new SetFlag<>("ambient-particles", new StringFlag(null)));
+            flag = wgManager.registerFlag(new SetFlag<>("ambient-particles", new StringFlag(null)));
         } catch (FlagConflictException exc) {
             Logger.logError("Unable to register WorldGuard flag \"ambient-particles\"");
             exc.printStackTrace();
@@ -34,8 +36,8 @@ public class AmbientParticlesFlag {
     }
 
     public List<ParticleFile> getParticles(Location loc) {
-        ProtectedRegion global = WGManager.INSTANCE.getRegionManager(loc.getWorld()).getRegion("__global__");
-        return getParticles(WGManager.INSTANCE.getApplicableRegionSet(loc), global);
+        ProtectedRegion global = wgManager.getRegionManager(loc.getWorld()).getRegion("__global__");
+        return getParticles(wgManager.getApplicableRegionSet(loc), global);
     }
 
     private List<ParticleFile> getParticles(ApplicableRegionSet regions, ProtectedRegion global) {
@@ -51,7 +53,7 @@ public class AmbientParticlesFlag {
         for (ProtectedRegion region : regions.getRegions()) {
             if (region.getFlag(flag) != null && !region.getFlag(flag).isEmpty()) {
                 for (String particleName : region.getFlag(flag)) {
-                    ParticleFile particleFile = ParticleFileManager.INSTANCE.getParticleByName(particleName);
+                    ParticleFile particleFile = plugin.getParticleFileManager().getParticleByName(particleName);
                     if (particleFile != null && !enabledParticles.contains(particleFile)) {
                         enabledParticles.add(particleFile);
                     }

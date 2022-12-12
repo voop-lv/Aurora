@@ -1,6 +1,6 @@
 package com.zenya.aurora.file;
 
-import com.zenya.aurora.storage.StorageFileManager;
+import com.zenya.aurora.Aurora;
 import com.zenya.aurora.util.RandomNumber;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class ParticleFile {
         private boolean shuffleLocations;
 
         public String[] getBiomes() {
-            YAMLFile presentsFile = StorageFileManager.getBiomes();
+            YAMLFile presentsFile = Aurora.getPlugin(Aurora.class).getStorageFileManager().getBiomes();
             List<String> finalBiomes = new ArrayList<>();
 
             if (biomes != null && biomes.length != 0) {
@@ -33,15 +33,19 @@ public class ParticleFile {
                         String present = biome.substring(8).replaceAll(" ", "");
                         if (presentsFile.getList(present) != null && !presentsFile.getList(present).isEmpty()) {
                             for (String presentBiome : presentsFile.getList(present)) {
-                                finalBiomes.add(presentBiome);
+                                finalBiomes.add(namespaced(presentBiome));
                             }
                         }
                     } else {
-                        finalBiomes.add(biome);
+                        finalBiomes.add(namespaced(biome));
                     }
                 }
             }
             return finalBiomes.toArray(new String[finalBiomes.size()]);
+        }
+
+        private String namespaced(String name) {
+            return name.contains(":") ? name.toUpperCase() : "MINECRAFT:" + name.toUpperCase();
         }
 
         public double getSpawnDistance() {

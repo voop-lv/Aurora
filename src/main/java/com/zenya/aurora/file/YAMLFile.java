@@ -4,7 +4,6 @@ import com.zenya.aurora.Aurora;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.FileUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,12 +15,12 @@ public class YAMLFile extends StorageFile {
     private FileConfiguration origConfig;
     private FileConfiguration config;
 
-    public YAMLFile(String fileName) {
-        this(Aurora.getInstance().getDataFolder().getPath(), fileName);
+    public YAMLFile(Aurora plugin, String fileName) {
+        this(plugin, plugin.getDataFolder().getPath(), fileName);
     }
 
-    public YAMLFile(String directory, String fileName) {
-        this(directory, fileName, null, false, null, null);
+    public YAMLFile(Aurora plugin, String directory, String fileName) {
+        this(plugin, directory, fileName, null, false, null, null);
     }
 
     /**
@@ -33,11 +32,11 @@ public class YAMLFile extends StorageFile {
      * @param ignoredNodes Nodes that will use the latest resource config's values.
      * @param replaceNodes Nodes that will use old config values instead of being appended (applicable to nested keys)
      */
-    public YAMLFile(String directory, String fileName, Integer fileVersion, boolean resetFile, List<String> ignoredNodes, List<String> replaceNodes) {
-        super(directory, fileName, fileVersion, resetFile);
+    public YAMLFile(Aurora plugin, String directory, String fileName, Integer fileVersion, boolean resetFile, List<String> ignoredNodes, List<String> replaceNodes) {
+        super(plugin, directory, fileName, fileVersion, resetFile);
 
-        this.origConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Aurora.getInstance().getResource(fileName)));
-        this.config = YamlConfiguration.loadConfiguration(file);
+        origConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(fileName)));
+        config = YamlConfiguration.loadConfiguration(file);
 
         if (fileVersion != null) {
             try {
@@ -55,7 +54,7 @@ public class YAMLFile extends StorageFile {
     private void updateFile(List<String> ignoredNodes, List<String> replaceNodes) throws IOException {
         if (!file.exists()) {
             //Init file
-            Aurora.getInstance().saveResource(fileName, false);
+            plugin.saveResource(fileName, false);
             config = YamlConfiguration.loadConfiguration(file);
         } else {
             //Reset file for backward-compatibility
@@ -93,7 +92,7 @@ public class YAMLFile extends StorageFile {
                     config.save(file);
                 } else {
                     //Doing this keeps all the yml file comments
-                    Aurora.getInstance().saveResource(fileName, true);
+                    plugin.saveResource(fileName, true);
                 }
             }
         }

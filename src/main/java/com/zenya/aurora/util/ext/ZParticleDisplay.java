@@ -4,12 +4,11 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import org.bukkit.Color;
 
 /**
  * By default the particle xyz offsets and speed aren't 0, but everything will be 0 by default in this class. Particles are spawned to a location. So all the nearby players can see it.
@@ -192,7 +191,7 @@ public class ZParticleDisplay {
      */
     @Nullable
     public ZParticleDisplay withLocation(Location loc) {
-        this.location = loc;
+        location = loc;
         return this;
     }
 
@@ -248,7 +247,7 @@ public class ZParticleDisplay {
     /**
      * When a particle is set to be directional it'll only spawn one particle and the xyz offset values are used for the direction of the particle.
      * <p>
-     * Colored particles in 1.12 and below don't support this.
+     * Colored particles in 1.12 and below don't support
      *
      * @return the same particle display.
      * @see #isDirectional()
@@ -297,7 +296,7 @@ public class ZParticleDisplay {
      */
     @Nonnull
     public ZParticleDisplay withColor(@Nonnull Color color, float size) {
-        this.data = new float[]{color.getRed(), color.getGreen(), color.getBlue(), size};
+        data = new float[]{color.getRed(), color.getGreen(), color.getBlue(), size};
         return this;
     }
 

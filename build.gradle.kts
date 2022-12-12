@@ -41,14 +41,16 @@ repositories {
 dependencies {
     compileOnly("org.projectlombok:lombok:1.18.24")
     annotationProcessor("org.projectlombok:lombok:1.18.24")
-    compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT")
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-    compileOnly("com.github.BeYkeRYkt:LightAPI:5.2.0-Bukkit")
-    compileOnly("com.sk89q.worldguard:worldguard-legacy:7.0.0-SNAPSHOT") {
+    compileOnly("com.github.BeYkeRYkt:LightAPI:5.3.0-Bukkit")
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.7") {
         exclude("org.bukkit","bukkit")
         exclude("org.bstats","bstats-bukkit")
     }
-    compileOnly("com.comphenix.protocol:ProtocolLib:4.8.0")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.0.0-SNAPSHOT")
+    compileOnly("commons-lang:commons-lang:2.6")
+    compileOnly("com.github.IPECTER.RTUBiomeLib:RTUBiomeLib:1.3.2")
 }
 
 publishing {
@@ -66,6 +68,6 @@ publishing {
 
 group = "com.zenya"
 description = "aurora"
-version = "4.3"
+version = "5.1"
 java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17

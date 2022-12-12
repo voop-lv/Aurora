@@ -1,7 +1,7 @@
 package com.zenya.aurora.particle;
 
+import com.zenya.aurora.Aurora;
 import com.zenya.aurora.api.ParticleFactory;
-import com.zenya.aurora.storage.StorageFileManager;
 import com.zenya.aurora.util.ext.ZParticleDisplay;
 import com.zenya.aurora.file.ParticleFile;
 import com.zenya.aurora.scheduler.TaskKey;
@@ -14,6 +14,8 @@ import org.bukkit.scheduler.BukkitTask;
 import ru.beykerykt.minecraft.lightapi.common.api.engine.LightFlag;
 
 public abstract class ParticleTask {
+
+    private final Aurora plugin;
 
     public BukkitTask runnables[];
     public int locIndex = 0;
@@ -30,23 +32,32 @@ public abstract class ParticleTask {
     public RandomNumber<Double> rotationAngle;
     public char rotationAxis;
 
+    private final LightAPI lightAPI;
+
     public ParticleTask(Player player, Location[] locs, ParticleFile particleFile) {
+        plugin = Aurora.getPlugin(Aurora.class);
         this.player = player;
         this.locs = locs;
-        this.particle = Particle.valueOf(particleFile.getParticle().getParticleName());
-        this.display = ParticleFactory.toDisplay(particle, player);
-        this.maxCount = particleFile.getParticle().getMaxCount();
-        this.lighting = StorageFileManager.getConfig().getBool("enable-lighting") && particleFile.getParticle().isEnableLighting();
-        this.rate = particleFile.getProperties().getRate();
-        this.update = particleFile.getProperties().getUpdate();
-        this.duration = particleFile.getProperties().getDuration();
-        this.rotationAngle = particleFile.getProperties().getRotationAngle();
-        this.rotationAxis = particleFile.getProperties().getRotationAxis();
+        particle = Particle.valueOf(particleFile.getParticle().getParticleName());
+        display = ParticleFactory.toDisplay(particle, player);
+        maxCount = particleFile.getParticle().getMaxCount();
+        lighting = plugin.getStorageFileManager().getConfig().getBool("enable-lighting") && particleFile.getParticle().isEnableLighting();
+        rate = particleFile.getProperties().getRate();
+        update = particleFile.getProperties().getUpdate();
+        duration = particleFile.getProperties().getDuration();
+        rotationAngle = particleFile.getProperties().getRotationAngle();
+        rotationAxis = particleFile.getProperties().getRotationAxis();
+
+        lightAPI = plugin.getLightAPI();
     }
 
     public abstract TaskKey getKey();
 
     public abstract BukkitTask generate();
+
+    public Aurora getPlugin() {
+        return plugin;
+    }
 
     public Player getPlayer() {
         return player;
@@ -56,6 +67,10 @@ public abstract class ParticleTask {
         return runnables;
     }
 
+    public LightAPI getLightAPI() {
+        return lightAPI;
+    }
+
     public abstract void runTasks();
 
     public void killTasks(boolean isShutdown) {
@@ -63,10 +78,12 @@ public abstract class ParticleTask {
             t.cancel();
         }
 
-        if (lighting) {
-            for (Location loc : locs) {
-                LightAPI.clearLight(loc, LightFlag.BLOCK_LIGHTING, true, isShutdown);
-            }
+        if (!lighting) {
+            return;
+        }
+
+        for (Location loc : locs) {
+            lightAPI.clearLight(loc, LightFlag.BLOCK_LIGHTING, true, isShutdown);
         }
     }
 }
